@@ -3,6 +3,7 @@ import { resolve } from "path";
 import { defineConfig } from "vite";
 
 export default defineConfig({
+	base: "/Fisheye/",
 	build: {
 		rollupOptions: {
 			input: {
