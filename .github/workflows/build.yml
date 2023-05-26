@@ -29,4 +29,4 @@ jobs:
               run: git commit -m "build"
 
             - name: Push new build to build branch
-              run: git push origin dist
+              run: git push origin build
