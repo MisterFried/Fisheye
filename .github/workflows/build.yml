@@ -1,0 +1,24 @@
+name: Build and Deploy
+
+on:
+    push:
+        branches: [main]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
+
+            - name: Install dependencies
+              run: npm i
+
+            - name: Build using Vite
+              run: npm run build
+
+            - name: Push build version to build branch
+              run: git checkout build
+                   git add dist
+                   git commit -m "build"
+                   git push origin dist
