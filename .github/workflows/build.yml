@@ -17,8 +17,14 @@ jobs:
             - name: Build using Vite
               run: npm run build
 
-            - name: Push build version to build branch
+            - name: Checkout to build branch
               run: git checkout -b build
-                   git add dist
-                   git commit -m "build"
-                   git push origin dist
+
+            - name: Add build to commit
+              run: git add dist
+
+            - name: Commit build
+              run: git commit -m "build"
+
+            - name: Push new build to build branch
+              run: git push origin dist
