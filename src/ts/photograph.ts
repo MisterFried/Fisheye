@@ -12,7 +12,7 @@ function getPhotographerID() {
 }
 
 async function displayPhotographerInfo(ID: string) {
-    const fetchedData = await fetch("../../public/data/photographers.json");
+    const fetchedData = await fetch("../../data/photographers.json");
     const response: data = await fetchedData.json()
     const photographersInfo: Array<UserData> =response.photographers
 
@@ -27,7 +27,7 @@ async function displayPhotographerInfo(ID: string) {
             photographerName.innerText = photograph.name;
             photographerLocation.innerText = `${photograph.city}, ${photograph.country}`;
             photographerTagline.innerText = photograph.tagline;
-            photographerImage.setAttribute("src", `../../public/images/photographers-profile-picture/${photograph.portrait}`);
+            photographerImage.setAttribute("src", `../../images/photographers-profile-picture/${photograph.portrait}`);
             photographerContactheader.innerText = `Contactez-moi ${photograph.name}`;
         }
     })
