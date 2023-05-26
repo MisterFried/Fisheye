@@ -21,7 +21,7 @@ jobs:
               run: git checkout -b build
 
             - name: pull
-              run: git pull origin
+              run: git pull origin/build
 
             - name: Add build to commit
               run: |
