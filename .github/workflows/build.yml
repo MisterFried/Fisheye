@@ -17,20 +17,10 @@ jobs:
             - name: Build using Vite
               run: npm run build
 
-            - name: Checkout to build branch
-              run: git checkout -b build
-
-            - name: pull
-              run: git pull origin build
-
-            - name: Add build to commit
-              run: |
-                git config --global user.name "GitHubActions"
-                git config --global user.email "wilbaspeyras@gmail.com"
-                git add -f dist
-
-            - name: Commit build
-              run: git commit -m "build"
-
-            - name: Push new build to build branch
-              run: git push origin build
+            - name: Push to "build" branch
+              uses: s0/git-publish-subdir-action@develop
+              env:
+                REPO: self
+                BRANCH: build
+                FOLDER: dist
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
