@@ -20,6 +20,9 @@ jobs:
             - name: Checkout to build branch
               run: git checkout -b build
 
+            - name: pull
+              run: git pull origin
+
             - name: Add build to commit
               run: |
                 git config --global user.name "GitHubActions"
