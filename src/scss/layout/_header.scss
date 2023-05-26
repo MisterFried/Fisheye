@@ -1,0 +1,19 @@
+@use "../abstracts/mixins" as m;
+
+.header {
+    @include m.flexbox(row, 1rem, wrap, space-between, center);
+
+    padding: 3.125rem 6.25rem 0;
+
+    &__logo {
+        height: 3.125rem;
+
+        cursor: pointer;
+    }
+}
+
+@media screen and (width < 750px) {
+    .header {
+        padding: 2rem 3rem 0;
+    }    
+}

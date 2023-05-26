@@ -1,0 +1,59 @@
+* {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    color: var(--black-color);
+}
+
+.header__title, .user__location, .photographer__location {
+    color: var(--primary-color);
+}
+
+.user__name, .photographer__name {
+    color: var(--secondary-color);
+}
+
+.primary-button, .contact-modal__close-icon {
+    color: var(--white-color);
+}
+
+.user__price, .photographer__tagline {
+    color: var(--grey-color);
+}
+
+.contact-modal__text-label {
+    color: var(--darkgrey-color);
+}
+
+.contact-modal__title, .photographer__name {
+    font-size: 4rem;
+}
+
+.header__title, .user__name, .contact-modal__text-label,
+.contact-modal__text-input, .contact-modal__close-icon {
+    font-size: 2.25rem;
+}
+
+.photographer__location {
+    font-size: 1.5rem;
+}
+
+.primary-button {
+    font-size: 1.25rem;
+}
+
+.photographer__tagline {
+    font-size: 1.125rem;
+}
+
+.user__location {
+    font-size: 0.875rem;
+}
+
+.user__tagline, .user__price {
+    font-size: 0.625rem;
+}
+
+.primary-button {
+    font-weight: 600;
+}

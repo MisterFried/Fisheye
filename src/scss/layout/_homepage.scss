@@ -1,0 +1,32 @@
+@use "../abstracts/_mixins.scss" as m;
+
+.photographers_section {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+	gap: 2rem;
+
+	padding-top: 3.25rem;
+
+	.user {
+        @include m.flexbox(column, 0, nowrap, center, center);
+
+		&__link {
+			@include m.flexbox(column, 0, nowrap, start, center);
+		}
+
+		&__image {
+			height: 12.5rem;
+			width: 12.5rem;
+			border-radius: 50%;
+		}
+	}
+}
+
+@media screen and (width < 750px) {
+    .photographers_section {
+	grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+	gap: 1rem;
+
+	padding-top: 1rem;
+    }    
+}

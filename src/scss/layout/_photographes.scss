@@ -1,0 +1,19 @@
+@use "../abstracts/mixins" as m;
+
+.photographer {
+    padding: 0 6.25rem;
+
+    &__presentation {
+        @include m.flexbox(row, 0, wrap, space-between, center);
+
+        padding: 3.125rem;
+
+        background-color: var(--white-color);
+    }
+
+    &__image {
+        width: 12.5rem;
+        height: 12.5rem;
+        border-radius: 50%;
+    }
+}

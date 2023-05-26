@@ -1,0 +1,53 @@
+@use "../abstracts/mixins" as m;
+
+#modal-container {
+    position: absolute;
+    inset: 0 0 0 0;
+    z-index: 2;
+    display: none;
+
+    background-color: var(--modal-bg-color)
+}
+
+.contact-modal {
+    position: relative;
+    @include m.flexbox(column);
+
+    width: min(40rem, 100%);
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 0.25rem;
+
+    background-color: var(--accent-color);
+
+    &__form {
+        @include m.flexbox(column, 1rem, nowrap, start)
+    }
+
+    &__close-icon {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+
+        cursor: pointer;
+    }
+
+    &__text-input-container {
+        @include m.flexbox(column, 0);
+    }
+
+    &__text-input {
+        padding: 0 0.5rem;
+        border: none;
+        border-radius: 0.25rem;
+    }
+
+    &__button {
+        align-self: start;
+
+        width: fit-content;
+        padding-left: 3.125rem;
+        padding-right: 3.125rem;
+    }
+}
+

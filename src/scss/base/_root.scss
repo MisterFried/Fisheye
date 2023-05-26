@@ -1,0 +1,7 @@
+@use "../abstracts/colors" as c;
+
+:root {
+    @each $color, $value in c.$colors {
+        --#{$color}-color: #{$value};
+    }
+}
