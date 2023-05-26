@@ -21,7 +21,7 @@ jobs:
               run: git checkout -b build
 
             - name: Add build to commit
-              run: git add dist
+              run: git add -f dist
 
             - name: Commit build
               run: git commit -m "build"
