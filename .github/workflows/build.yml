@@ -18,7 +18,7 @@ jobs:
               run: npm run build
 
             - name: Push build version to build branch
-              run: git checkout build
+              run: git checkout -b build
                    git add dist
                    git commit -m "build"
                    git push origin dist
