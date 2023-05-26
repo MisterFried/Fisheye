@@ -23,6 +23,7 @@ jobs:
             - name: Add build to commit
               run: |
                 git config --global user.name "GitHubActions"
+                git config --global user.email "wilbaspeyras@gmail.com"
                 git add -f dist
 
             - name: Commit build
