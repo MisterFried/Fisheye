@@ -2,7 +2,7 @@
     font-family: "DM Sans", sans-serif;
     font-weight: 400;
     font-size: 1rem;
-    color: var(--black-color);
+    color: var(--custom-black-color);
 }
 
 .header__title, .user__location, .photographer__location {
@@ -14,15 +14,15 @@
 }
 
 .primary-button, .contact-modal__close-icon {
-    color: var(--white-color);
+    color: var(--custom-white-color);
 }
 
 .user__price, .photographer__tagline {
-    color: var(--grey-color);
+    color: var(--custom-grey-color);
 }
 
 .contact-modal__text-label {
-    color: var(--darkgrey-color);
+    color: var(--custom-darkgrey-color);
 }
 
 .contact-modal__title, .photographer__name {
