@@ -21,7 +21,7 @@ async function initialization(): Promise<void> {
 };
 
 async function getPhotographers(): Promise<Array<UserData>> {
-    const fetchedData = await fetch("../../data/photographers.json");
+    const fetchedData = await fetch("./../../data/photographers.json");
     const response: data = await fetchedData.json()
     const photographerResponse = response.photographers
 
@@ -77,5 +77,5 @@ function createUserProfileDOM(user: UserData): HTMLElement {
 
 const headerLogo = document.querySelector(".header__logo") as HTMLElement;
 headerLogo.addEventListener ("click", () => {
-    window.location.href = "../index.html"
+    window.location.href = "./index.html"
 })

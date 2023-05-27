@@ -2,4 +2,4 @@
 
 Création d'un site web accessible pour un plateforme de photographes
 
-GitHub Pages : https://misterfried.github.io/P6-Creer-un-site-de-photographie-accessible/
+GitHub Pages : https://misterfried.github.io/Fisheye/

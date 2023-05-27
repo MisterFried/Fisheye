@@ -1,3 +1,18 @@
+interface UserData {
+    name: string,
+    id: number,
+    city: string,
+    country: string,
+    tagline: string,
+    price: number,
+    portrait: string
+}
+
+interface data {
+    photographers: Array<UserData>,
+    media: Array<Object>
+}
+
 getPhotographerID();
 
 function getPhotographerID() {
@@ -35,5 +50,5 @@ async function displayPhotographerInfo(ID: string) {
 
 const headerLogo2 = document.querySelector(".header__logo") as HTMLElement;
 headerLogo2.addEventListener ("click", () => {
-    window.location.href = "../../index.html"
+    window.location.href = "./../../index.html"
 })
