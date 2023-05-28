@@ -8,7 +8,7 @@ export default defineConfig({
 		rollupOptions: {
 			input: {
 				main: resolve(__dirname, "index.html"),
-				secondary: resolve(__dirname, "src/html/photographer.html"),
+				secondary: resolve(__dirname, "src/pages/photographer.html"),
 			},
 		},
 	},
