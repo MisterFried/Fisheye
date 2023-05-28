@@ -9,7 +9,7 @@
 	<link href="../../favicon/favicon.png" rel="icon">
 	<script src="https://kit.fontawesome.com/c49140e037.js" crossorigin="anonymous"></script>
 	<link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
-	<title>Fisheye - Photographes</title>
+	<title>Fisheye - Photographer</title>
 </head>
 
 <body>
@@ -24,15 +24,15 @@
 				<p class="photographer__location">City, Country</p>
 				<p class="photographer__tagline">Tagline</p>
 			</div>
-			<button class="primary-button photographer__contact-button" onclick="displayModal()">Contactez-moi</button>
-			<img class="photographer__image" src="../../images/photographers-profile-picture/account.png">
+			<button class="primary-button photographer__contact-button">Contactez-moi</button>
+			<img class="photographer__image" src="#">
 		</section>
 	</main>
 
 	<div id="modal-container">
 		<div class="contact-modal">
 			<h2 class="contact-modal__title">Contactez-moi</h2>
-			<i class="fa-solid fa-x contact-modal__close-icon" onclick="closeModal()"></i>
+			<i class="fa-solid fa-x contact-modal__close-icon"></i>
 			<form class="contact-modal__form">
 				<div class="contact-modal__text-input-container">
 					<label for="firstname" class="contact-modal__text-label">Prénom</label>
@@ -47,7 +47,7 @@
 					<input type="text" class="contact-modal__text-input" placeholder="Email" name="email" id="email" />
 				</div>
 				<div class="contact-modal__text-input-container">
-					<label for="message" class="contact-modal__text-label">Message</label>
+					<label for="message" class="contact-modal__text-label">Votre message</label>
 					<textarea class="contact-modal__text-input" placeholder="Votre message" id="message" rows="4"></textarea>
 				</div>
 				<button class="primary-button contact-modal__button">Envoyer</button>
@@ -55,7 +55,7 @@
 		</div>
 	</div>
 
-	<script src="../ts/photograph.ts" type="module"></script>
+	<script src="../ts/photographer.ts" type="module"></script>
 	<script src="../ts/contactForm.ts" type="module"></script>
 
 </body>

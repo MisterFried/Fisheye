@@ -7,6 +7,7 @@
         @include m.flexbox(row, 0, wrap, space-between, center);
 
         padding: 3.125rem;
+        border-radius: 0.5rem;
 
         background-color: var(--custom-white-color);
     }

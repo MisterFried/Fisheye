@@ -5,11 +5,11 @@
     color: var(--custom-black-color);
 }
 
-.header__title, .user__location, .photographer__location {
+.header__title, .photographer__location, .photographer-card__location {
     color: var(--primary-color);
 }
 
-.user__name, .photographer__name {
+.photographer__name, .photographer-card__name {
     color: var(--secondary-color);
 }
 
@@ -17,7 +17,7 @@
     color: var(--custom-white-color);
 }
 
-.user__price, .photographer__tagline {
+.photographer-card__price, .photographer__tagline {
     color: var(--custom-grey-color);
 }
 
@@ -29,7 +29,7 @@
     font-size: 4rem;
 }
 
-.header__title, .user__name, .contact-modal__text-label,
+.header__title, .photographer-card__name, .contact-modal__text-label,
 .contact-modal__text-input, .contact-modal__close-icon {
     font-size: 2.25rem;
 }
@@ -46,11 +46,11 @@
     font-size: 1.125rem;
 }
 
-.user__location {
+.photographer-card__location {
     font-size: 0.875rem;
 }
 
-.user__tagline, .user__price {
+.photographer-card__tagline, .photographer-card__price {
     font-size: 0.625rem;
 }
 
