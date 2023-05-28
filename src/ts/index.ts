@@ -21,8 +21,9 @@ async function initialization(): Promise<void> {
 };
 
 async function getPhotographers(): Promise<Array<UserData>> {
-    const dataPath = "./../../data/photographers.json"
-    const fetchedData = await fetch(dataPath);
+    const pathDev = "./data/photographers.json"
+
+    const fetchedData = await fetch(pathDev);
     const response: data = await fetchedData.json()
     const photographerResponse = response.photographers
 
