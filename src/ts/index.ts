@@ -21,7 +21,7 @@ function createPhotographerCard(photographer: PhotographerType) {
 
 	const photographerImage = document.createElement("img");
 	photographerImage.classList.add("photographer-card__image");
-	photographerImage.setAttribute("src",`/images/photographers-profile-picture/${photographer.portrait}`);
+	photographerImage.setAttribute("src",`/Fisheye/images/photographers-profile-picture/${photographer.portrait}`);
     
 	const photographerName = document.createElement("h2");
 	photographerName.innerText = photographer.name;

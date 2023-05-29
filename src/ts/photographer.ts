@@ -27,7 +27,7 @@ async function displayPhotographerInfo(ID: string) {
 			photographerName.innerText = photographer.name;
 			photographerLocation.innerText = `${photographer.city}, ${photographer.country}`;
 			photographerTagline.innerText = photographer.tagline;
-			photographerImage.setAttribute("src",`/images/photographers-profile-picture/${photographer.portrait}`);
+			photographerImage.setAttribute("src",`/Fisheye/images/photographers-profile-picture/${photographer.portrait}`);
 			ContactFormHeader.innerText = `Contactez-moi ${photographer.name}`;
 		}
 	});
@@ -35,4 +35,4 @@ async function displayPhotographerInfo(ID: string) {
 
 //Header Logo redirect to homepage
 const headerLogo = document.querySelector(".header__logo") as HTMLElement;
-headerLogo.addEventListener ("click", () => {window.location.href = "/index.html"})
+headerLogo.addEventListener ("click", () => {window.location.href = "/Fisheye/index.html"})
