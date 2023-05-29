@@ -18,14 +18,28 @@
 	</header>
 
 	<main class="photographer">
-		<section class="photographer__presentation">
-			<div class="photographer__info">
-				<h1 class="photographer__name">Name</h1>
-				<p class="photographer__location">City, Country</p>
-				<p class="photographer__tagline">Tagline</p>
+		<section class="photographer-presentation">
+			<div class="photographer-presentation__info">
+				<h1 class="photographer-presentation__name">Name</h1>
+				<p class="photographer-presentation__location">City, Country</p>
+				<p class="photographer-presentation__tagline">Tagline</p>
 			</div>
-			<button class="primary-button photographer__contact-button">Contactez-moi</button>
-			<img class="photographer__image" src="#">
+			<button class="primary-button photographer-presentation__contact-button">Contactez-moi</button>
+			<img class="photographer-presentation__image" src="#">
+		</section>
+
+		<section class="photographer-media">
+			<div class="photographer-media__order">
+				<span class="photographer-media__order-name">Trier par</span>
+				<select class="photographer-media__order-select" name="order" id="order-media-button">
+					<option class="photographer-media__order-option" value="popular">Popularité</option>
+					<option class="photographer-media__order-option" value="date">Date</option>
+					<option class="photographer-media__order-option" value="name">Titre</option>
+				</select>
+			</div>
+			<div class="photographer-media__container">
+
+			</div>
 		</section>
 	</main>
 
@@ -36,11 +50,13 @@
 			<form class="contact-modal__form">
 				<div class="contact-modal__text-input-container">
 					<label for="firstname" class="contact-modal__text-label">Prénom</label>
-					<input type="text" class="contact-modal__text-input" placeholder="Prénom" name="firstname" id="firstname" />
+					<input type="text" class="contact-modal__text-input" placeholder="Prénom" name="firstname"
+						id="firstname" />
 				</div>
 				<div class="contact-modal__text-input-container">
 					<label for="lastname" class="contact-modal__text-label">Nom</label>
-					<input type="text" class="contact-modal__text-input" placeholder="Nom" name="lastname" id="lastname" />
+					<input type="text" class="contact-modal__text-input" placeholder="Nom" name="lastname"
+						id="lastname" />
 				</div>
 				<div class="contact-modal__text-input-container">
 					<label for="email" class="contact-modal__text-label">Email</label>
@@ -48,7 +64,8 @@
 				</div>
 				<div class="contact-modal__text-input-container">
 					<label for="message" class="contact-modal__text-label">Votre message</label>
-					<textarea class="contact-modal__text-input" placeholder="Votre message" id="message" rows="4"></textarea>
+					<textarea class="contact-modal__text-input" placeholder="Votre message" id="message"
+						rows="4"></textarea>
 				</div>
 				<button class="primary-button contact-modal__button">Envoyer</button>
 			</form>

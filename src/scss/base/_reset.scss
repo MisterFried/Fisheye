@@ -10,10 +10,11 @@
 }
 
 body {
-    @include m.flexbox(column, 3rem, nowrap, normal, normal);
+    @include m.flexbox(column, 2rem, nowrap, normal, normal);
 
     max-width: 1440px;
     margin: 0 auto;
+    padding: 3.125rem 0;
 }
 
 img {

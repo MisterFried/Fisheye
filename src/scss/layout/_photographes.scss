@@ -1,20 +1,90 @@
 @use "../abstracts/mixins" as m;
 
 .photographer {
-    padding: 0 6.25rem;
+	@include m.flexbox(column, 1.25rem);
+	padding: 0 6rem;
+}
 
-    &__presentation {
-        @include m.flexbox(row, 0, wrap, space-between, center);
+.photographer-presentation {
+	@include m.flexbox(row, 1rem, wrap, space-between, center);
 
-        padding: 3.125rem;
-        border-radius: 0.5rem;
+	padding: 3.125rem;
+	border-radius: 0.5rem;
 
-        background-color: var(--custom-white-color);
+	background-color: var(--custom-white-color);
+
+	&__tagline {
+		margin-top: 1rem;
+	}
+
+	&__image {
+		width: 12.5rem;
+		height: 12.5rem;
+		border-radius: 50%;
+
+		box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+	}
+}
+
+.photographer-media {
+	@include m.flexbox(column, 1rem);
+
+	&__order {
+		@include m.flexbox(row, 1.5rem, wrap);
+	}
+
+	&__order-select {
+		padding: 1.25rem;
+		border-radius: 0.5rem;
+
+		background-color: var(--primary-color);
+	}
+
+	&__container {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+		gap: 5rem;
+	}
+
+    &__media {
+        @include m.flexbox(column, 0.5rem, nowrap, normal, start);
     }
 
-    &__image {
-        width: 12.5rem;
-        height: 12.5rem;
-        border-radius: 50%;
+    &__legend {
+        @include m.flexbox(row, 1rem, wrap, space-between, normal);
+        width: 20rem;
+        margin: 0 auto;
     }
+
+	&__image {
+        width: 20rem;
+		height: 20rem;
+		margin: 0 auto;
+		border-radius: 0.5rem;
+	}
+}
+
+@media screen and (width < 750px) {
+	.photographer {
+		padding: 2rem;
+	}
+
+	.photographer-presentation {
+		flex-direction: column;
+		gap: 2rem;
+
+		padding: 1rem;
+	}
+
+	.photographer-media {
+		&__container {
+			grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+			gap: 2.5rem;
+		}
+
+		&__image {
+			width: 15rem;
+			height: 15rem;
+		}
+	}
 }

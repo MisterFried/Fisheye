@@ -17,21 +17,29 @@ export interface PhotographerType {
 
 //Photographer's media type interface
 export interface MediaType {
-    id: number,
-    photographerId: number,
-    title: string,
-    image: string,
-    likes: number,
-    date: string,
-    price: number,
+	id: number;
+	photographerId: number;
+	title: string;
+	image?: string;
+	video?: string;
+	likes: number;
+	date: string;
+	price: number;
 }
 
 //Fetch the photographer.json file
-export async function fetchData() {
+export async function fetchData(request: string) {
 
     const response = await fetch("/Fisheye/data/photographers.json");
-    const fetchedData: PhotographersData = await response.json()
-    const photographersArray = fetchedData.photographers;
+    const responseJSON: PhotographersData = await response.json()
 
-    return photographersArray;
+    if (request === "photographers") {
+        return responseJSON.photographers;
+    }
+    if (request === "media") {
+        return responseJSON.media;
+    }
+    else {
+        return "Error: incorrect request"
+    }
 }
