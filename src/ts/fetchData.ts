@@ -29,7 +29,7 @@ export interface MediaType {
 //Fetch the photographer.json file
 export async function fetchData() {
 
-    const response = await fetch("/data/photographers.json");
+    const response = await fetch(`${import.meta.env.BASE_URL}/data/photographers.json`);
     const fetchedData: PhotographersData = await response.json()
     const photographersArray = fetchedData.photographers;
 
