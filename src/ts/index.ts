@@ -4,7 +4,7 @@ initialization();
 
 //Initialize the page with every photographers profile
 async function initialization() {
-	const photographersArray = await fetchData("photographers");
+	const photographersArray = await fetchData("photographers") as Array<PhotographerType>;
 
 	photographersArray.forEach((photographer: PhotographerType) => {
 		const photographerCard = createPhotographerCard(photographer);
@@ -21,8 +21,7 @@ function createPhotographerCard(photographer: PhotographerType) {
 
 	const photographerImage = document.createElement("img");
 	photographerImage.classList.add("photographer-card__image");
-	photographerImage.setAttribute(
-		"src",
+	photographerImage.setAttribute("src",
 		`/Fisheye/images/photographers-profile-picture/${photographer.portrait}`
 	);
 
@@ -31,8 +30,7 @@ function createPhotographerCard(photographer: PhotographerType) {
 	photographerName.classList.add("photographer-card__name");
 
 	const photographerLink = document.createElement("a");
-	photographerLink.setAttribute(
-		"href",
+	photographerLink.setAttribute("href",
 		`./src/pages/photographer.html?id=${photographer.id}`
 	);
 	photographerLink.classList.add("photographer-card__link");

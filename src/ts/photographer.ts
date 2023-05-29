@@ -17,31 +17,20 @@ function getPhotographerID() {
 
 //Display informations about the photographer
 async function displayPhotographerInfo(ID: string) {
-	const photographerName = document.querySelector(
-		".photographer-presentation__name"
-	) as HTMLElement;
-	const photographerLocation = document.querySelector(
-		".photographer-presentation__location"
-	) as HTMLElement;
-	const photographerTagline = document.querySelector(
-		".photographer-presentation__tagline"
-	) as HTMLElement;
-	const photographerImage = document.querySelector(
-		".photographer-presentation__image"
-	) as HTMLElement;
-	const ContactFormHeader = document.querySelector(
-		".contact-modal__title"
-	) as HTMLElement;
+	const photographerName = document.querySelector(".photographer-presentation__name") as HTMLElement;
+	const photographerLocation = document.querySelector(".photographer-presentation__location") as HTMLElement;
+	const photographerTagline = document.querySelector(".photographer-presentation__tagline") as HTMLElement;
+	const photographerImage = document.querySelector(".photographer-presentation__image") as HTMLElement;
+	const ContactFormHeader = document.querySelector(".contact-modal__title") as HTMLElement;
 
-	const photographersArray = await fetchData("photographers");
+	const photographersArray = (await fetchData("photographers")) as Array<PhotographerType>;
 
 	photographersArray.forEach((photographer: PhotographerType) => {
 		if (photographer.id.toString() === ID) {
 			photographerName.innerText = photographer.name;
 			photographerLocation.innerText = `${photographer.city}, ${photographer.country}`;
 			photographerTagline.innerText = photographer.tagline;
-			photographerImage.setAttribute(
-				"src",
+			photographerImage.setAttribute("src",
 				`/Fisheye/images/photographers-profile-picture/${photographer.portrait}`
 			);
 			ContactFormHeader.innerText = `Contactez-moi ${photographer.name}`;
@@ -50,10 +39,8 @@ async function displayPhotographerInfo(ID: string) {
 }
 
 async function displayPhotographerMedia(ID: string) {
-	const photographersMedia = await fetchData("media");
-	const mediaSection = document.querySelector(
-		".photographer-media__container"
-	) as HTMLElement;
+	const photographersMedia = (await fetchData("media")) as Array<MediaType>;
+	const mediaSection = document.querySelector(".photographer-media__container") as HTMLElement;
 
 	photographersMedia.forEach((media: MediaType) => {
 		if (media.photographerId.toString() === ID) {
