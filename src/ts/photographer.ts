@@ -1,10 +1,11 @@
 import { PhotographerType, fetchData, MediaType } from "./fetchData";
 
 const photographerID = getPhotographerID();
+let sortMethod = "popular";
 
 if (photographerID) {
 	displayPhotographerInfo(photographerID);
-	displayPhotographerMedia(photographerID);
+	displayPhotographerMedia(photographerID, sortMethod);
 }
 else {
 	console.log("Incorrect photographer ID");
@@ -49,13 +50,15 @@ async function displayPhotographerInfo(ID: number) {
 }
 
 //Factory design pattern to display each media
-async function displayPhotographerMedia(ID: number) {
+async function displayPhotographerMedia(ID: number, sortMethod: string) {
 	const photographersMedia = (await fetchData("media")) as Array<MediaType>;
 	const mediaSection = document.querySelector(".photographer-media__container") as HTMLElement;
 	const infoBarLikes = document.querySelector(".photographer-info-bar__likes") as HTMLElement;
 	let totalLikes = 0;
 
-	photographersMedia.forEach((media: MediaType) => {
+	const orderPhotographersMedia = orderMedia(photographersMedia, sortMethod);
+
+	orderPhotographersMedia.forEach((media: MediaType) => {
 		if (media.photographerId === ID) {
 			const mediaContainer = document.createElement("div");
 			mediaContainer.classList.add("photographer-media__media");
@@ -84,6 +87,7 @@ function displayImage(image: MediaType) {
 		"src",
 		`/Fisheye/images/photographers-media/${image.photographerId}/${image.image}`
 	);
+	imageElement.setAttribute("loading","lazy");
 	imageElement.classList.add("photographer-media__image");
 
 	return imageElement;
@@ -99,6 +103,7 @@ function displayVideo(video: MediaType) {
 		"src",
 		`/Fisheye/images/photographers-media/${video.photographerId}/${video.video}`
 	);
+	videoElement.setAttribute("loading", "lazy");
 	videoElement.appendChild(videoSource);
 
 	return videoElement;
@@ -125,3 +130,52 @@ const headerLogo = document.querySelector(".header__logo") as HTMLElement;
 headerLogo.addEventListener("click", () => {
 	window.location.href = "/Fisheye/index.html";
 });
+
+//Event listener on the select / order media input
+const orderButton = document.querySelector(".photographer-media__order-select") as HTMLElement;
+orderButton.addEventListener("change",(event) => {
+    const target = event.target as HTMLButtonElement;
+	const id = getPhotographerID();
+	if (id) {
+		clearMedia();
+		displayPhotographerMedia (id ,target.value);
+	}
+})
+
+//Reorder the array of media
+function orderMedia (photographersMedia: Array<MediaType>, sortMethod: string) {
+
+	switch (sortMethod) {
+		case "popular":
+			photographersMedia.sort((a, b) => b.likes - a.likes);
+			break
+		case "date":
+			photographersMedia.sort((a, b)=> {
+				const dateA = new Date (a.date)
+				const dateB = new Date (b.date)
+				if (dateA < dateB) {return -1}
+				if (dateA > dateB) {return 1}
+				else {return 0}
+			})
+			break
+		case "name":
+			photographersMedia.sort((a, b)=> {
+				const nameA = a.title.toUpperCase();
+				const nameB = b.title.toUpperCase();
+
+				if (nameA < nameB) {return -1;}
+				if (nameA > nameB) {return +1;}
+				else {return 0;}
+			})
+			break
+	};
+	return photographersMedia
+}
+
+//Clear all the media
+function clearMedia () {
+	const mediaSection = document.querySelector(".photographer-media__container") as HTMLElement;
+	while (mediaSection.firstChild) {
+		mediaSection.removeChild(mediaSection.lastChild as HTMLElement)
+	}
+}
