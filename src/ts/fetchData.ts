@@ -29,17 +29,21 @@ export interface MediaType {
 
 //Fetch the photographer.json file
 export async function fetchData(request: string) {
-
-    const response = await fetch("/Fisheye/data/photographers.json");
-    const responseJSON: PhotographersData = await response.json()
-
-    if (request === "photographers") {
-        return responseJSON.photographers;
+    try {
+        const response = await fetch("/Fisheye/data/photographers.json");
+        const responseJSON: PhotographersData = await response.json()
+        
+        if (request === "photographers") {
+            return responseJSON.photographers;
+        }
+        if (request === "media") {
+            return responseJSON.media;
+        }
+        else {
+            return "Error: incorrect request"
+        }
     }
-    if (request === "media") {
-        return responseJSON.media;
-    }
-    else {
-        return "Error: incorrect request"
+    catch {
+        console.log(Error)
     }
 }

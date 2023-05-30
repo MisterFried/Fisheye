@@ -43,7 +43,7 @@
 	&__container {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-		gap: 5rem;
+		gap: 2rem;
 	}
 
     &__media {
@@ -62,6 +62,18 @@
 		margin: 0 auto;
 		border-radius: 0.5rem;
 	}
+}
+
+.photographer-info-bar {
+	@include m.flexbox(row, 3rem, wrap);
+	position: fixed;
+	bottom: 0;
+	right: 3rem;
+
+	padding: 1.5rem 2rem 1rem;
+	border-radius: 0.5rem 0.5rem 0 0;
+
+	background-color: var(--accent-color);
 }
 
 @media screen and (width < 750px) {
