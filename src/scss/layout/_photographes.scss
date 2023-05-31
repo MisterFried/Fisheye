@@ -46,21 +46,27 @@
 		gap: 2rem;
 	}
 
-    &__media {
-        @include m.flexbox(column, 0.5rem, nowrap, normal, start);
-    }
+	&__media {
+		@include m.flexbox(column, 0.5rem, nowrap, normal, start);
+	}
 
-    &__legend {
-        @include m.flexbox(row, 1rem, wrap, space-between, normal);
-        width: 20rem;
-        margin: 0 auto;
-    }
+	&__legend {
+		@include m.flexbox(row, 1rem, wrap, space-between, normal);
+		width: 20rem;
+		margin: 0 auto;
+	}
 
 	&__image {
-        width: 20rem;
+		width: 20rem;
 		height: 20rem;
 		margin: 0 auto;
 		border-radius: 0.5rem;
+
+		transition: all 0.2s ease-in-out;
+
+		&:hover {
+			opacity: 0.7;
+		}
 	}
 }
 
