@@ -1,91 +1,151 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta
+			name="description"
+			content="FishEye est la plateforme incontournable pour les photographes freelances. 
+			Nous offrons une solution unique pour exposer leurs superbes photos sur une page élégante, 
+			tout en facilitant les contacts pour des événements ou des tirages. En tant que l'un des 
+			plus grands sites de photographie en freelance, notre vaste réseau de photographes est à 
+			votre disposition." />
+		<meta
+			name="keywords"
+			content="photographie, Fisheye, freelance, évènements, photos" />
+		<meta name="author" content="Fisheye" />
+		
+		<link href="../../favicon/favicon.png" rel="icon" />
+		<script
+			src="https://kit.fontawesome.com/c49140e037.js"
+			crossorigin="anonymous"></script>
+		<link
+			href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap"
+			rel="stylesheet" />
+		<title>Fisheye - Photographer</title>
+		<script type="module" crossorigin src="/Fisheye/assets/secondary-cf77944c.js"></script>
+		<link rel="modulepreload" crossorigin href="/Fisheye/assets/fetchData-beefc172.js">
+		<link rel="stylesheet" href="/Fisheye/assets/fetchData-bf782013.css">
+	</head>
 
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
-	<link href="../../favicon/favicon.png" rel="icon">
-	<script src="https://kit.fontawesome.com/c49140e037.js" crossorigin="anonymous"></script>
-	<link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
-	<title>Fisheye - Photographer</title>
-  <script type="module" crossorigin src="/Fisheye/assets/secondary-124bbfd3.js"></script>
-  <link rel="modulepreload" crossorigin href="/Fisheye/assets/fetchData-fa0d2be4.js">
-  <link rel="stylesheet" href="/Fisheye/assets/fetchData-4e400e98.css">
-</head>
+	<body>
+		<header class="header">
+			<img class="header__logo" src="/Fisheye/images/fisheye-logo.png" />
+		</header>
 
-<body>
-	<header class="header">
-		<img class="header__logo" src="../../images/fisheye-logo.png" />
-	</header>
+		<main class="photographer">
+			<section class="photographer-presentation">
+				<div class="photographer-presentation__info">
+					<h1 class="photographer-presentation__name">Name</h1>
+					<p class="photographer-presentation__location">
+						City, Country
+					</p>
+					<p class="photographer-presentation__tagline">Tagline</p>
+				</div>
+				<button
+					class="primary-button photographer-presentation__contact-button"
+					onclick="contactModal.showModal()">
+					Contactez-moi
+				</button>
+				<img class="photographer-presentation__image" src="#" />
+			</section>
 
-	<main class="photographer">
-		<section class="photographer-presentation">
-			<div class="photographer-presentation__info">
-				<h1 class="photographer-presentation__name">Name</h1>
-				<p class="photographer-presentation__location">City, Country</p>
-				<p class="photographer-presentation__tagline">Tagline</p>
+			<section class="photographer-media">
+				<div class="photographer-media__order">
+					<span class="photographer-media__order-name"
+						>Trier par</span
+					>
+					<select
+						class="photographer-media__order-select"
+						name="order"
+						id="order-media-button">
+						<option
+							class="photographer-media__order-option"
+							value="popular">
+							Popularité
+						</option>
+						<option
+							class="photographer-media__order-option"
+							value="date">
+							Date
+						</option>
+						<option
+							class="photographer-media__order-option"
+							value="name">
+							Titre
+						</option>
+					</select>
+				</div>
+				<div class="photographer-media__container"></div>
+			</section>
+
+			<div class="photographer-info-bar">
+				<span class="photographer-info-bar__likes"></span>
+				<span class="photographer-info-bar__price"></span>
 			</div>
-			<button class="primary-button photographer-presentation__contact-button" onclick="contactModalContainer.showModal()">Contactez-moi</button>
-			<img class="photographer-presentation__image" src="#">
-		</section>
+		</main>
 
-		<section class="photographer-media">
-			<div class="photographer-media__order">
-				<span class="photographer-media__order-name">Trier par</span>
-				<select class="photographer-media__order-select" name="order" id="order-media-button">
-					<option class="photographer-media__order-option" value="popular">Popularité</option>
-					<option class="photographer-media__order-option" value="date">Date</option>
-					<option class="photographer-media__order-option" value="name">Titre</option>
-				</select>
-			</div>
-			<div class="photographer-media__container">
-			</div>
-		</section>
-
-		<div class="photographer-info-bar">
-			<span class="photographer-info-bar__likes"></span>
-			<span class="photographer-info-bar__price"></span>
-		</div>
-	</main>
-
-	<dialog id="contactModalContainer">
-		<div class="contact-modal">
-			<h2 class="contact-modal__title">Contactez-moi</h2>
-			<i class="fa-solid fa-x contact-modal__close-icon" onclick="contactModalContainer.close()"></i>
-			<form class="contact-modal__form">
+		<dialog id="contactModal">
+			<form class="contact-modal">
+				<h2 class="contact-modal__title">Contactez-moi</h2>
+				<i
+					class="fa-solid fa-x contact-modal__close-icon"
+					onclick="contactModal.close()"></i>
 				<div class="contact-modal__text-input-container">
-					<label for="firstname" class="contact-modal__text-label">Prénom</label>
-					<input type="text" class="contact-modal__text-input" placeholder="Prénom" name="firstname"
+					<label for="firstname" class="contact-modal__text-label"
+						>Prénom</label
+					>
+					<input
+						type="text"
+						class="contact-modal__text-input"
+						placeholder="Prénom"
+						name="firstname"
 						id="firstname" />
 				</div>
 				<div class="contact-modal__text-input-container">
-					<label for="lastname" class="contact-modal__text-label">Nom</label>
-					<input type="text" class="contact-modal__text-input" placeholder="Nom" name="lastname"
+					<label for="lastname" class="contact-modal__text-label"
+						>Nom</label
+					>
+					<input
+						type="text"
+						class="contact-modal__text-input"
+						placeholder="Nom"
+						name="lastname"
 						id="lastname" />
 				</div>
 				<div class="contact-modal__text-input-container">
-					<label for="email" class="contact-modal__text-label">Email</label>
-					<input type="text" class="contact-modal__text-input" placeholder="Email" name="email" id="email" />
+					<label for="email" class="contact-modal__text-label"
+						>Email</label
+					>
+					<input
+						type="text"
+						class="contact-modal__text-input"
+						placeholder="Email"
+						name="email"
+						id="email" />
 				</div>
 				<div class="contact-modal__text-input-container">
-					<label for="message" class="contact-modal__text-label">Votre message</label>
-					<textarea class="contact-modal__text-input" placeholder="Votre message" id="message"
+					<label for="message" class="contact-modal__text-label"
+						>Votre message</label
+					>
+					<textarea
+						class="contact-modal__text-input"
+						placeholder="Votre message"
+						id="message"
 						rows="4"></textarea>
 				</div>
-				<button class="primary-button contact-modal__button">Envoyer</button>
+				<button class="primary-button contact-modal__button">
+					Envoyer
+				</button>
 			</form>
-		</div>
-	</dialog>
+		</dialog>
 
-	<dialog id="imageModalContainer">
-		<img id="imageInModal" src="#">
-	</dialog>
+		<dialog id="imageModalContainer">
+			<img class="image-modal" src="#" />
+		</dialog>
 
-	
-	
-
-</body>
-
+		
+		
+	</body>
 </html>
