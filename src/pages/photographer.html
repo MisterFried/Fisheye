@@ -24,7 +24,7 @@
 				<p class="photographer-presentation__location">City, Country</p>
 				<p class="photographer-presentation__tagline">Tagline</p>
 			</div>
-			<button class="primary-button photographer-presentation__contact-button">Contactez-moi</button>
+			<button class="primary-button photographer-presentation__contact-button" onclick="contactModalContainer.showModal()">Contactez-moi</button>
 			<img class="photographer-presentation__image" src="#">
 		</section>
 
@@ -47,10 +47,10 @@
 		</div>
 	</main>
 
-	<div id="modal-container">
+	<dialog id="contactModalContainer">
 		<div class="contact-modal">
 			<h2 class="contact-modal__title">Contactez-moi</h2>
-			<i class="fa-solid fa-x contact-modal__close-icon"></i>
+			<i class="fa-solid fa-x contact-modal__close-icon" onclick="contactModalContainer.close()"></i>
 			<form class="contact-modal__form">
 				<div class="contact-modal__text-input-container">
 					<label for="firstname" class="contact-modal__text-label">Prénom</label>
@@ -74,10 +74,9 @@
 				<button class="primary-button contact-modal__button">Envoyer</button>
 			</form>
 		</div>
-	</div>
+	</dialog>
 
 	<script src="../ts/photographer.ts" type="module"></script>
-	<script src="../ts/contactForm.ts" type="module"></script>
 
 </body>
 
