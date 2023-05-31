@@ -1,46 +1,42 @@
 @use "../abstracts/mixins" as m;
 
-#contactModalContainer {
-    width: min(40rem, 100%);
-    margin: 2rem auto;
-    padding: 2rem;
-    border: none;
-    border-radius: 0.25rem;
+// * Contact modal container
+#contactModal {
+	width: min(40rem, 100%);
+	margin: 2rem auto;
+	border: none;
+	border-radius: 0.5rem;
 
-    background-color: var(--accent-color);
+	background-color: var(--accent-color);
 }
 
+// * Contact form
 .contact-modal {
-    @include m.flexbox(column);
+	@include m.flexbox(column, 1rem);
+	position: relative;
 
-    &__form {
-        @include m.flexbox(column, 1rem, nowrap, start)
-    }
+	padding: 2rem;
 
-    &__close-icon {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
+	&__close-icon {
+		position: absolute;
+		inset: 1rem 1rem auto auto;
 
-        cursor: pointer;
-    }
+		cursor: pointer;
+	}
 
-    &__text-input-container {
-        @include m.flexbox(column, 0);
-    }
+	&__text-input-container {
+		@include m.flexbox(column);
+	}
 
-    &__text-input {
-        padding: 0 0.5rem;
-        border: none;
-        border-radius: 0.25rem;
-    }
+	&__text-input {
+		padding-inline: 0.5rem;
+		border: none;
+		border-radius: 0.25rem;
+	}
 
-    &__button {
-        align-self: start;
+	&__button {
+		align-self: start;
 
-        width: fit-content;
-        padding-left: 3.125rem;
-        padding-right: 3.125rem;
-    }
+		padding-inline: 3.125rem;
+	}
 }
-

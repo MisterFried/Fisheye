@@ -1,6 +1,8 @@
 import { PhotographerType, fetchData, MediaType } from "./fetchData";
 import { addModalImages } from "./pictureModal";
 
+// TODO : Refactor and clean up code
+
 TestFunction();
 
 async function TestFunction() {
@@ -71,7 +73,6 @@ async function displayPhotographerInfo(ID: number) {
 
 //Factory design pattern to display each media
 async function displayPhotographerMedia(ID: number, sortMethod: string) {
-	console.log("display media function start");
 	const photographersMedia = (await fetchData("media")) as Array<MediaType>;
 	const mediaSection = document.querySelector(
 		".photographer-media__container"
@@ -103,17 +104,16 @@ async function displayPhotographerMedia(ID: number, sortMethod: string) {
 		}
 	});
 	infoBarLikes.innerHTML = `${totalLikes} <i class="fa-solid fa-heart"></i>`;
-	console.log("display media function end");
 }
 
 //Display an image
 function displayImage(image: MediaType) {
+	const pathToImage = `/Fisheye/images/photographers-media/${image.photographerId}/${image.image}`;
+	const pathToResizedImage = pathToImage.slice(0, -5) + "_resized.webp";
 	const imageElement = document.createElement("img");
-	imageElement.setAttribute(
-		"src",
-		`/Fisheye/images/photographers-media/${image.photographerId}/${image.image}`
-	);
+	imageElement.setAttribute("src", pathToResizedImage);
 	imageElement.setAttribute("loading", "lazy");
+	imageElement.setAttribute("decoding", "async");
 	imageElement.classList.add("photographer-media__image");
 
 	return imageElement;

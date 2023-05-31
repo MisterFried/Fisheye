@@ -1,7 +1,8 @@
 @use "../abstracts/colors" as c;
 
+// * CSS custom properties based on the color palette
 :root {
-    @each $color, $value in c.$colors {
-        --#{$color}-color: #{$value};
-    }
+	@each $color, $value in c.$colors {
+		--#{$color}-color: #{$value};
+	}
 }

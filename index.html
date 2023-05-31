@@ -1,27 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta
+			name="description"
+			content="FishEye est la plateforme incontournable pour les photographes freelances. 
+			Nous offrons une solution unique pour exposer leurs superbes photos sur une page élégante, 
+			tout en facilitant les contacts pour des événements ou des tirages. En tant que l'un des 
+			plus grands sites de photographie en freelance, notre vaste réseau de photographes est à 
+			votre disposition." />
+		<meta
+			name="keywords"
+			content="photographie, Fisheye, freelance, évènements, photos" />
+		<meta name="author" content="Fisheye" />
+		<link href="./src/scss/style.scss" rel="stylesheet" />
+		<link href="./favicon/favicon.png" rel="icon" />
+		<script
+			src="https://kit.fontawesome.com/c49140e037.js"
+			crossorigin="anonymous"></script>
+		<link
+			href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap"
+			rel="stylesheet" />
+		<title>Fisheye</title>
+	</head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="./src/scss/style.scss" rel="stylesheet" />
-  <link href="./favicon/favicon.png" rel="icon" />
-  <script src="https://kit.fontawesome.com/c49140e037.js" crossorigin="anonymous"></script>
-  <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet" />
-  <title>Fisheye</title>
-</head>
+	<body>
+		<header class="header">
+			<img class="header__logo" src="/images/fisheye-logo.png" />
+			<h1 class="header__title">Nos photographes</h1>
+		</header>
 
-<body>
-  <header class="header">
-    <img class="header__logo" src="./images/fisheye-logo.png" />
-    <h1 class="header__title">Nos photographes</h1>
-  </header>
+		<main class="photographers_section"></main>
 
-  <main class="photographers_section">
-  </main>
-
-  <script src="./src/ts/index.ts" type="module"></script>
-
-</body>
+		<script src="./src/ts/index.ts" type="module"></script>
+	</body>
 </html>

@@ -1,0 +1,10 @@
+@use "../abstracts/mixins" as m;
+
+// * Basic body setup
+body {
+	@include m.flexbox(column, 2rem, nowrap, normal, normal);
+
+	max-width: 1440px;
+	margin-inline: auto;
+	padding: 3.125rem 0 5rem;
+}

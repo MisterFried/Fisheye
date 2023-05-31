@@ -1,28 +1,21 @@
 @use "../abstracts/mixins" as m;
 
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
 
-    list-style-type: none;
-    text-decoration: none;
-}
-
-body {
-    @include m.flexbox(column, 2rem, nowrap, normal, normal);
-    
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 3.125rem 0 5rem;
+	list-style-type: none;
+	text-decoration: none;
 }
 
 img {
-    object-fit: cover;
+	display: block;
+	object-fit: cover;
 }
 
 i {
-    font-weight: inherit;
-    font-size: inherit;
-    color: inherit;
+	font-weight: inherit;
+	font-size: inherit;
+	color: inherit;
 }

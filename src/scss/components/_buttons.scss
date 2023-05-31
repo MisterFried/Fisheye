@@ -1,3 +1,4 @@
+// * Primary button
 .primary-button {
 	padding: 1.25rem 0.625rem;
 	border: none;
@@ -6,8 +7,7 @@
 	background-color: var(--primary-color);
 
 	cursor: pointer;
-
-	transition: all 0.2s ease ;
+	transition: all 0.2s ease;
 
 	&:hover {
 		transform: scale(1.05);
