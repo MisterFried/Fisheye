@@ -24,9 +24,9 @@
 			href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap"
 			rel="stylesheet" />
 		<title>Fisheye - Photographer</title>
-		<script type="module" crossorigin src="/Fisheye/assets/secondary-d01c03b7.js"></script>
-		<link rel="modulepreload" crossorigin href="/Fisheye/assets/fetchPhotographersData-5dc40f52.js">
-		<link rel="stylesheet" href="/Fisheye/assets/fetchPhotographersData-e0450344.css">
+		<script type="module" crossorigin src="/Fisheye/assets/secondary-7311f352.js"></script>
+		<link rel="modulepreload" crossorigin href="/Fisheye/assets/fetchPhotographersData-add97290.js">
+		<link rel="stylesheet" href="/Fisheye/assets/fetchPhotographersData-eed730d6.css">
 	</head>
 
 	<body>
@@ -142,7 +142,11 @@
 		</dialog>
 
 		<dialog id="imageModal">
-			<img class="image-modal" src="#" />
+			<div class="image-modal">
+				<img class="image-modal__image" src="#" />
+				<i class="fa-solid fa-xmark image-modal__close-icon" onclick="imageModal.close()"></i>
+				<span class="image-modal__legend">Legend here</span>
+			</div>
 		</dialog>
 
 		
