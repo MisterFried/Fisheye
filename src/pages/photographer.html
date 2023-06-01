@@ -139,7 +139,11 @@
 		</dialog>
 
 		<dialog id="imageModal">
-			<img class="image-modal" src="#" />
+			<div class="image-modal">
+				<img class="image-modal__image" src="#" />
+				<i class="fa-solid fa-xmark image-modal__close-icon" onclick="imageModal.close()"></i>
+				<span class="image-modal__legend">Legend here</span>
+			</div>
 		</dialog>
 
 		<script src="../ts/photographer.ts" type="module"></script>

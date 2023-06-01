@@ -78,7 +78,7 @@ async function displayPhotographerInfo(
 				`/Fisheye/images/photographers-profile-picture/${photographer.portrait}`
 			);
 			ContactFormHeader.innerText = `Contactez-moi ${photographer.name}`;
-			price = photographer.price
+			price = photographer.price;
 		}
 	});
 	return price;
@@ -230,8 +230,8 @@ function displayPhotographerInfoBar(likes: number, price: number) {
 	const infoBarPrice = document.querySelector(
 		".photographer-info-bar__price"
 	) as HTMLSpanElement;
-	infoBarLikes.innerHTML = `${likes} <i class = "fa-solid fa-heart"></i>`;
-	infoBarPrice.innerText = `${price}€/ jour`
+	infoBarLikes.innerHTML = `${likes} <i class = "fa-regular fa-heart"></i>`;
+	infoBarPrice.innerText = `${price}€/ jour`;
 }
 
 // * Setup the modal opening when clicking on the images
@@ -243,36 +243,31 @@ function setupImagesModal() {
 		"#imageModal"
 	) as HTMLDialogElement;
 	const imageInModal = document.querySelector(
-		".image-modal"
+		".image-modal__image"
 	) as HTMLImageElement;
+	const imageModalLegend = document.querySelector(
+		".image-modal__legend"
+	) as HTMLSpanElement;
 
 	photographerImagesDOM.forEach((image) => {
 		const pathToResizedImage = image.src;
 		const pathToImage = pathToResizedImage.slice(0, -13) + ".webp";
 
+		// TODO : remove type any 
 		image.addEventListener("click", () => {
+			const legendSpanDOM: any = image.nextElementSibling?.firstElementChild!;
+			const legend = legendSpanDOM.innerText;
 			imageModal.showModal();
 			imageInModal.setAttribute("src", pathToImage);
-
-			// Depending on the aspect ration, image is going
-			// to take 100% width or 100ù Height of the modal
-			const modalAspectRatio =
-				imageModal.offsetWidth / imageModal.offsetHeight;
-			const imageAspectRatio =
-				imageInModal.naturalWidth / imageInModal.naturalHeight;
-
-			if (imageAspectRatio > modalAspectRatio) {
-				imageInModal.style.width = "100%";
-				imageInModal.style.height = "auto";
-			} else {
-				imageInModal.style.width = "auto";
-				imageInModal.style.height = "100%";
-			}
+			imageModalLegend.innerText = legend;
 		});
 	});
 
 	// Reset the src of the modal image when closing
 	imageModal.addEventListener("cancel", () => {
+		imageInModal.setAttribute("src", "#");
+	});
+	imageModal.addEventListener("close", () => {
 		imageInModal.setAttribute("src", "#");
 	});
 }

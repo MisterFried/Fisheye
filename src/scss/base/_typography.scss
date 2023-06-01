@@ -11,7 +11,9 @@
 .photographer-presentation__location,
 .photographer-card__location,
 .photographer-media__legend-name,
-.photographer-media__legend-likes {
+.photographer-media__legend-likes,
+.image-modal__close-icon,
+.image-modal__legend {
 	color: var(--primary-color);
 }
 .photographer-presentation__name,
@@ -41,14 +43,16 @@
 .photographer-card__name,
 .contact-modal__text-label,
 .contact-modal__text-input,
-.contact-modal__close-icon {
+.contact-modal__close-icon,
+.image-modal__close-icon {
 	font-size: 2.25rem;
 }
 .photographer-presentation__location,
 .photographer-media__legend-name,
 .photographer-media__legend-likes,
 .photographer-info-bar__likes,
-.photographer-info-bar__price {
+.photographer-info-bar__price,
+.image-modal__legend {
 	font-size: 1.5rem;
 }
 .primary-button {
