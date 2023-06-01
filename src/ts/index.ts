@@ -1,24 +1,24 @@
-import { PhotographerType, fetchData } from "./fetchData";
+import { fetchPhotographersData, PhotographerType } from "./fetchPhotographersData";
 
-// TODO : Refactor and clean up code
+// * Initialize the page with every photographers profile
+async function HomepageInitialization() {
+	const data = await fetchPhotographersData();
 
-initialization();
-
-//Initialize the page with every photographers profile
-async function initialization() {
-	const photographersArray = (await fetchData(
-		"photographers"
-	)) as Array<PhotographerType>;
-
-	photographersArray.forEach((photographer: PhotographerType) => {
-		const photographerCard = createPhotographerCard(photographer);
-		document
-			.querySelector(".photographers_section")
-			?.appendChild(photographerCard);
-	});
+	if (data) {
+		const photographerSectionDOM = document.querySelector(
+			".photographers_section"
+		) as HTMLElement;
+		const photographersData = data.photographers;
+		photographersData.forEach((photographer) => {
+			const photographerCard = createPhotographerCard(photographer);
+			photographerSectionDOM.appendChild(photographerCard);
+		});
+	} else {
+		console.log("Error during photographers' data fetching");
+	}
 }
 
-//Create an "article" HTMLElement with all infos about the photographer
+// * Create an "article" HTMLElement with all infos about the photographer
 function createPhotographerCard(photographer: PhotographerType) {
 	const photographerCard = document.createElement("article");
 	photographerCard.classList.add("photographer-card");
@@ -31,28 +31,29 @@ function createPhotographerCard(photographer: PhotographerType) {
 	);
 
 	const photographerName = document.createElement("h2");
-	photographerName.innerText = photographer.name;
 	photographerName.classList.add("photographer-card__name");
+	photographerName.innerText = photographer.name;
 
+	// Link with querry parameters
 	const photographerLink = document.createElement("a");
+	photographerLink.classList.add("photographer-card__link");
 	photographerLink.setAttribute(
 		"href",
 		`./src/pages/photographer.html?id=${photographer.id}`
 	);
-	photographerLink.classList.add("photographer-card__link");
 	photographerLink.append(photographerImage, photographerName);
 
 	const photographerLocation = document.createElement("h3");
-	photographerLocation.innerText = `${photographer.city}, ${photographer.country}`;
 	photographerLocation.classList.add("photographer-card__location");
+	photographerLocation.innerText = `${photographer.city}, ${photographer.country}`;
 
 	const photographerTagline = document.createElement("p");
-	photographerTagline.innerText = photographer.tagline;
 	photographerTagline.classList.add("photographer-card__tagline");
+	photographerTagline.innerText = photographer.tagline;
 
 	const photographerPrice = document.createElement("p");
-	photographerPrice.innerText = `${photographer.price}€/jour`;
 	photographerPrice.classList.add("photographer-card__price");
+	photographerPrice.innerText = `${photographer.price}€/jour`;
 
 	photographerCard.append(
 		photographerLink,
@@ -63,3 +64,5 @@ function createPhotographerCard(photographer: PhotographerType) {
 
 	return photographerCard;
 }
+
+HomepageInitialization();

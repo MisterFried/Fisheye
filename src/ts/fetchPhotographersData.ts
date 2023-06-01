@@ -1,10 +1,10 @@
-//Photographers.JSON file type interface
+// Photographers.JSON file type interface
 interface PhotographersData {
 	photographers: Array<PhotographerType>;
 	media: Array<MediaType>;
 }
 
-//Photographers profile type interface
+// Photographers profile type interface
 export interface PhotographerType {
 	name: string;
 	id: number;
@@ -15,7 +15,7 @@ export interface PhotographerType {
 	portrait: string;
 }
 
-//Photographer's media type interface
+// Photographer's media type interface
 export interface MediaType {
 	id: number;
 	photographerId: number;
@@ -27,20 +27,12 @@ export interface MediaType {
 	price: number;
 }
 
-//Fetch the photographer.json file
-export async function fetchData(request: string) {
+// Fetch the photographers.json file
+export async function fetchPhotographersData() {
 	try {
 		const response = await fetch("/Fisheye/data/photographers.json");
 		const responseJSON: PhotographersData = await response.json();
-
-		if (request === "photographers") {
-			return responseJSON.photographers;
-		}
-		if (request === "media") {
-			return responseJSON.media;
-		} else {
-			return "Error: incorrect request";
-		}
+		return responseJSON;
 	} catch {
 		console.log(Error);
 	}

@@ -1,5 +1,6 @@
 @use "../abstracts/_mixins.scss" as m;
 
+// * Homepage with photographers' profiles
 .photographers_section {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));

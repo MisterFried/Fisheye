@@ -1,38 +1,55 @@
-import { PhotographerType, fetchData, MediaType } from "./fetchData";
-import { addModalImages } from "./pictureModal";
+import {
+	MediaType,
+	PhotographerType,
+	fetchPhotographersData,
+} from "./fetchPhotographersData";
 
-// TODO : Refactor and clean up code
-
-TestFunction();
-
-async function TestFunction() {
+// * Initialize the page with the photographers' informations and media
+async function PhotographerPageInitialization() {
 	const photographerID = getPhotographerID();
+
+	// Default method for sorting medias
 	let sortMethod = "popular";
 
 	if (photographerID) {
-		await displayPhotographerInfo(photographerID);
-		await displayPhotographerMedia(photographerID, sortMethod);
-		addModalImages();
-	} else {
-		console.log("Incorrect photographer ID");
-	}
-}
+		const data = await fetchPhotographersData();
 
-//Retrieve the photographer's ID via URL querry parameters
-function getPhotographerID() {
-	const urlParameters = new URLSearchParams(window.location.search);
-	const ID = urlParameters.get("id");
-
-	if (ID) {
-		const photographerID = Number(ID);
-		return photographerID;
+		if (data) {
+			const price = await displayPhotographerInfo(
+				photographerID,
+				data.photographers
+			);
+			const totalLikes = await displayPhotographerMedia(
+				photographerID,
+				sortMethod,
+				data.media
+			);
+			displayPhotographerInfoBar(totalLikes, price);
+			setupImagesModal();
+		} else {
+			console.log("Error : couldn't fetch photographers' data");
+		}
 	} else {
 		console.log("Error : no photographer ID");
 	}
 }
 
-//Display informations about the photographer
-async function displayPhotographerInfo(ID: number) {
+// * Retrieve the photographer's ID via URL querry parameters
+function getPhotographerID() {
+	const URLParameters = new URLSearchParams(window.location.search);
+	const ID = URLParameters.get("id");
+
+	if (ID) {
+		// String to number conversion
+		return Number(ID);
+	}
+}
+
+// * Display informations about the photographer
+async function displayPhotographerInfo(
+	ID: number,
+	photographersArray: Array<PhotographerType>
+) {
 	const photographerName = document.querySelector(
 		".photographer-presentation__name"
 	) as HTMLElement;
@@ -48,15 +65,10 @@ async function displayPhotographerInfo(ID: number) {
 	const ContactFormHeader = document.querySelector(
 		".contact-modal__title"
 	) as HTMLElement;
-	const infoBarPrice = document.querySelector(
-		".photographer-info-bar__price"
-	) as HTMLElement;
 
-	const photographersArray = (await fetchData(
-		"photographers"
-	)) as Array<PhotographerType>;
+	let price = 0;
 
-	photographersArray.forEach((photographer: PhotographerType) => {
+	photographersArray.forEach((photographer) => {
 		if (photographer.id === ID) {
 			photographerName.innerText = photographer.name;
 			photographerLocation.innerText = `${photographer.city}, ${photographer.country}`;
@@ -66,36 +78,45 @@ async function displayPhotographerInfo(ID: number) {
 				`/Fisheye/images/photographers-profile-picture/${photographer.portrait}`
 			);
 			ContactFormHeader.innerText = `Contactez-moi ${photographer.name}`;
-			infoBarPrice.innerText = `${photographer.price}€ / jour`;
+			price = photographer.price
 		}
 	});
+	return price;
 }
 
-//Factory design pattern to display each media
-async function displayPhotographerMedia(ID: number, sortMethod: string) {
-	const photographersMedia = (await fetchData("media")) as Array<MediaType>;
+// * Factory design pattern to display medias
+async function displayPhotographerMedia(
+	ID: number,
+	sortMethod: string,
+	mediaArray: Array<MediaType>
+) {
 	const mediaSection = document.querySelector(
 		".photographer-media__container"
 	) as HTMLElement;
-	const infoBarLikes = document.querySelector(
-		".photographer-info-bar__likes"
-	) as HTMLElement;
+
 	let totalLikes = 0;
 
-	const orderPhotographersMedia = orderMedia(photographersMedia, sortMethod);
+	const orderedMediaArray = orderMedia(mediaArray, sortMethod);
 
-	orderPhotographersMedia.forEach((media: MediaType) => {
+	orderedMediaArray.forEach((media) => {
 		if (media.photographerId === ID) {
 			const mediaContainer = document.createElement("div");
-			mediaContainer.classList.add("photographer-media__media");
-			let mediaElement: HTMLElement;
+			mediaContainer.classList.add("photographer-media__media-container");
+			let mediaElement: HTMLImageElement | HTMLVideoElement;
+
+			// If the media is an image
 			if (media.image) {
 				mediaElement = displayImage(media);
 				mediaContainer.appendChild(mediaElement);
-			} else if (media.video) {
+			} // If the media is a video
+			if (media.video) {
 				mediaElement = displayVideo(media);
 				mediaContainer.appendChild(mediaElement);
 			}
+			if (!media.image && !media.video) {
+				console.log(`Couldn't find the filename for : ${media.title}`);
+			}
+
 			const mediaLegend = addMediaLegend(media);
 			mediaContainer.appendChild(mediaLegend);
 
@@ -103,81 +124,20 @@ async function displayPhotographerMedia(ID: number, sortMethod: string) {
 			totalLikes += media.likes;
 		}
 	});
-	infoBarLikes.innerHTML = `${totalLikes} <i class="fa-solid fa-heart"></i>`;
+	return totalLikes;
 }
 
-//Display an image
-function displayImage(image: MediaType) {
-	const pathToImage = `/Fisheye/images/photographers-media/${image.photographerId}/${image.image}`;
-	const pathToResizedImage = pathToImage.slice(0, -5) + "_resized.webp";
-	const imageElement = document.createElement("img");
-	imageElement.setAttribute("src", pathToResizedImage);
-	imageElement.setAttribute("loading", "lazy");
-	imageElement.setAttribute("decoding", "async");
-	imageElement.classList.add("photographer-media__image");
-
-	return imageElement;
-}
-
-//display a video
-function displayVideo(video: MediaType) {
-	const videoElement = document.createElement("video");
-	videoElement.classList.add("photographer-media__image");
-	videoElement.setAttribute("controls", "");
-	const videoSource = document.createElement("source");
-	videoSource.setAttribute(
-		"src",
-		`/Fisheye/images/photographers-media/${video.photographerId}/${video.video}`
-	);
-	videoElement.setAttribute("loading", "lazy");
-	videoElement.appendChild(videoSource);
-
-	return videoElement;
-}
-
-//Add legend to the media
-function addMediaLegend(media: MediaType) {
-	const legend = document.createElement("div");
-	legend.classList.add("photographer-media__legend");
-	const name = document.createElement("span");
-	name.innerText = media.title;
-	name.classList.add("photographer-media__legend-name");
-	const like = document.createElement("span");
-	like.innerHTML = `${media.likes} <i class="fa-regular fa-heart"></i>`;
-	like.classList.add("photographer-media__legend-likes");
-
-	legend.append(name, like);
-
-	return legend;
-}
-
-//Header Logo redirect to homepage
-const headerLogo = document.querySelector(".header__logo") as HTMLElement;
-headerLogo.addEventListener("click", () => {
-	window.location.href = "/Fisheye/index.html";
-});
-
-//Event listener on the select / order media input
-const orderButton = document.querySelector(
-	".photographer-media__order-select"
-) as HTMLElement;
-orderButton.addEventListener("change", (event) => {
-	const target = event.target as HTMLButtonElement;
-	const id = getPhotographerID();
-	if (id) {
-		clearMedia();
-		displayPhotographerMedia(id, target.value);
-	}
-});
-
-//Reorder the array of media
-function orderMedia(photographersMedia: Array<MediaType>, sortMethod: string) {
+// * Reorder the array of media
+function orderMedia(mediaArray: Array<MediaType>, sortMethod: string) {
 	switch (sortMethod) {
+		// Sort by like number (Desc)
 		case "popular":
-			photographersMedia.sort((a, b) => b.likes - a.likes);
+			mediaArray.sort((a, b) => b.likes - a.likes);
 			break;
+
+		// Sort by date (Desc)
 		case "date":
-			photographersMedia.sort((a, b) => {
+			mediaArray.sort((a, b) => {
 				const dateA = new Date(a.date);
 				const dateB = new Date(b.date);
 				if (dateA < dateB) {
@@ -190,8 +150,10 @@ function orderMedia(photographersMedia: Array<MediaType>, sortMethod: string) {
 				}
 			});
 			break;
+
+		//Sort by name (Asc)
 		case "name":
-			photographersMedia.sort((a, b) => {
+			mediaArray.sort((a, b) => {
 				const nameA = a.title.toUpperCase();
 				const nameB = b.title.toUpperCase();
 
@@ -206,15 +168,152 @@ function orderMedia(photographersMedia: Array<MediaType>, sortMethod: string) {
 			});
 			break;
 	}
-	return photographersMedia;
+	return mediaArray;
 }
 
-//Clear all the media
+// * Display an image
+// * Only a resized version of the image is displayed on the
+// * photographers' page (less ressources)
+// * The full-size version is shown in the image modal
+function displayImage(image: MediaType) {
+	const pathToImage = `/Fisheye/images/photographers-media/${image.photographerId}/${image.image}`;
+	const pathToResizedImage = pathToImage.slice(0, -5) + "_resized.webp";
+	const imageElement = document.createElement("img");
+
+	imageElement.setAttribute("src", pathToResizedImage);
+	imageElement.classList.add("photographer-media__image");
+	imageElement.setAttribute("loading", "lazy");
+	imageElement.setAttribute("decoding", "async");
+
+	return imageElement;
+}
+
+// * Display a video + thumbnail
+function displayVideo(video: MediaType) {
+	const videoPath = `/Fisheye/images/photographers-media/${video.photographerId}/${video.video}`;
+	const thumbnailPath = videoPath.slice(0, -4) + "_thumbnail.png";
+	const videoElement = document.createElement("video");
+	const videoSource = document.createElement("source");
+	videoElement.classList.add("photographer-media__video");
+	videoElement.setAttribute("poster", thumbnailPath);
+	videoElement.setAttribute("loading", "lazy");
+	videoElement.setAttribute("controls", "");
+	videoSource.setAttribute("src", videoPath);
+
+	videoElement.appendChild(videoSource);
+
+	return videoElement;
+}
+
+// * Create the legend for media (Image | Video)
+function addMediaLegend(media: MediaType) {
+	const legend = document.createElement("div");
+	const name = document.createElement("span");
+	const like = document.createElement("span");
+
+	legend.classList.add("photographer-media__legend");
+	name.classList.add("photographer-media__legend-name");
+	name.innerText = media.title;
+	like.classList.add("photographer-media__legend-likes");
+	like.innerHTML = `${media.likes} <i class="fa-regular fa-heart"></i>`;
+
+	legend.append(name, like);
+
+	return legend;
+}
+
+// * Displat the photographers' infobar with total likes and price
+function displayPhotographerInfoBar(likes: number, price: number) {
+	const infoBarLikes = document.querySelector(
+		".photographer-info-bar__likes"
+	) as HTMLSpanElement;
+	const infoBarPrice = document.querySelector(
+		".photographer-info-bar__price"
+	) as HTMLSpanElement;
+	infoBarLikes.innerHTML = `${likes} <i class = "fa-solid fa-heart"></i>`;
+	infoBarPrice.innerText = `${price}€/ jour`
+}
+
+// * Setup the modal opening when clicking on the images
+function setupImagesModal() {
+	const photographerImagesDOM: Array<HTMLImageElement> = Array.from(
+		document.querySelectorAll(".photographer-media__image")
+	);
+	const imageModal = document.querySelector(
+		"#imageModal"
+	) as HTMLDialogElement;
+	const imageInModal = document.querySelector(
+		".image-modal"
+	) as HTMLImageElement;
+
+	photographerImagesDOM.forEach((image) => {
+		const pathToResizedImage = image.src;
+		const pathToImage = pathToResizedImage.slice(0, -13) + ".webp";
+
+		image.addEventListener("click", () => {
+			imageModal.showModal();
+			imageInModal.setAttribute("src", pathToImage);
+
+			// Depending on the aspect ration, image is going
+			// to take 100% width or 100ù Height of the modal
+			const modalAspectRatio =
+				imageModal.offsetWidth / imageModal.offsetHeight;
+			const imageAspectRatio =
+				imageInModal.naturalWidth / imageInModal.naturalHeight;
+
+			if (imageAspectRatio > modalAspectRatio) {
+				imageInModal.style.width = "100%";
+				imageInModal.style.height = "auto";
+			} else {
+				imageInModal.style.width = "auto";
+				imageInModal.style.height = "100%";
+			}
+		});
+	});
+
+	// Reset the src of the modal image when closing
+	imageModal.addEventListener("cancel", () => {
+		imageInModal.setAttribute("src", "#");
+	});
+}
+
+PhotographerPageInitialization();
+
+// * Header Logo redirect to homepage
+const headerLogo = document.querySelector(".header__logo") as HTMLElement;
+headerLogo.addEventListener("click", () => {
+	window.location.href = "/Fisheye/index.html";
+});
+
+// * Clear the media, then display them reordered
+const orderButton = document.querySelector(
+	".photographer-media__order-select"
+) as HTMLSelectElement;
+orderButton.addEventListener("change", async () => {
+	const sortMethod = orderButton.value;
+	const id = getPhotographerID();
+	const data = await fetchPhotographersData();
+
+	if (id) {
+		if (data) {
+			clearMedia();
+			displayPhotographerMedia(id, sortMethod, data.media);
+		} else {
+			console.log(
+				"Error : couldn't fetch photographers' data to reorganize media"
+			);
+		}
+	} else {
+		console.log("Error : no photographer ID");
+	}
+});
+
+// * Clear all the media (used when reordering medias)
 function clearMedia() {
 	const mediaSection = document.querySelector(
 		".photographer-media__container"
 	) as HTMLElement;
 	while (mediaSection.firstChild) {
-		mediaSection.removeChild(mediaSection.lastChild as HTMLElement);
+		mediaSection.removeChild(mediaSection.firstChild);
 	}
 }
