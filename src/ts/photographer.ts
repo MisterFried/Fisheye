@@ -281,7 +281,7 @@ function setupImagesModal() {
 	});
 }
 
-await photographerPageInitialization();
+photographerPageInitialization();
 
 // * Header Logo redirect to homepage
 const headerLogo = document.querySelector(".header__logo") as HTMLElement;
