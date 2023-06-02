@@ -29,6 +29,7 @@ function createPhotographerCard(photographer: PhotographerType) {
 		"src",
 		`/Fisheye/images/photographers-profile-picture/${photographer.portrait}`
 	);
+		photographerImage.setAttribute("alt", `photo de profil de ${photographer.name}`)
 
 	const photographerName = document.createElement("h2");
 	photographerName.classList.add("photographer-card__name");

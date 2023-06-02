@@ -77,6 +77,7 @@ async function displayPhotographerInfo(
 				"src",
 				`/Fisheye/images/photographers-profile-picture/${photographer.portrait}`
 			);
+			photographerImage.setAttribute("alt", `Photo de profil de ${photographer.name}`)
 			ContactFormHeader.innerText = `Contactez-moi ${photographer.name}`;
 			price = photographer.price;
 		}
@@ -182,7 +183,7 @@ function displayImage(image: MediaType) {
 
 	imageElement.setAttribute("src", pathToResizedImage);
 	imageElement.classList.add("photographer-media__image");
-	imageElement.setAttribute("loading", "lazy");
+	imageElement.setAttribute("alt", `Photo : ${image.title}`)
 	imageElement.setAttribute("decoding", "async");
 
 	return imageElement;
@@ -196,7 +197,6 @@ function displayVideo(video: MediaType) {
 	const videoSource = document.createElement("source");
 	videoElement.classList.add("photographer-media__video");
 	videoElement.setAttribute("poster", thumbnailPath);
-	videoElement.setAttribute("loading", "lazy");
 	videoElement.setAttribute("controls", "");
 	videoSource.setAttribute("src", videoPath);
 
