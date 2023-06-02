@@ -13,6 +13,8 @@
 .photographer-media__legend-name,
 .photographer-media__legend-likes,
 .image-modal__close-icon,
+.image-modal__previous-icon,
+.image-modal__next-icon,
 .image-modal__legend {
 	color: var(--primary-color);
 }
@@ -44,7 +46,9 @@
 .contact-modal__text-label,
 .contact-modal__text-input,
 .contact-modal__close-icon,
-.image-modal__close-icon {
+.image-modal__close-icon,
+.image-modal__previous-icon,
+.image-modal__next-icon {
 	font-size: 2.25rem;
 }
 .photographer-presentation__location,

@@ -1,3 +1,4 @@
+import { info } from "sass";
 import {
 	MediaType,
 	PhotographerType,
@@ -5,7 +6,7 @@ import {
 } from "./fetchPhotographersData";
 
 // * Initialize the page with the photographers' informations and media
-async function PhotographerPageInitialization() {
+async function photographerPageInitialization() {
 	const photographerID = getPhotographerID();
 
 	// Default method for sorting medias
@@ -25,7 +26,6 @@ async function PhotographerPageInitialization() {
 				data.media
 			);
 			displayPhotographerInfoBar(totalLikes, price);
-			setupImagesModal();
 		} else {
 			console.log("Error : couldn't fetch photographers' data");
 		}
@@ -77,7 +77,10 @@ async function displayPhotographerInfo(
 				"src",
 				`/Fisheye/images/photographers-profile-picture/${photographer.portrait}`
 			);
-			photographerImage.setAttribute("alt", `Photo de profil de ${photographer.name}`)
+			photographerImage.setAttribute(
+				"alt",
+				`Photo de profil de ${photographer.name}`
+			);
 			ContactFormHeader.innerText = `Contactez-moi ${photographer.name}`;
 			price = photographer.price;
 		}
@@ -125,6 +128,8 @@ async function displayPhotographerMedia(
 			totalLikes += media.likes;
 		}
 	});
+	setupImagesModal();
+	likeSystem();
 	return totalLikes;
 }
 
@@ -183,7 +188,7 @@ function displayImage(image: MediaType) {
 
 	imageElement.setAttribute("src", pathToResizedImage);
 	imageElement.classList.add("photographer-media__image");
-	imageElement.setAttribute("alt", `Photo : ${image.title}`)
+	imageElement.setAttribute("alt", `Photo : ${image.title}`);
 	imageElement.setAttribute("decoding", "async");
 
 	return imageElement;
@@ -227,10 +232,13 @@ function displayPhotographerInfoBar(likes: number, price: number) {
 	const infoBarLikes = document.querySelector(
 		".photographer-info-bar__likes"
 	) as HTMLSpanElement;
-	const infoBarPrice = document.querySelector(
+	let infoBarPrice;
+
+	infoBarPrice = document.querySelector(
 		".photographer-info-bar__price"
 	) as HTMLSpanElement;
-	infoBarLikes.innerHTML = `${likes} <i class = "fa-regular fa-heart"></i>`;
+
+	infoBarLikes.innerHTML = `${likes} <i class = "fa-solid fa-heart"></i>`;
 	infoBarPrice.innerText = `${price}€/ jour`;
 }
 
@@ -253,9 +261,11 @@ function setupImagesModal() {
 		const pathToResizedImage = image.src;
 		const pathToImage = pathToResizedImage.slice(0, -13) + ".webp";
 
-		// TODO : remove type any 
+		// TODO : remove type any
 		image.addEventListener("click", () => {
-			const legendSpanDOM: any = image.nextElementSibling?.firstElementChild!;
+			// Select the legend span corresponding to the current displayed image
+			const legendSpanDOM: any =
+				image.nextElementSibling?.firstElementChild;
 			const legend = legendSpanDOM.innerText;
 			imageModal.showModal();
 			imageInModal.setAttribute("src", pathToImage);
@@ -272,7 +282,7 @@ function setupImagesModal() {
 	});
 }
 
-PhotographerPageInitialization();
+await photographerPageInitialization();
 
 // * Header Logo redirect to homepage
 const headerLogo = document.querySelector(".header__logo") as HTMLElement;
@@ -280,7 +290,7 @@ headerLogo.addEventListener("click", () => {
 	window.location.href = "/Fisheye/index.html";
 });
 
-// * Clear the media, then display them reordered
+// * Reorder the media
 const orderButton = document.querySelector(
 	".photographer-media__order-select"
 ) as HTMLSelectElement;
@@ -311,4 +321,57 @@ function clearMedia() {
 	while (mediaSection.firstChild) {
 		mediaSection.removeChild(mediaSection.firstChild);
 	}
+}
+
+const ImageModalPrevious = document.querySelector(
+	".image-modal__previous-icon"
+) as HTMLButtonElement;
+const ImageModalNext = document.querySelector(
+	".image-modal__next-icon"
+) as HTMLButtonElement;
+
+ImageModalPrevious.addEventListener("click", () => {
+	imageModalNavigation(-1);
+});
+ImageModalNext.addEventListener("click", () => {
+	imageModalNavigation(1);
+});
+
+// * navigation in the image modal
+function imageModalNavigation(direction: number) {
+	console.log(`Scroll ${direction} image`);
+}
+
+function likeSystem() {
+	const mediasLike: Array<HTMLSpanElement> = Array.from(
+		document.querySelectorAll(".photographer-media__legend-likes")
+	);
+	mediasLike.forEach((mediaLike) => {
+		mediaLike.addEventListener("click", () => {
+			if (!mediaLike.classList.contains("--liked")) {
+				mediaLike.innerHTML = `${
+					Number(mediaLike.innerText) + 1
+				} <i class="fa-solid fa-heart"></i>`;
+				mediaLike.classList.add("--liked");
+			} else {
+				mediaLike.innerHTML = `${
+					Number(mediaLike.innerText) - 1
+				} <i class="fa-regular fa-heart"></i>`;
+				mediaLike.classList.remove("--liked")
+			}
+		updateInfoBarLikes();
+		});
+	});
+}
+
+function updateInfoBarLikes() {
+	const likes: Array<HTMLSpanElement> = Array.from(
+		document.querySelectorAll(".photographer-media__legend-likes")
+	);
+	const infoBarLikes = document.querySelector(".photographer-info-bar__likes") as HTMLSpanElement;
+	let totalLikes = 0;
+	likes.forEach(like => {
+		totalLikes += Number(like.innerText);
+	})
+	infoBarLikes.innerHTML = `${totalLikes.toString()} <i class = "fa-solid fa-heart"></i>`;
 }
