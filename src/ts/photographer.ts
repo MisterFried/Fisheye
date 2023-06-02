@@ -1,4 +1,3 @@
-import { info } from "sass";
 import {
 	MediaType,
 	PhotographerType,
