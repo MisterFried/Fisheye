@@ -70,6 +70,7 @@
 		border-radius: 0.5rem;
 
 		transition: all 0.2s ease-in-out;
+		cursor: pointer;
 
 		&:hover {
 			opacity: 0.7;
@@ -79,6 +80,9 @@
 	&__legend-likes {
 		user-select: none;
 		cursor: pointer;
+		i {
+			pointer-events: none
+		}
 	}
 }
 

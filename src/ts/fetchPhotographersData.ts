@@ -25,6 +25,7 @@ export interface MediaType {
 	likes: number;
 	date: string;
 	price: number;
+	isLiked?: boolean
 }
 
 // Fetch the photographers.json file
