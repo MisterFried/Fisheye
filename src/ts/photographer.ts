@@ -91,7 +91,7 @@ function displayPhotographerMedia(mediaList: Array<MediaType>) {
 
 		mediaSection.appendChild(mediaContainer);
 	});
-	setupMediaModal();
+	setupMediaModal(mediaList);
 	likeEventHandler(mediaList);
 }
 
@@ -174,7 +174,7 @@ function updatePhotographerInfoBar(mediaList: Array<MediaType>) {
 }
 
 // * Setup the modal opening when clicking on the images
-function setupMediaModal() {
+function setupMediaModal(mediaList: Array<MediaType>) {
 	const photographerImagesDOM: Array<HTMLImageElement> = Array.from(
 		document.querySelectorAll(".photographer-media__image")
 	);
@@ -192,6 +192,51 @@ function setupMediaModal() {
 			imageModal.showModal();
 			imageInModal.setAttribute("src", pathToImage);
 			imageModalLegend.innerText = legendSpanDOM.innerText;
+		});
+	});
+
+	//TODO USE FIND ISNTEAD OF FOREACH
+	const nextMediaButton = document.querySelector(".image-modal__next-icon");
+	nextMediaButton!.addEventListener("click", () => {
+		const modalImageElement = document.querySelector(".image-modal__image") as HTMLImageElement;
+		const imageModalLegend = document.querySelector(".image-modal__legend") as HTMLSpanElement;
+		const modalImageName = modalImageElement.src.split("/").pop();
+		const modalImageRootPathArray = modalImageElement.src.split("/");
+		modalImageRootPathArray.pop();
+		const modalImageRootPath = modalImageRootPathArray.join("/");
+		mediaList.forEach((media, index) => {
+			if (media.image === modalImageName) {
+				if (index === mediaList.length - 1) {
+					modalImageElement.src = `${modalImageRootPath}/${mediaList[0].image}`;
+					imageModalLegend.innerText = mediaList[0].title;
+				}
+				else {
+					modalImageElement.src = `${modalImageRootPath}/${mediaList[index + 1].image}`;
+					imageModalLegend.innerText = mediaList[index + 1].title!;
+				}
+			}
+		});
+	});
+
+	//TODO USE FIND ISNTEAD OF FOREACH
+	const previousMediaButton = document.querySelector(".image-modal__previous-icon");
+	previousMediaButton!.addEventListener("click", () => {
+		const modalImageElement = document.querySelector(".image-modal__image") as HTMLImageElement;
+		const modalImageName = modalImageElement.src.split("/").pop();
+		const modalImageRootPathArray = modalImageElement.src.split("/");
+		modalImageRootPathArray.pop();
+		const modalImageRootPath = modalImageRootPathArray.join("/");
+		mediaList.forEach((media, index) => {
+			if (media.image === modalImageName) {
+				if (index === 0) {
+					modalImageElement.src = `${modalImageRootPath}/${mediaList[mediaList.length - 1].image}`;
+					imageModalLegend.innerText = mediaList[mediaList.length - 1].title;
+				}
+				else {
+					modalImageElement.src = `${modalImageRootPath}/${mediaList[index - 1].image}`;
+					imageModalLegend.innerText = mediaList[index - 1].title!;
+				}
+			}
 		});
 	});
 
