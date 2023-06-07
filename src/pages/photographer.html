@@ -24,9 +24,9 @@
 			href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap"
 			rel="stylesheet" async />
 		<title>Fisheye - Photographer</title>
-		<script type="module" crossorigin src="/Fisheye/assets/secondary-7dc1b69c.js"></script>
-		<link rel="modulepreload" crossorigin href="/Fisheye/assets/fetchPhotographersData-6b148f26.js">
-		<link rel="stylesheet" href="/Fisheye/assets/fetchPhotographersData-4c0af4da.css">
+		<script type="module" crossorigin src="/Fisheye/assets/secondary-2e6ea7bd.js"></script>
+		<link rel="modulepreload" crossorigin href="/Fisheye/assets/fetchPhotographersData-c34650fa.js">
+		<link rel="stylesheet" href="/Fisheye/assets/fetchPhotographersData-2d63141f.css">
 	</head>
 
 	<body>
@@ -141,13 +141,16 @@
 			</form>
 		</dialog>
 
-		<dialog id="imageModal">
-			<div class="image-modal">
-				<img class="image-modal__image" src="#" />
-				<i class="fa-solid fa-xmark image-modal__close-icon" onclick="imageModal.close()"></i>
-				<i class="fa-solid fa-angle-left image-modal__previous-icon"></i>
-				<i class="fa-solid fa-angle-right image-modal__next-icon"></i>
-				<span class="image-modal__legend">Legend here</span>
+		<dialog id="mediaModal">
+			<div class="media-modal">
+				<img class="media-modal__image" src="#" />
+				<video class="media-modal__video" controls>
+					<source src="#">
+				</video>
+				<i class="fa-solid fa-xmark media-modal__close-icon" onclick="mediaModal.close()"></i>
+				<i class="fa-solid fa-angle-left media-modal__previous-icon"></i>
+				<i class="fa-solid fa-angle-right media-modal__next-icon"></i>
+				<span class="media-modal__legend">Legend here</span>
 			</div>
 		</dialog>
 
