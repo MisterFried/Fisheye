@@ -138,13 +138,16 @@
 			</form>
 		</dialog>
 
-		<dialog id="imageModal">
-			<div class="image-modal">
-				<img class="image-modal__image" src="#" />
-				<i class="fa-solid fa-xmark image-modal__close-icon" onclick="imageModal.close()"></i>
-				<i class="fa-solid fa-angle-left image-modal__previous-icon"></i>
-				<i class="fa-solid fa-angle-right image-modal__next-icon"></i>
-				<span class="image-modal__legend">Legend here</span>
+		<dialog id="mediaModal">
+			<div class="media-modal">
+				<img class="media-modal__image" src="#" />
+				<video class="media-modal__video" controls>
+					<source src="#">
+				</video>
+				<i class="fa-solid fa-xmark media-modal__close-icon" onclick="mediaModal.close()"></i>
+				<i class="fa-solid fa-angle-left media-modal__previous-icon"></i>
+				<i class="fa-solid fa-angle-right media-modal__next-icon"></i>
+				<span class="media-modal__legend">Legend here</span>
 			</div>
 		</dialog>
 

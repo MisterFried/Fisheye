@@ -103,10 +103,10 @@ function displayImage(image: MediaType) {
 	const pathToResizedImage = pathToImage.slice(0, -5) + "_resized.webp";
 	const imageElement = document.createElement("img");
 
-	imageElement.setAttribute("src", pathToResizedImage);
+	imageElement.src = pathToResizedImage;
 	imageElement.classList.add("photographer-media__image");
-	imageElement.setAttribute("alt", `Photo : ${image.title}`);
-	imageElement.setAttribute("decoding", "async");
+	imageElement.alt = `Photo : ${image.title}`;
+	imageElement.decoding = "async";
 
 	return imageElement;
 }
@@ -118,9 +118,9 @@ function displayVideo(video: MediaType) {
 	const videoElement = document.createElement("video");
 	const videoSource = document.createElement("source");
 	videoElement.classList.add("photographer-media__video");
-	videoElement.setAttribute("poster", thumbnailPath);
 	videoElement.setAttribute("controls", "");
-	videoSource.setAttribute("src", videoPath);
+	videoElement.poster = thumbnailPath;
+	videoSource.src = videoPath;
 
 	videoElement.appendChild(videoSource);
 
@@ -176,70 +176,151 @@ function updatePhotographerInfoBar(mediaList: Array<MediaType>) {
 
 // * Setup the modal opening when clicking on the images
 function setupMediaModal(mediaList: Array<MediaType>) {
-	const photographerImagesDOM: Array<HTMLImageElement> = Array.from(
-		document.querySelectorAll(".photographer-media__image")
+	const photographerMediaDOM: Array<HTMLImageElement> = Array.from(
+		document.querySelectorAll(".photographer-media__image, .photographer-media__video")
 	);
-	const imageModal = document.querySelector("#imageModal") as HTMLDialogElement;
-	const imageInModal = document.querySelector(".image-modal__image") as HTMLImageElement;
-	const imageModalLegend = document.querySelector(".image-modal__legend") as HTMLSpanElement;
-	const nextMediaButton = document.querySelector(".image-modal__next-icon") as HTMLElement;
-	const previousMediaButton = document.querySelector(".image-modal__previous-icon") as HTMLElement;
+	const mediaModal = document.querySelector("#mediaModal") as HTMLDialogElement;
+	const imageInModal = document.querySelector(".media-modal__image") as HTMLImageElement;
+	const videoInModal = document.querySelector(".media-modal__video") as HTMLVideoElement;
+	const videoSourceInModal = videoInModal.firstElementChild as HTMLSourceElement;
+	const mediaModalLegend = document.querySelector(".media-modal__legend") as HTMLSpanElement;
+	const nextMediaButton = document.querySelector(".media-modal__next-icon") as HTMLElement;
+	const previousMediaButton = document.querySelector(".media-modal__previous-icon") as HTMLElement;
+	let mediaSource = "";
+	let mediaType = "";
+	let mediaRootPath = "";
 
-	photographerImagesDOM.forEach((image) => {
-		const pathToResizedImage = image.src;
-		const pathToImage = pathToResizedImage.slice(0, -13) + ".webp";
+	photographerMediaDOM.forEach((media) => {
+		media.addEventListener("click", (event) => {
+			mediaModal.showModal();
+			const eventTarget = event.target as HTMLImageElement | HTMLVideoElement;
 
-		image.addEventListener("click", () => {
-			// Select the legend span corresponding to the current displayed image
-			const legendSpanDOM = image.nextElementSibling?.firstElementChild as HTMLSpanElement;
-			imageModal.showModal();
-			imageInModal.setAttribute("src", pathToImage);
-			imageModalLegend.innerText = legendSpanDOM.innerText;
+			if (eventTarget instanceof HTMLImageElement) {
+				mediaSource = `${eventTarget.src.slice(0, -13)}.webp`; //cut the _resized in filename
+				mediaType = "image";
+				const mediaFullPath = eventTarget.src.split("/");
+				mediaFullPath.splice(-1, 1);
+				mediaRootPath = mediaFullPath.join("/");
+			} else if (eventTarget instanceof HTMLVideoElement) {
+				const clickedVideoSource = eventTarget.firstElementChild as HTMLSourceElement;
+				mediaSource = clickedVideoSource.src;
+				mediaType = "video";
+				const mediaFullPath = mediaSource.split("/");
+				mediaFullPath.splice(-1, 1);
+				mediaRootPath = mediaFullPath.join("/");
+			}
+			const mediaFile = mediaSource.split("/").pop()!;
+
+			displayMediaInModal(mediaType, mediaFile, mediaRootPath);
 		});
 	});
 
+	// ! * * * * * * * * * * *
+	//TODO FIX NEXT/PREVIOUS BUTTON HAVING MULTIPLE EVENT LISTENER EACH TIME MEDIA ARE REORDERED
+	// ! * * * * * * * * * * *
+
 	nextMediaButton.addEventListener("click", () => {
-		const [modalImageName, modalImageRootPath] = getImageNameAndRootPath();
+		let mediaToDisplayNext = "";
+		if (imageInModal.style.display === "block" && videoInModal.style.display === "none") {
+			const mediaFullPathArray = imageInModal.src.split("/");
+			const mediaFile = mediaFullPathArray.pop();
+			mediaRootPath = mediaFullPathArray.join("/");
 
-		const mediaIndex = mediaList.findIndex((media) => media.image === modalImageName);
+			let currentMediaDisplayedIndex = mediaList.findIndex((media) => media.image === mediaFile)!;
+			if (currentMediaDisplayedIndex === mediaList.length - 1) {
+				currentMediaDisplayedIndex = -1;
+			}
+			if (mediaList[currentMediaDisplayedIndex + 1].image) {
+				mediaToDisplayNext = mediaList[currentMediaDisplayedIndex + 1].image!;
+				mediaType = "image";
+			} else if (mediaList[currentMediaDisplayedIndex + 1].video) {
+				mediaToDisplayNext = mediaList[currentMediaDisplayedIndex + 1].video!;
+				mediaType = "video";
+			}
+		} else if (imageInModal.style.display === "none" && videoInModal.style.display === "block") {
+			const mediaFullPathArray = videoSourceInModal.src.split("/");
+			const mediaFile = mediaFullPathArray.pop();
+			mediaRootPath = mediaFullPathArray.join("/");
 
-		if (mediaIndex === mediaList.length - 1) {
-			imageInModal.src = `${modalImageRootPath}/${mediaList[0].image}`;
-			imageModalLegend.innerText = mediaList[0].title;
-		} else {
-			imageInModal.src = `${modalImageRootPath}/${mediaList[mediaIndex + 1].image}`;
-			imageModalLegend.innerText = mediaList[mediaIndex + 1].title;
+			let currentMediaDisplayedIndex = mediaList.findIndex((media) => media.video === mediaFile)!;
+			if (currentMediaDisplayedIndex === mediaList.length - 1) {
+				currentMediaDisplayedIndex = -1;
+			}
+			if (mediaList[currentMediaDisplayedIndex + 1].image) {
+				mediaToDisplayNext = mediaList[currentMediaDisplayedIndex + 1].image!;
+				mediaType = "image";
+			} else if (mediaList[currentMediaDisplayedIndex + 1].video) {
+				mediaToDisplayNext = mediaList[currentMediaDisplayedIndex + 1].video!;
+				mediaType = "video";
+			}
 		}
+		displayMediaInModal(mediaType, mediaToDisplayNext, mediaRootPath);
 	});
 
 	previousMediaButton.addEventListener("click", () => {
-		const [modalImageName, modalImageRootPath] = getImageNameAndRootPath();
+		let mediaToDisplayNext = "";
+		if (imageInModal.style.display === "block" && videoInModal.style.display === "none") {
+			const mediaFullPathArray = imageInModal.src.split("/");
+			const mediaFile = mediaFullPathArray.pop();
+			mediaRootPath = mediaFullPathArray.join("/");
 
-		const mediaIndex = mediaList.findIndex((media) => media.image === modalImageName);
+			let currentMediaDisplayedIndex = mediaList.findIndex((media) => media.image === mediaFile)!;
+			if (currentMediaDisplayedIndex === 0) {
+				currentMediaDisplayedIndex = mediaList.length;
+			}
+			if (mediaList[currentMediaDisplayedIndex - 1].image) {
+				mediaToDisplayNext = mediaList[currentMediaDisplayedIndex - 1].image!;
+				mediaType = "image";
+			} else if (mediaList[currentMediaDisplayedIndex - 1].video) {
+				mediaToDisplayNext = mediaList[currentMediaDisplayedIndex - 1].video!;
+				mediaType = "video";
+			}
+		} else if (imageInModal.style.display === "none" && videoInModal.style.display === "block") {
+			const mediaFullPathArray = videoSourceInModal.src.split("/");
+			const mediaFile = mediaFullPathArray.pop();
+			mediaRootPath = mediaFullPathArray.join("/");
 
-		if (mediaIndex === 0) {
-			imageInModal.src = `${modalImageRootPath}/${mediaList[mediaList.length - 1].image}`;
-			imageModalLegend.innerText = mediaList[mediaList.length - 1].title;
-		} else {
-			imageInModal.src = `${modalImageRootPath}/${mediaList[mediaIndex - 1].image}`;
-			imageModalLegend.innerText = mediaList[mediaIndex - 1].title;
+			let currentMediaDisplayedIndex = mediaList.findIndex((media) => media.video === mediaFile)!;
+			if (currentMediaDisplayedIndex === 0) {
+				currentMediaDisplayedIndex = mediaList.length;
+			}
+			if (mediaList[currentMediaDisplayedIndex - 1].image) {
+				mediaToDisplayNext = mediaList[currentMediaDisplayedIndex - 1].image!;
+				mediaType = "image";
+			} else if (mediaList[currentMediaDisplayedIndex - 1].video) {
+				mediaToDisplayNext = mediaList[currentMediaDisplayedIndex - 1].video!;
+				mediaType = "video";
+			}
 		}
+		displayMediaInModal(mediaType, mediaToDisplayNext, mediaRootPath);
 	});
 
-	function getImageNameAndRootPath() {
-		const modalImageName = imageInModal.src.split("/").pop();
-		const modalImageRootPathArray = imageInModal.src.split("/");
-		modalImageRootPathArray.pop();
-		const modalImageRootPath = modalImageRootPathArray.join("/");
-		return [modalImageName, modalImageRootPath];
+	//TODO FIX VIDEO NOT DISPLAYING CORRECLY INSIDE THE MODAL
+	function displayMediaInModal(mediaType: string, mediaFile: string, mediaRootPath: string) {
+		let mediaName = "";
+		switch (mediaType) {
+			case "image":
+				imageInModal.style.display = "block";
+				videoInModal.style.display = "none";
+				imageInModal.src = `${mediaRootPath}/${mediaFile}`;
+				mediaName = mediaList.find((media) => media.image === mediaFile)?.title!;
+				break;
+
+			case "video":
+				imageInModal.style.display = "none";
+				videoInModal.style.display = "block";
+				videoSourceInModal.src = `${mediaRootPath}/${mediaFile}`;
+				mediaName = mediaList.find((media) => media.video === mediaFile)?.title!;
+				break;
+		}
+		mediaModalLegend.innerText = mediaName;
 	}
 
-	// Reset the src of the modal image when closing
-	imageModal.addEventListener("cancel", () => {
-		imageInModal.setAttribute("src", "#");
-	});
-	imageModal.addEventListener("close", () => {
-		imageInModal.setAttribute("src", "#");
+	mediaModal.addEventListener("close", () => {
+		imageInModal.src = "#";
+		imageInModal.style.display = "none";
+		videoInModal.src = "#";
+		videoInModal.style.display = "none";
 	});
 }
 
