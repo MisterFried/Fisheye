@@ -5,10 +5,21 @@
 
 	padding-inline: 6.25rem;
 
+	&__redirect {
+		border: none;
+
+		background-color: transparent;
+
+		&:hover > .header__logo , &:focus > .header__logo {
+			filter: brightness(150%);
+		}		
+	}
+
 	&__logo {
 		height: 3.125rem;
 
 		cursor: pointer;
+		transition: all 0.15s ease-in-out;
 	}
 }
 

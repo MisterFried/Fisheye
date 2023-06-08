@@ -33,7 +33,7 @@
 .photographer-media {
 	@include m.flexbox(column, 1rem);
 
-	// ? Ordering button
+	// Ordering button
 	&__order {
 		@include m.flexbox(row, 1.5rem, wrap);
 	}
@@ -43,6 +43,8 @@
 		border-radius: 0.5rem;
 
 		background-color: var(--primary-color);
+
+		cursor: pointer;
 	}
 
 	// ? Media container
@@ -53,7 +55,7 @@
 	}
 
 	&__media-container {
-		@include m.flexbox(column, 0.5rem, nowrap, normal, start);
+		@include m.flexbox(column, 0.5rem, nowrap, normal, center);
 	}
 
 	&__legend {
@@ -63,25 +65,38 @@
 		margin-inline: auto;
 	}
 
-	&__image, &__video {
+	&__image-button-container,
+	&__video-button-container {
+		border: none;
+
+		background-color: transparent;
+
+		cursor: pointer;
+		transition: all 0.2s ease-in-out;
+
+		&:hover, &:focus {
+			opacity: 0.7;
+		}
+	}
+
+	&__image,
+	&__video {
 		width: 20rem;
 		height: 20rem;
 		margin-inline: auto;
 		border-radius: 0.5rem;
 
-		transition: all 0.2s ease-in-out;
-		cursor: pointer;
-
-		&:hover {
-			opacity: 0.7;
-		}
+		pointer-events: none;
 	}
 
 	&__legend-likes {
+		border: none;
+		background-color: transparent;
+
 		user-select: none;
 		cursor: pointer;
 		i {
-			pointer-events: none
+			pointer-events: none;
 		}
 	}
 }

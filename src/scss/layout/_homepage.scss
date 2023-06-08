@@ -14,7 +14,7 @@
 		&__link {
 			@include m.flexbox(column, 0, nowrap, start, center);
 
-			&:hover > .photographer-card__image {
+			&:hover > .photographer-card__image, &:focus > .photographer-card__image {
 				filter: brightness(1.1);
 				transform: scale(1.05);
 			}

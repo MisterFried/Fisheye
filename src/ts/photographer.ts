@@ -71,7 +71,7 @@ function displayPhotographerMedia(mediaList: Array<MediaType>) {
 	mediaList.forEach((media) => {
 		const mediaContainer = document.createElement("div");
 		mediaContainer.classList.add("photographer-media__media-container");
-		let mediaElement: HTMLImageElement | HTMLVideoElement;
+		let mediaElement: HTMLButtonElement;
 
 		// If the media is an image
 		if (media.image) {
@@ -101,6 +101,8 @@ function displayPhotographerMedia(mediaList: Array<MediaType>) {
 function displayImage(image: MediaType) {
 	const pathToImage = `/Fisheye/images/photographers-media/${image.photographerId}/${image.image}`;
 	const pathToResizedImage = pathToImage.slice(0, -5) + "_resized.webp";
+	const imageButtonContainer = document.createElement("button");
+	imageButtonContainer.classList.add("photographer-media__image-button-container");
 	const imageElement = document.createElement("img");
 
 	imageElement.src = pathToResizedImage;
@@ -108,30 +110,35 @@ function displayImage(image: MediaType) {
 	imageElement.alt = `Photo : ${image.title}`;
 	imageElement.decoding = "async";
 
-	return imageElement;
+	imageButtonContainer.appendChild(imageElement);
+
+	return imageButtonContainer;
 }
 
 // * Display a video + thumbnail
 function displayVideo(video: MediaType) {
 	const videoPath = `/Fisheye/images/photographers-media/${video.photographerId}/${video.video}`;
 	const thumbnailPath = videoPath.slice(0, -4) + "_thumbnail.png";
+	const videoButtonContainer = document.createElement("button");
+	videoButtonContainer.classList.add("photographer-media__video-button-container");
 	const videoElement = document.createElement("video");
 	const videoSource = document.createElement("source");
 	videoElement.classList.add("photographer-media__video");
-	videoElement.setAttribute("controls", "");
 	videoElement.poster = thumbnailPath;
+	videoElement.setAttribute("controls", "");
 	videoSource.src = videoPath;
 
 	videoElement.appendChild(videoSource);
+	videoButtonContainer.appendChild(videoElement);
 
-	return videoElement;
+	return videoButtonContainer;
 }
 
 // * Create the legend for media (Image | Video)
 function addMediaLegend(media: MediaType) {
 	const legend = document.createElement("div");
 	const name = document.createElement("span");
-	const like = document.createElement("span");
+	const like = document.createElement("button");
 
 	legend.classList.add("photographer-media__legend");
 	name.classList.add("photographer-media__legend-name");
@@ -174,126 +181,97 @@ function updatePhotographerInfoBar(mediaList: Array<MediaType>) {
 	infoBarLikes.innerHTML = `${totalLikes} <i class = "fa-solid fa-heart"></i>`;
 }
 
-// * Setup the modal opening when clicking on the images
+// * Setup the modal when clicking on the images
 function setupMediaModal(mediaList: Array<MediaType>) {
 	const photographerMediaDOM: Array<HTMLImageElement> = Array.from(
-		document.querySelectorAll(".photographer-media__image, .photographer-media__video")
+		document.querySelectorAll(
+			".photographer-media__image-button-container, .photographer-media__video-button-container"
+		)
 	);
 	const mediaModal = document.querySelector("#mediaModal") as HTMLDialogElement;
 	const imageInModal = document.querySelector(".media-modal__image") as HTMLImageElement;
 	const videoInModal = document.querySelector(".media-modal__video") as HTMLVideoElement;
-	const videoSourceInModal = videoInModal.firstElementChild as HTMLSourceElement;
+	const videoSourceInModal = document.createElement("source");
+	videoInModal.appendChild(videoSourceInModal);
 	const mediaModalLegend = document.querySelector(".media-modal__legend") as HTMLSpanElement;
 	const nextMediaButton = document.querySelector(".media-modal__next-icon") as HTMLElement;
 	const previousMediaButton = document.querySelector(".media-modal__previous-icon") as HTMLElement;
 	let mediaSource = "";
 	let mediaType = "";
 	let mediaRootPath = "";
+	let mediaFile = "";
+	let mediaFullPathArray: Array<string> = [];
+
+	const nextMedia = () => scrollMediaModal(+1);
+	const previousMedia = () => scrollMediaModal(-1);
 
 	photographerMediaDOM.forEach((media) => {
 		media.addEventListener("click", (event) => {
 			mediaModal.showModal();
-			const eventTarget = event.target as HTMLImageElement | HTMLVideoElement;
+			const eventTarget = event.target as HTMLButtonElement;
+			const mediaEventTarget = eventTarget.firstElementChild as HTMLImageElement | HTMLVideoElement;
 
-			if (eventTarget instanceof HTMLImageElement) {
-				mediaSource = `${eventTarget.src.slice(0, -13)}.webp`; //cut the _resized in filename
+			if (mediaEventTarget instanceof HTMLImageElement) {
 				mediaType = "image";
-				const mediaFullPath = eventTarget.src.split("/");
-				mediaFullPath.splice(-1, 1);
-				mediaRootPath = mediaFullPath.join("/");
-			} else if (eventTarget instanceof HTMLVideoElement) {
-				const clickedVideoSource = eventTarget.firstElementChild as HTMLSourceElement;
-				mediaSource = clickedVideoSource.src;
+				mediaSource = `${mediaEventTarget.src.slice(0, -13)}.webp`; //cut the "_resized" in filename
+			} else if (mediaEventTarget instanceof HTMLVideoElement) {
 				mediaType = "video";
-				const mediaFullPath = mediaSource.split("/");
-				mediaFullPath.splice(-1, 1);
-				mediaRootPath = mediaFullPath.join("/");
+				const clickedVideoSource = mediaEventTarget.firstElementChild as HTMLSourceElement;
+				mediaSource = clickedVideoSource.src;
 			}
-			const mediaFile = mediaSource.split("/").pop()!;
+			mediaFullPathArray = mediaSource.split("/");
+			mediaFile = mediaFullPathArray.pop()!;
+			mediaRootPath = mediaFullPathArray.join("/");
 
 			displayMediaInModal(mediaType, mediaFile, mediaRootPath);
+
+			nextMediaButton.addEventListener("click", nextMedia);
+			previousMediaButton.addEventListener("click", previousMedia);
+			document.addEventListener("keydown", keyboardNavMediaModal);
 		});
 	});
 
-	// ! * * * * * * * * * * *
-	//TODO FIX NEXT/PREVIOUS BUTTON HAVING MULTIPLE EVENT LISTENER EACH TIME MEDIA ARE REORDERED
-	// ! * * * * * * * * * * *
+	function keyboardNavMediaModal(event: KeyboardEvent) {
+		if (event.key === "ArrowLeft") {
+			previousMediaButton.click();
+		} else if (event.key === "ArrowRight") {
+			nextMediaButton.click();
+		}
+	}
 
-	nextMediaButton.addEventListener("click", () => {
+	function scrollMediaModal(direction: number) {
 		let mediaToDisplayNext = "";
 		if (imageInModal.style.display === "block" && videoInModal.style.display === "none") {
-			const mediaFullPathArray = imageInModal.src.split("/");
-			const mediaFile = mediaFullPathArray.pop();
-			mediaRootPath = mediaFullPathArray.join("/");
-
-			let currentMediaDisplayedIndex = mediaList.findIndex((media) => media.image === mediaFile)!;
-			if (currentMediaDisplayedIndex === mediaList.length - 1) {
-				currentMediaDisplayedIndex = -1;
-			}
-			if (mediaList[currentMediaDisplayedIndex + 1].image) {
-				mediaToDisplayNext = mediaList[currentMediaDisplayedIndex + 1].image!;
-				mediaType = "image";
-			} else if (mediaList[currentMediaDisplayedIndex + 1].video) {
-				mediaToDisplayNext = mediaList[currentMediaDisplayedIndex + 1].video!;
-				mediaType = "video";
-			}
-		} else if (imageInModal.style.display === "none" && videoInModal.style.display === "block") {
-			const mediaFullPathArray = videoSourceInModal.src.split("/");
-			const mediaFile = mediaFullPathArray.pop();
-			mediaRootPath = mediaFullPathArray.join("/");
-
-			let currentMediaDisplayedIndex = mediaList.findIndex((media) => media.video === mediaFile)!;
-			if (currentMediaDisplayedIndex === mediaList.length - 1) {
-				currentMediaDisplayedIndex = -1;
-			}
-			if (mediaList[currentMediaDisplayedIndex + 1].image) {
-				mediaToDisplayNext = mediaList[currentMediaDisplayedIndex + 1].image!;
-				mediaType = "image";
-			} else if (mediaList[currentMediaDisplayedIndex + 1].video) {
-				mediaToDisplayNext = mediaList[currentMediaDisplayedIndex + 1].video!;
-				mediaType = "video";
-			}
+			mediaFullPathArray = imageInModal.src.split("/");
 		}
-		displayMediaInModal(mediaType, mediaToDisplayNext, mediaRootPath);
-	});
 
-	previousMediaButton.addEventListener("click", () => {
-		let mediaToDisplayNext = "";
-		if (imageInModal.style.display === "block" && videoInModal.style.display === "none") {
-			const mediaFullPathArray = imageInModal.src.split("/");
-			const mediaFile = mediaFullPathArray.pop();
-			mediaRootPath = mediaFullPathArray.join("/");
-
-			let currentMediaDisplayedIndex = mediaList.findIndex((media) => media.image === mediaFile)!;
-			if (currentMediaDisplayedIndex === 0) {
-				currentMediaDisplayedIndex = mediaList.length;
-			}
-			if (mediaList[currentMediaDisplayedIndex - 1].image) {
-				mediaToDisplayNext = mediaList[currentMediaDisplayedIndex - 1].image!;
-				mediaType = "image";
-			} else if (mediaList[currentMediaDisplayedIndex - 1].video) {
-				mediaToDisplayNext = mediaList[currentMediaDisplayedIndex - 1].video!;
-				mediaType = "video";
-			}
-		} else if (imageInModal.style.display === "none" && videoInModal.style.display === "block") {
-			const mediaFullPathArray = videoSourceInModal.src.split("/");
-			const mediaFile = mediaFullPathArray.pop();
-			mediaRootPath = mediaFullPathArray.join("/");
-
-			let currentMediaDisplayedIndex = mediaList.findIndex((media) => media.video === mediaFile)!;
-			if (currentMediaDisplayedIndex === 0) {
-				currentMediaDisplayedIndex = mediaList.length;
-			}
-			if (mediaList[currentMediaDisplayedIndex - 1].image) {
-				mediaToDisplayNext = mediaList[currentMediaDisplayedIndex - 1].image!;
-				mediaType = "image";
-			} else if (mediaList[currentMediaDisplayedIndex - 1].video) {
-				mediaToDisplayNext = mediaList[currentMediaDisplayedIndex - 1].video!;
-				mediaType = "video";
-			}
+		if (imageInModal.style.display === "none" && videoInModal.style.display === "block") {
+			mediaFullPathArray = videoSourceInModal.src.split("/");
 		}
+
+		mediaFile = mediaFullPathArray.pop()!;
+		mediaRootPath = mediaFullPathArray.join("/");
+
+		let currentMediaDisplayedIndex = mediaList.findIndex(
+			(media) => media.image === mediaFile || media.video === mediaFile
+		)!;
+
+		if (currentMediaDisplayedIndex + direction <= -1) {
+			currentMediaDisplayedIndex = mediaList.length;
+		} else if (currentMediaDisplayedIndex + direction >= mediaList.length) {
+			currentMediaDisplayedIndex = -1;
+		}
+
+		if (mediaList[currentMediaDisplayedIndex + direction].image) {
+			mediaType = "image";
+			mediaToDisplayNext = mediaList[currentMediaDisplayedIndex + direction].image!;
+		} else if (mediaList[currentMediaDisplayedIndex + direction].video) {
+			mediaType = "video";
+			mediaToDisplayNext = mediaList[currentMediaDisplayedIndex + direction].video!;
+		}
+
 		displayMediaInModal(mediaType, mediaToDisplayNext, mediaRootPath);
-	});
+	}
 
 	//TODO FIX VIDEO NOT DISPLAYING CORRECLY INSIDE THE MODAL
 	function displayMediaInModal(mediaType: string, mediaFile: string, mediaRootPath: string) {
@@ -319,8 +297,12 @@ function setupMediaModal(mediaList: Array<MediaType>) {
 	mediaModal.addEventListener("close", () => {
 		imageInModal.src = "#";
 		imageInModal.style.display = "none";
-		videoInModal.src = "#";
+		videoSourceInModal.src = "#";
 		videoInModal.style.display = "none";
+
+		nextMediaButton.removeEventListener("click", nextMedia);
+		previousMediaButton.removeEventListener("click", previousMedia);
+		document.removeEventListener("keydown", keyboardNavMediaModal);
 	});
 }
 
@@ -391,7 +373,7 @@ function likeEventHandler(mediaList: Array<MediaType>) {
 			const target = event.target as HTMLSpanElement;
 
 			// * The DOM element corresponding to the clicked legend (image or video)
-			const mediaElement = target.parentElement!.parentElement!.firstElementChild as
+			const mediaElement = target.parentElement!.parentElement!.firstElementChild?.firstElementChild as
 				| HTMLImageElement
 				| HTMLVideoElement;
 
@@ -430,7 +412,7 @@ function likeEventHandler(mediaList: Array<MediaType>) {
 photographerPageInitialization();
 
 // * Header Logo redirect to homepage
-const headerLogo = document.querySelector(".header__logo") as HTMLElement;
+const headerLogo = document.querySelector(".header__redirect") as HTMLElement;
 headerLogo.addEventListener("click", () => {
 	window.location.href = "/Fisheye/";
 });

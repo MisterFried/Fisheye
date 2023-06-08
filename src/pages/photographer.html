@@ -28,7 +28,7 @@
 
 	<body>
 		<header class="header">
-			<img class="header__logo" src="/images/fisheye-logo.png" alt="Logo de Fisheye" />
+			<button class="header__redirect"><img class="header__logo" src="/images/fisheye-logo.png" alt="Logo de Fisheye"/></button>
 		</header>
 
 		<main class="photographer">
@@ -132,7 +132,7 @@
 						id="message"
 						rows="4"></textarea>
 				</div>
-				<button class="primary-button contact-modal__button">
+				<button class="primary-button contact-modal__button" type="button">
 					Envoyer
 				</button>
 			</form>
@@ -142,7 +142,6 @@
 			<div class="media-modal">
 				<img class="media-modal__image" src="#" />
 				<video class="media-modal__video" controls>
-					<source src="#">
 				</video>
 				<i class="fa-solid fa-xmark media-modal__close-icon" onclick="mediaModal.close()"></i>
 				<i class="fa-solid fa-angle-left media-modal__previous-icon"></i>
