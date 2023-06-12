@@ -21,7 +21,16 @@
 		position: absolute;
 		inset: 1rem 1rem auto auto;
 
+		border: none;
+		
+		background-color: transparent;
+
 		cursor: pointer;
+		transition: all 0.2s ease-in-out;
+
+		&:hover, &:focus {
+			transform: scale(1.2)
+		}
 	}
 
 	&__text-input-container {
@@ -39,4 +48,13 @@
 
 		padding-inline: 3.125rem;
 	}
+}
+
+#firstname-incorrect-input,
+#lastname-incorrect-input,
+#email-incorrect-input,
+#message-incorrect-input {
+	display: none;
+
+	align-self: center;
 }

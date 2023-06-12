@@ -30,12 +30,17 @@
 	&__previous-icon,
 	&__next-icon {
 		position: absolute;
+
+		border: none;
+
+		background-color: transparent;
+
 		cursor: pointer;
 		transition: all 0.2s ease-in-out;
 
-		&:hover {
+		&:hover, &:focus {
 			opacity: 0.7;
-			transform: scale(1.1);
+			transform: scale(1.2);
 		}
 	}
 

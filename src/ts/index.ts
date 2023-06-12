@@ -25,11 +25,8 @@ function createPhotographerCard(photographer: PhotographerType) {
 
 	const photographerImage = document.createElement("img");
 	photographerImage.classList.add("photographer-card__image");
-	photographerImage.setAttribute(
-		"src",
-		`/Fisheye/images/photographers-profile-picture/${photographer.portrait}`
-	);
-		photographerImage.setAttribute("alt", `photo de profil de ${photographer.name}`)
+	photographerImage.src = `/Fisheye/images/photographers-profile-picture/${photographer.portrait}`;
+	photographerImage.alt = `Photo de profil de ${photographer.name}`;
 
 	const photographerName = document.createElement("h2");
 	photographerName.classList.add("photographer-card__name");
@@ -37,22 +34,20 @@ function createPhotographerCard(photographer: PhotographerType) {
 
 	// Link with querry parameters
 	const photographerLink = document.createElement("a");
+	photographerLink.ariaLabel = `Lien vers la page de ${photographer.name}`;
 	photographerLink.classList.add("photographer-card__link");
-	photographerLink.setAttribute(
-		"href",
-		`./src/pages/photographer.html?id=${photographer.id}`
-	);
+	photographerLink.href = `./src/pages/photographer.html?id=${photographer.id}`;
 	photographerLink.append(photographerImage, photographerName);
 
 	const photographerLocation = document.createElement("h3");
 	photographerLocation.classList.add("photographer-card__location");
 	photographerLocation.innerText = `${photographer.city}, ${photographer.country}`;
 
-	const photographerTagline = document.createElement("p");
+	const photographerTagline = document.createElement("span");
 	photographerTagline.classList.add("photographer-card__tagline");
 	photographerTagline.innerText = photographer.tagline;
 
-	const photographerPrice = document.createElement("p");
+	const photographerPrice = document.createElement("span");
 	photographerPrice.classList.add("photographer-card__price");
 	photographerPrice.innerText = `${photographer.price}€/jour`;
 

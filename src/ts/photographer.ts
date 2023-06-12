@@ -103,6 +103,7 @@ function displayImage(image: MediaType) {
 	const pathToResizedImage = pathToImage.slice(0, -5) + "_resized.webp";
 	const imageButtonContainer = document.createElement("button");
 	imageButtonContainer.classList.add("photographer-media__image-button-container");
+	imageButtonContainer.ariaLabel = `Clickez pour ouvrir "${image.title}" en grand`;
 	const imageElement = document.createElement("img");
 
 	imageElement.src = pathToResizedImage;
@@ -121,11 +122,11 @@ function displayVideo(video: MediaType) {
 	const thumbnailPath = videoPath.slice(0, -4) + "_thumbnail.png";
 	const videoButtonContainer = document.createElement("button");
 	videoButtonContainer.classList.add("photographer-media__video-button-container");
+	videoButtonContainer.ariaLabel = `Clickez pour ouvrir "${video.title}" en grand`;
 	const videoElement = document.createElement("video");
 	const videoSource = document.createElement("source");
 	videoElement.classList.add("photographer-media__video");
 	videoElement.poster = thumbnailPath;
-	videoElement.setAttribute("controls", "");
 	videoSource.src = videoPath;
 
 	videoElement.appendChild(videoSource);
@@ -145,9 +146,9 @@ function addMediaLegend(media: MediaType) {
 	name.innerText = media.title;
 	like.classList.add("photographer-media__legend-likes");
 	if (media.isLiked) {
-		like.innerHTML = `${media.likes} <i class="fa-solid fa-heart"></i>`;
+		like.innerHTML = `${media.likes} <i class="fa-solid fa-heart" aria-label="likes" ></i>`;
 	} else {
-		like.innerHTML = `${media.likes} <i class="fa-regular fa-heart"></i>`;
+		like.innerHTML = `${media.likes} <i class="fa-regular fa-heart" aria-label="likes" ></i>`;
 	}
 
 	legend.append(name, like);
@@ -167,7 +168,7 @@ function displayPhotographerInfoBar(mediaList: Array<MediaType>, price: number) 
 		totalLikes += media.likes;
 	});
 
-	infoBarLikes.innerHTML = `${totalLikes} <i class = "fa-solid fa-heart"></i>`;
+	infoBarLikes.innerHTML = `${totalLikes} <i class = "fa-solid fa-heart" aria-label="likes" ></i>`;
 	infoBarPrice.innerText = `${price}€/ jour`;
 }
 
@@ -178,7 +179,7 @@ function updatePhotographerInfoBar(mediaList: Array<MediaType>) {
 	mediaList.forEach((media) => {
 		totalLikes += media.likes;
 	});
-	infoBarLikes.innerHTML = `${totalLikes} <i class = "fa-solid fa-heart"></i>`;
+	infoBarLikes.innerHTML = `${totalLikes} <i class = "fa-solid fa-heart" aria-label="likes"></i>`;
 }
 
 // * Setup the modal when clicking on the images
@@ -280,15 +281,16 @@ function setupMediaModal(mediaList: Array<MediaType>) {
 			case "image":
 				imageInModal.style.display = "block";
 				videoInModal.style.display = "none";
-				imageInModal.src = `${mediaRootPath}/${mediaFile}`;
 				mediaName = mediaList.find((media) => media.image === mediaFile)?.title!;
+				imageInModal.src = `${mediaRootPath}/${mediaFile}`;
+				imageInModal.alt = mediaName;
 				break;
 
 			case "video":
 				imageInModal.style.display = "none";
 				videoInModal.style.display = "block";
-				videoSourceInModal.src = `${mediaRootPath}/${mediaFile}`;
 				mediaName = mediaList.find((media) => media.video === mediaFile)?.title!;
+				videoSourceInModal.src = `${mediaRootPath}/${mediaFile}`;
 				break;
 		}
 		mediaModalLegend.innerText = mediaName;
@@ -397,11 +399,11 @@ function likeEventHandler(mediaList: Array<MediaType>) {
 				if (!mediaList[index].isLiked) {
 					mediaList[index].likes += 1;
 					mediaList[index].isLiked = true;
-					mediaLike.innerHTML = `${mediaList[index].likes} <i class="fa-solid fa-heart"></i>`;
+					mediaLike.innerHTML = `${mediaList[index].likes} <i class="fa-solid fa-heart" aria-label="likes" ></i>`;
 				} else {
 					mediaList[index].likes -= 1;
 					mediaList[index].isLiked = false;
-					mediaLike.innerHTML = `${mediaList[index].likes} <i class="fa-regular fa-heart"></i>`;
+					mediaLike.innerHTML = `${mediaList[index].likes} <i class="fa-regular fa-heart" aria-label="likes" ></i>`;
 				}
 				updatePhotographerInfoBar(mediaList);
 			}
@@ -410,9 +412,3 @@ function likeEventHandler(mediaList: Array<MediaType>) {
 }
 
 photographerPageInitialization();
-
-// * Header Logo redirect to homepage
-const headerLogo = document.querySelector(".header__redirect") as HTMLElement;
-headerLogo.addEventListener("click", () => {
-	window.location.href = "/Fisheye/";
-});

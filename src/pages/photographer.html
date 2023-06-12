@@ -11,33 +11,27 @@
 			tout en facilitant les contacts pour des événements ou des tirages. En tant que l'un des 
 			plus grands sites de photographie en freelance, notre vaste réseau de photographes est à 
 			votre disposition." />
-		<meta
-			name="keywords"
-			content="photographie, Fisheye, freelance, évènements, photos" />
+		<meta name="keywords" content="photographie, Fisheye, freelance, évènements, photos" />
 		<meta name="author" content="Fisheye" />
 		<link href="../scss/style.scss" rel="stylesheet" />
 		<link href="../../favicon/favicon.png" rel="icon" />
-		<script
-			src="https://kit.fontawesome.com/c49140e037.js"
-			crossorigin="anonymous" async ></script>
-		<link
-			href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap"
-			rel="stylesheet" async />
+		<script src="https://kit.fontawesome.com/c49140e037.js" crossorigin="anonymous" async></script>
+		<link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet" async />
 		<title>Fisheye - Photographer</title>
 	</head>
 
 	<body>
 		<header class="header">
-			<button class="header__redirect"><img class="header__logo" src="/images/fisheye-logo.png" alt="Logo de Fisheye"/></button>
+			<a class="header__redirect" tabindex="0" href="/Fisheye/"
+				><img class="header__logo" src="/images/fisheye-logo.png" alt="Lien vers la page d'accueil Fisheye"
+			/></a>
 		</header>
 
 		<main class="photographer">
 			<section class="photographer-presentation">
 				<div class="photographer-presentation__info">
 					<h1 class="photographer-presentation__name">Name</h1>
-					<p class="photographer-presentation__location">
-						City, Country
-					</p>
+					<p class="photographer-presentation__location">City, Country</p>
 					<p class="photographer-presentation__tagline">Tagline</p>
 				</div>
 				<button
@@ -50,28 +44,11 @@
 
 			<section class="photographer-media">
 				<div class="photographer-media__order">
-					<span class="photographer-media__order-name"
-						>Trier par</span
-					>
-					<select
-						class="photographer-media__order-select"
-						name="order"
-						id="order-media-button">
-						<option
-							class="photographer-media__order-option"
-							value="popular">
-							Popularité
-						</option>
-						<option
-							class="photographer-media__order-option"
-							value="date">
-							Date
-						</option>
-						<option
-							class="photographer-media__order-option"
-							value="name">
-							Titre
-						</option>
+					<label class="photographer-media__order-name" for="order-media-button">Trier par</label>
+					<select class="photographer-media__order-select" name="order" id="order-media-button">
+						<option class="photographer-media__order-option" value="popular">Popularité</option>
+						<option class="photographer-media__order-option" value="date">Date</option>
+						<option class="photographer-media__order-option" value="name">Titre</option>
 					</select>
 				</div>
 				<div class="photographer-media__container"></div>
@@ -83,73 +60,77 @@
 			</div>
 		</main>
 
-		<dialog id="contactModal">
-			<form class="contact-modal">
-				<h2 class="contact-modal__title">Contactez-moi</h2>
-				<i
-					class="fa-solid fa-x contact-modal__close-icon"
-					onclick="contactModal.close()"></i>
+		<dialog id="contactModal" aria-labelledby="contact-modal__title">
+			<form class="contact-modal" method="POST">
+				<h2 class="contact-modal__title" id="contact-modal__title">Contactez-moi</h2>
+				<button
+					class="contact-modal__close-icon fa-solid fa-x"
+					onclick="contactModal.close()"
+					type="button"
+					aria-label="Fermer le formulaire de contact"></button>
 				<div class="contact-modal__text-input-container">
-					<label for="firstname" class="contact-modal__text-label"
-						>Prénom</label
-					>
+					<label for="firstname" class="contact-modal__text-label">Prénom</label>
 					<input
 						type="text"
 						class="contact-modal__text-input"
 						placeholder="Prénom"
 						name="firstname"
-						id="firstname" />
+						id="firstname"
+						required />
+					<span id="firstname-incorrect-input">Veuillez saisir un prénom</span>
 				</div>
 				<div class="contact-modal__text-input-container">
-					<label for="lastname" class="contact-modal__text-label"
-						>Nom</label
-					>
+					<label for="lastname" class="contact-modal__text-label">Nom</label>
 					<input
 						type="text"
 						class="contact-modal__text-input"
 						placeholder="Nom"
 						name="lastname"
-						id="lastname" />
+						id="lastname"
+						required />
+					<span id="lastname-incorrect-input">Veuillez saisir un nom</span>
 				</div>
 				<div class="contact-modal__text-input-container">
-					<label for="email" class="contact-modal__text-label"
-						>Email</label
-					>
+					<label for="email" class="contact-modal__text-label">Email</label>
 					<input
 						type="text"
 						class="contact-modal__text-input"
 						placeholder="Email"
 						name="email"
-						id="email" />
+						id="email"
+						required />
+					<span id="email-incorrect-input">Veuillez saisir une email</span>
 				</div>
 				<div class="contact-modal__text-input-container">
-					<label for="message" class="contact-modal__text-label"
-						>Votre message</label
-					>
+					<label for="message" class="contact-modal__text-label">Votre message</label>
 					<textarea
 						class="contact-modal__text-input"
 						placeholder="Votre message"
+						name="message"
 						id="message"
-						rows="4"></textarea>
+						rows="4"
+						required></textarea>
+					<span id="message-incorrect-input">Veuillez saisir un message</span>
 				</div>
-				<button class="primary-button contact-modal__button" type="button">
-					Envoyer
-				</button>
+				<button class="primary-button contact-modal__button" type="button">Envoyer</button>
 			</form>
 		</dialog>
 
-		<dialog id="mediaModal">
+		<dialog id="mediaModal" aria-label="Modale media en grand écran">
 			<div class="media-modal">
 				<img class="media-modal__image" src="#" />
-				<video class="media-modal__video" controls>
-				</video>
-				<i class="fa-solid fa-xmark media-modal__close-icon" onclick="mediaModal.close()"></i>
-				<i class="fa-solid fa-angle-left media-modal__previous-icon"></i>
-				<i class="fa-solid fa-angle-right media-modal__next-icon"></i>
-				<span class="media-modal__legend">Legend here</span>
+				<video class="media-modal__video" controls></video>
+				<button
+					class="fa-solid fa-xmark media-modal__close-icon"
+					onclick="mediaModal.close()"
+					aria-label="Fermer la modale"></button>
+				<button class="fa-solid fa-angle-left media-modal__previous-icon" aria-label="Média précédent"></button>
+				<button class="fa-solid fa-angle-right media-modal__next-icon" aria-label="Média suivant"></button>
+				<span class="media-modal__legend"></span>
 			</div>
 		</dialog>
 
 		<script src="../ts/photographer.ts" type="module"></script>
+		<script src="../ts/contactFormSubmit.ts" type="module"></script>
 	</body>
 </html>
