@@ -47,21 +47,25 @@
 		cursor: pointer;
 	}
 
-	// ? Media container
+	// container with all the media
 	&__container {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
 		gap: 2rem;
 	}
 
+	// container for each individual media
 	&__media-container {
 		@include m.flexbox(column, 0.5rem, nowrap, normal, center);
+
+		width: min(20rem, 100%);
+		margin-inline: auto
 	}
 
 	&__legend {
 		@include m.flexbox(row, 1rem, wrap, space-between, normal);
 
-		width: 20rem;
+		width: 100%;
 		margin-inline: auto;
 	}
 
@@ -74,19 +78,16 @@
 		cursor: pointer;
 		transition: all 0.2s ease-in-out;
 
-		&:hover, &:focus {
+		&:hover,
+		&:focus {
 			opacity: 0.7;
 		}
 	}
 
 	&__image,
 	&__video {
-		width: 20rem;
-		height: 20rem;
 		margin-inline: auto;
 		border-radius: 0.5rem;
-
-		pointer-events: none;
 	}
 
 	&__legend-likes {
@@ -95,15 +96,12 @@
 
 		user-select: none;
 		cursor: pointer;
-		i {
-			pointer-events: none;
-		}
 	}
 }
 
 // * Info bar about photographers' price and likes
 .photographer-info-bar {
-	@include m.flexbox(row, 3rem, wrap);
+	@include m.flexbox(row, 2rem, wrap, space-between);
 	position: fixed;
 	inset: auto 3rem 0 auto;
 
@@ -113,10 +111,10 @@
 	background-color: var(--accent-color);
 }
 
-// ? Responsive / Media Querries
+// Responsive / Media Querries
 @media screen and (width < 750px) {
 	.photographer {
-		padding: 2rem;
+		padding-inline: 1rem;
 	}
 
 	.photographer-presentation {
@@ -128,13 +126,12 @@
 
 	.photographer-media {
 		&__container {
-			grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+			grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
 			gap: 2.5rem;
 		}
+	}
 
-		&__image {
-			width: 15rem;
-			height: 15rem;
-		}
+	.photographer-info-bar {
+		inset: auto 0 0 0;
 	}
 }

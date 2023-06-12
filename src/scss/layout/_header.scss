@@ -23,9 +23,15 @@
 	}
 }
 
-// ? Responsive / Media Querries
+// Responsive / Media Querries
 @media screen and (width < 750px) {
 	.header {
-		padding-inline: 3rem;
+		justify-content: center;
+
+		padding-inline: 1rem;
+
+		&__title {
+			text-align: center;
+		}
 	}
 }

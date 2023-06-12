@@ -89,3 +89,15 @@
 #message-incorrect-input {
 	font-weight: 600;
 }
+
+@media screen and (width < 750px) {
+	.contact-modal__title,
+	.photographer-presentation__name {
+		font-size: 2rem;
+	}
+	.contact-modal__text-label,
+	.contact-modal__text-input,
+	.contact-modal__close-icon {
+		font-size: 1.5rem;
+	}
+}
