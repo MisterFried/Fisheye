@@ -14,9 +14,35 @@
 		&__link {
 			@include m.flexbox(column, 0, nowrap, start, center);
 
-			&:hover > .photographer-card__image, &:focus > .photographer-card__image {
+			margin-bottom: 0.5rem;
+
+			&:hover > .photographer-card__image,
+			&:focus > .photographer-card__image {
 				filter: brightness(1.1);
-				transform: scale(1.05);
+			}
+
+			&:hover > .photographer-card__name::before,
+			&:focus > .photographer-card__name::before {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		&__name {
+			position: relative;
+
+			&::before {
+				position: absolute;
+				inset: auto 0 0 0;
+				content: "";
+
+				height: 2px;
+
+				background-color: var(--secondary-color);
+
+				opacity: 0;
+				transform: translateY(-0.5rem);
+				transition: all 0.2s ease-in-out;
 			}
 		}
 
@@ -32,7 +58,7 @@
 	}
 }
 
-// ? Responsive / Media Querries
+// Responsive
 @media screen and (width < 750px) {
 	.photographers_section {
 		grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));

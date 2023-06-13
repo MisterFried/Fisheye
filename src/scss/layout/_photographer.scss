@@ -31,11 +31,11 @@
 
 // * Section with all photographers' media
 .photographer-media {
-	@include m.flexbox(column, 1rem);
+	@include m.flexbox(column, 2rem);
 
 	// Ordering button
 	&__order {
-		@include m.flexbox(row, 1.5rem, wrap);
+		@include m.flexbox(row, 1.5rem, wrap, normal, center);
 	}
 
 	&__order-select {
@@ -56,16 +56,9 @@
 
 	// container for each individual media
 	&__media-container {
-		@include m.flexbox(column, 0.5rem, nowrap, normal, center);
+		@include m.flexbox(column, 0.5rem, nowrap, center, center);
 
 		width: min(20rem, 100%);
-		margin-inline: auto
-	}
-
-	&__legend {
-		@include m.flexbox(row, 1rem, wrap, space-between, normal);
-
-		width: 100%;
 		margin-inline: auto;
 	}
 
@@ -90,12 +83,36 @@
 		border-radius: 0.5rem;
 	}
 
+	&__legend {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		gap: 1rem;
+
+		width: 100%;
+		margin-inline: auto;
+	}
+
+	&__legend-name-container {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
 	&__legend-likes {
 		border: none;
 		background-color: transparent;
 
 		user-select: none;
 		cursor: pointer;
+
+		&:hover > i, &:focus > i {
+			transform:scale(1.2);
+		}
+
+		& > i {
+			pointer-events: none;
+			transition: all 0.2s ease-in-out
+		}
 	}
 }
 

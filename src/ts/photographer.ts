@@ -138,10 +138,14 @@ function displayVideo(video: MediaType) {
 // * Create the legend for media (Image | Video)
 function addMediaLegend(media: MediaType) {
 	const legend = document.createElement("div");
+	const nameContainer = document.createElement("div");
 	const name = document.createElement("span");
 	const like = document.createElement("button");
 
 	legend.classList.add("photographer-media__legend");
+	legend.append(nameContainer, like);
+	nameContainer.classList.add("photographer-media__legend-name-container");
+	nameContainer.appendChild(name);
 	name.classList.add("photographer-media__legend-name");
 	name.innerText = media.title;
 	like.classList.add("photographer-media__legend-likes");
@@ -151,7 +155,6 @@ function addMediaLegend(media: MediaType) {
 		like.innerHTML = `${media.likes} <i class="fa-regular fa-heart" aria-label="likes" ></i>`;
 	}
 
-	legend.append(name, like);
 
 	return legend;
 }
@@ -184,7 +187,7 @@ function updatePhotographerInfoBar(mediaList: Array<MediaType>) {
 
 // * Setup the modal when clicking on the images
 function setupMediaModal(mediaList: Array<MediaType>) {
-	const photographerMediaDOM: Array<HTMLImageElement> = Array.from(
+	const photographerMediaDOM: Array<HTMLButtonElement> = Array.from(
 		document.querySelectorAll(
 			".photographer-media__image-button-container, .photographer-media__video-button-container"
 		)
@@ -209,7 +212,7 @@ function setupMediaModal(mediaList: Array<MediaType>) {
 	photographerMediaDOM.forEach((media) => {
 		media.addEventListener("click", (event) => {
 			mediaModal.showModal();
-			const eventTarget = event.target as HTMLButtonElement;
+			const eventTarget = event.currentTarget as HTMLButtonElement;
 			const mediaEventTarget = eventTarget.firstElementChild as HTMLImageElement | HTMLVideoElement;
 
 			if (mediaEventTarget instanceof HTMLImageElement) {
