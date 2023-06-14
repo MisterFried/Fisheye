@@ -92,12 +92,17 @@
 
 @media screen and (width < 750px) {
 	.contact-modal__title,
-	.photographer-presentation__name {
+	.photographer-presentation__name,
+	.photographer-card__name {
 		font-size: 2rem;
 	}
 	.contact-modal__text-label,
 	.contact-modal__text-input,
 	.contact-modal__close-icon {
 		font-size: 1.5rem;
+	}
+
+	.primary-button {
+		font-size: 1rem;
 	}
 }

@@ -4,26 +4,35 @@
 #mediaModal {
 	margin: 2rem auto;
 	border: none;
+	border-radius: 0.5rem;
+
+	@include m.standardBoxShadow();
+
+	&::backdrop {
+		background-color: rgba(50, 50, 50, 0.4);
+	}
 }
 
 .media-modal {
-	@include m.flexbox(column, 0.5rem, nowrap, center, center);
+	@include m.flexbox(column, 1rem, nowrap, center, center);
 	position: relative;
 
 	width: 80vw;
-	height: 90vh;
-	padding: 0.5rem;
+	max-height: 90vh;
+	padding: 0.5rem 0.5rem 1rem;
 
 	&__image, &__video {
 		display: none;
 
 		min-height: 0;
 		max-width: 100%;
+		border-radius: 0.5rem;
+
+		@include m.standardBoxShadow();
 	}
 
 	&__video {
-		width: 500px;
-		height: 500px;
+		width: 100%;
 	}
 
 	&__close-icon,
@@ -32,14 +41,15 @@
 		position: absolute;
 
 		border: none;
-
-		background-color: transparent;
+		background-color: rgba(255, 255, 255, 0.9);
+		padding: 0 0.4rem;
+		border-radius: 0.25rem;
+		backdrop-filter: blur(10px);
 
 		cursor: pointer;
 		transition: all 0.2s ease-in-out;
 
 		&:hover, &:focus {
-			opacity: 0.7;
 			transform: scale(1.2);
 		}
 	}
@@ -49,10 +59,10 @@
 	}
 
 	&__previous-icon {
-		inset: 50% auto 50% 1rem;
+		inset: 50% auto auto 1rem;
 	}
 
 	&__next-icon {
-		inset: 50% 1rem 50% auto;
+		inset: 50% 1rem auto auto;
 	}
 }

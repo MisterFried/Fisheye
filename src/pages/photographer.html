@@ -120,12 +120,15 @@
 			<div class="media-modal">
 				<img class="media-modal__image" src="#" />
 				<video class="media-modal__video" controls></video>
-				<button
-					class="fa-solid fa-xmark media-modal__close-icon"
-					onclick="mediaModal.close()"
-					aria-label="Fermer la modale"></button>
-				<button class="fa-solid fa-angle-left media-modal__previous-icon" aria-label="Média précédent"></button>
-				<button class="fa-solid fa-angle-right media-modal__next-icon" aria-label="Média suivant"></button>
+				<button class="media-modal__close-icon" onclick="mediaModal.close()" aria-label="Fermer la modale">
+					<i class="fa-solid fa-xmark"></i>
+				</button>
+				<button class="media-modal__previous-icon" aria-label="Média précédent">
+					<i class="fa-solid fa-angle-left"></i>
+				</button>
+				<button class="media-modal__next-icon" aria-label="Média suivant">
+					<i class="fa-solid fa-angle-right"></i>
+				</button>
 				<span class="media-modal__legend"></span>
 			</div>
 		</dialog>

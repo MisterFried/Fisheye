@@ -138,14 +138,11 @@ function displayVideo(video: MediaType) {
 // * Create the legend for media (Image | Video)
 function addMediaLegend(media: MediaType) {
 	const legend = document.createElement("div");
-	const nameContainer = document.createElement("div");
 	const name = document.createElement("span");
 	const like = document.createElement("button");
 
 	legend.classList.add("photographer-media__legend");
-	legend.append(nameContainer, like);
-	nameContainer.classList.add("photographer-media__legend-name-container");
-	nameContainer.appendChild(name);
+	legend.append(name, like);
 	name.classList.add("photographer-media__legend-name");
 	name.innerText = media.title;
 	like.classList.add("photographer-media__legend-likes");

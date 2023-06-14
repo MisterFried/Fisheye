@@ -39,12 +39,19 @@
 	}
 
 	&__order-select {
-		padding: 1.25rem;
+		padding: 1rem 0.75rem;
+		border: none;
 		border-radius: 0.5rem;
 
 		background-color: var(--primary-color);
 
 		cursor: pointer;
+		transition: all 0.2s ease-in-out;
+
+		&:hover,
+		&:focus {
+			filter: brightness(1.2);
+		}
 	}
 
 	// container with all the media
@@ -81,6 +88,8 @@
 	&__video {
 		margin-inline: auto;
 		border-radius: 0.5rem;
+
+		@include m.standardBoxShadow();	
 	}
 
 	&__legend {
@@ -92,7 +101,7 @@
 		margin-inline: auto;
 	}
 
-	&__legend-name-container {
+	&__legend-name {
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
@@ -105,13 +114,14 @@
 		user-select: none;
 		cursor: pointer;
 
-		&:hover > i, &:focus > i {
-			transform:scale(1.2);
+		&:hover > i,
+		&:focus > i {
+			transform: scale(1.2);
 		}
 
 		& > i {
 			pointer-events: none;
-			transition: all 0.2s ease-in-out
+			transition: all 0.2s ease-in-out;
 		}
 	}
 }
@@ -139,6 +149,11 @@
 		gap: 2rem;
 
 		padding: 1rem;
+
+		&__image {
+			height: 9rem;
+			width: 9rem;
+		}
 	}
 
 	.photographer-media {
