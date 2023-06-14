@@ -5,9 +5,7 @@ async function HomepageInitialization() {
 	const data = await fetchPhotographersData();
 
 	if (data) {
-		const photographerSectionDOM = document.querySelector(
-			".photographers_section"
-		) as HTMLElement;
+		const photographerSectionDOM = document.querySelector(".photographers_section") as HTMLElement;
 		const photographersData = data.photographers;
 		photographersData.forEach((photographer) => {
 			const photographerCard = createPhotographerCard(photographer);
@@ -18,7 +16,7 @@ async function HomepageInitialization() {
 	}
 }
 
-// * Create an "article" HTMLElement with all infos about the photographer
+// * Create an "article" with all infos about the photographer
 function createPhotographerCard(photographer: PhotographerType) {
 	const photographerCard = document.createElement("article");
 	photographerCard.classList.add("photographer-card");
@@ -51,12 +49,7 @@ function createPhotographerCard(photographer: PhotographerType) {
 	photographerPrice.classList.add("photographer-card__price");
 	photographerPrice.innerText = `${photographer.price}€/jour`;
 
-	photographerCard.append(
-		photographerLink,
-		photographerLocation,
-		photographerTagline,
-		photographerPrice
-	);
+	photographerCard.append(photographerLink, photographerLocation, photographerTagline, photographerPrice);
 
 	return photographerCard;
 }

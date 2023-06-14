@@ -15,7 +15,7 @@ export interface PhotographerType {
 	portrait: string;
 }
 
-// Photographer's media type interface
+// Photographers media type interface
 export interface MediaType {
 	id: number;
 	photographerId: number;
@@ -28,7 +28,7 @@ export interface MediaType {
 	isLiked?: boolean
 }
 
-// Fetch the photographers.json file
+// * Fetch the photographers.json file
 export async function fetchPhotographersData() {
 	try {
 		const response = await fetch("/Fisheye/data/photographers.json");

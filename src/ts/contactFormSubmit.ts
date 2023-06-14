@@ -1,9 +1,9 @@
 // Type interface for the user message object
 interface UserMessage {
-	firstname: string;
-	lastname: string;
-	email: string;
-	message: string;
+	firstname?: string;
+	lastname?: string;
+	email?: string;
+	message?: string;
 }
 
 // Regex for firstname/lastname and email verification
@@ -13,15 +13,11 @@ const emailRegex = /^[a-z,A-Z,0-9]+([\-,.,_]?[a-z,A-Z,0-9]+)*@{1}[a-z,A-Z]{2,}\.
 // * Form submit handler
 const submitFormButton = document.querySelector(".contact-modal__button") as HTMLButtonElement;
 const contactModal = document.querySelector("#contactModal") as HTMLDialogElement;
+
 submitFormButton.addEventListener("click", () => {
 	const input: Array<HTMLInputElement> = Array.from(document.querySelectorAll(".contact-modal__text-input"));
 	let userMessageState = true;
-	let userMessage: UserMessage = {
-		firstname: "",
-		lastname: "",
-		email: "",
-		message: "",
-	};
+	let userMessage: UserMessage = {};
 
 	// Check each input
 	input.forEach((element) => {
@@ -30,27 +26,15 @@ submitFormButton.addEventListener("click", () => {
 		switch (element.name) {
 			case "firstname":
 			case "lastname":
-				if (nameRegex.test(element.value) === false) {
-					invalidateInput(message);
-				} else {
-					validateInput(element, message);
-				}
+				nameRegex.test(element.value) ? validateInput(element, message) : invalidateInput(message);
 				break;
 
 			case "email":
-				if (emailRegex.test(element.value) === false) {
-					invalidateInput(message);
-				} else {
-					validateInput(element, message);
-				}
+				emailRegex.test(element.value) ? validateInput(element, message) : invalidateInput(message);
 				break;
 
 			case "message":
-				if (element.value === "") {
-					invalidateInput(message);
-				} else {
-					validateInput(element, message);
-				}
+				element.value !== "" ? validateInput(element, message) : invalidateInput(message);
 				break;
 		}
 	});
@@ -59,6 +43,7 @@ submitFormButton.addEventListener("click", () => {
 	if (userMessageState) {
 		console.log(userMessage);
 		contactModal.close();
+		//Reset input fields
 		input.forEach((element) => {
 			element.value = "";
 		});

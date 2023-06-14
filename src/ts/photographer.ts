@@ -8,18 +8,17 @@ async function photographerPageInitialization() {
 		const data = await fetchPhotographersData();
 
 		if (data) {
-			const photographersInfo = data.photographers;
-			const mediasInfo = data.media;
+			const { photographers: photographersInfo, media: mediasInfo } = data;
 
 			const photographerInfo = photographersInfo.find((photographer) => photographer.id === photographerID);
 			let mediaList = mediasInfo.filter((media) => media.photographerId === photographerID);
 
-			if (photographerInfo! && mediaList.length !== 0) {
+			if (photographerInfo && mediaList) {
 				const orderedMediaList = orderMedia(mediaList, "popular");
 
 				displayPhotographerInfo(photographerInfo);
 				displayPhotographerInfoBar(orderedMediaList, photographerInfo.price);
-				displayPhotographerMedia(orderedMediaList); // + image modal setup
+				displayPhotographerMedia(orderedMediaList);
 
 				// * Event listener to reordering media
 				const orderButton = document.querySelector(".photographer-media__order-select") as HTMLSelectElement;
@@ -43,71 +42,67 @@ function getPhotographerID() {
 	const ID = URLParameters.get("id");
 
 	if (ID) {
-		// String to number conversion
 		return Number(ID);
 	}
 }
 
 // * Display informations about the photographer
 function displayPhotographerInfo(photographer: PhotographerType) {
-	const photographerName = document.querySelector(".photographer-presentation__name") as HTMLElement;
-	const photographerLocation = document.querySelector(".photographer-presentation__location") as HTMLElement;
-	const photographerTagline = document.querySelector(".photographer-presentation__tagline") as HTMLElement;
-	const photographerImage = document.querySelector(".photographer-presentation__image") as HTMLElement;
-	const ContactFormHeader = document.querySelector(".contact-modal__title") as HTMLElement;
+	const photographerName = document.querySelector(".photographer-presentation__name") as HTMLHeadingElement;
+	const photographerLocation = document.querySelector(".photographer-presentation__location") as HTMLSpanElement;
+	const photographerTagline = document.querySelector(".photographer-presentation__tagline") as HTMLParagraphElement;
+	const photographerImage = document.querySelector(".photographer-presentation__image") as HTMLImageElement;
+	const ContactFormHeader = document.querySelector(".contact-modal__title") as HTMLHeadingElement;
 
 	photographerName.innerText = photographer.name;
 	photographerLocation.innerText = `${photographer.city}, ${photographer.country}`;
 	photographerTagline.innerText = photographer.tagline;
-	photographerImage.setAttribute("src", `/Fisheye/images/photographers-profile-picture/${photographer.portrait}`);
-	photographerImage.setAttribute("alt", `Photo de profil de ${photographer.name}`);
+	photographerImage.src = `/Fisheye/images/photographers-profile-picture/${photographer.portrait}`;
+	photographerImage.alt = `Photo de profil de ${photographer.name}`;
 	ContactFormHeader.innerText = `Contactez-moi ${photographer.name}`;
 }
 
 // * Factory design pattern (?) to display medias
 function displayPhotographerMedia(mediaList: Array<MediaType>) {
-	const mediaSection = document.querySelector(".photographer-media__container") as HTMLElement;
+	const mediaSection = document.querySelector(".photographer-media__container") as HTMLDivElement;
 
 	mediaList.forEach((media) => {
 		const mediaContainer = document.createElement("div");
 		mediaContainer.classList.add("photographer-media__media-container");
 		let mediaElement: HTMLButtonElement;
 
-		// If the media is an image
 		if (media.image) {
 			mediaElement = displayImage(media);
 			mediaContainer.appendChild(mediaElement);
-		} // If the media is a video
+		}
 		if (media.video) {
 			mediaElement = displayVideo(media);
 			mediaContainer.appendChild(mediaElement);
-		} // Default / Error
+		}
 		if (!media.image && !media.video) {
 			console.log(`Couldn't find the filename for : ${media.title}`);
 		}
 
 		const mediaLegend = addMediaLegend(media);
 		mediaContainer.appendChild(mediaLegend);
-
 		mediaSection.appendChild(mediaContainer);
 	});
 	setupMediaModal(mediaList);
 	likeEventHandler(mediaList);
 }
 
-// * Display an image
-// * Only a resized version of the image is displayed on the
-// * photographers' page (less ressources)
+// * Display an image (resized version)
 function displayImage(image: MediaType) {
 	const pathToImage = `/Fisheye/images/photographers-media/${image.photographerId}/${image.image}`;
 	const pathToResizedImage = pathToImage.slice(0, -5) + "_resized.webp";
+
 	const imageButtonContainer = document.createElement("button");
 	imageButtonContainer.classList.add("photographer-media__image-button-container");
 	imageButtonContainer.ariaLabel = `Clickez pour ouvrir "${image.title}" en grand`;
-	const imageElement = document.createElement("img");
 
-	imageElement.src = pathToResizedImage;
+	const imageElement = document.createElement("img");
 	imageElement.classList.add("photographer-media__image");
+	imageElement.src = pathToResizedImage;
 	imageElement.alt = `Photo : ${image.title}`;
 	imageElement.decoding = "async";
 
@@ -120,13 +115,15 @@ function displayImage(image: MediaType) {
 function displayVideo(video: MediaType) {
 	const videoPath = `/Fisheye/images/photographers-media/${video.photographerId}/${video.video}`;
 	const thumbnailPath = videoPath.slice(0, -4) + "_thumbnail.png";
+
 	const videoButtonContainer = document.createElement("button");
 	videoButtonContainer.classList.add("photographer-media__video-button-container");
 	videoButtonContainer.ariaLabel = `Clickez pour ouvrir "${video.title}" en grand`;
+
 	const videoElement = document.createElement("video");
-	const videoSource = document.createElement("source");
 	videoElement.classList.add("photographer-media__video");
 	videoElement.poster = thumbnailPath;
+	const videoSource = document.createElement("source");
 	videoSource.src = videoPath;
 
 	videoElement.appendChild(videoSource);
@@ -135,47 +132,38 @@ function displayVideo(video: MediaType) {
 	return videoButtonContainer;
 }
 
-// * Create the legend for media (Image | Video)
+// * Create the legend for media
 function addMediaLegend(media: MediaType) {
 	const legend = document.createElement("div");
-	const name = document.createElement("span");
-	const like = document.createElement("button");
-
 	legend.classList.add("photographer-media__legend");
-	legend.append(name, like);
+
+	const name = document.createElement("span");
 	name.classList.add("photographer-media__legend-name");
 	name.innerText = media.title;
-	like.classList.add("photographer-media__legend-likes");
-	if (media.isLiked) {
-		like.innerHTML = `${media.likes} <i class="fa-solid fa-heart" aria-label="likes" ></i>`;
-	} else {
-		like.innerHTML = `${media.likes} <i class="fa-regular fa-heart" aria-label="likes" ></i>`;
-	}
 
+	const like = document.createElement("button");
+	like.classList.add("photographer-media__legend-likes");
+	media.isLiked
+		? (like.innerHTML = `${media.likes} <i class="fa-solid fa-heart" aria-label="likes" ></i>`)
+		: (like.innerHTML = `${media.likes} <i class="fa-regular fa-heart" aria-label="likes" ></i>`);
+
+	legend.append(name, like);
 
 	return legend;
 }
 
 // * Display the photographers' infobar with total likes and price
 function displayPhotographerInfoBar(mediaList: Array<MediaType>, price: number) {
-	const infoBarLikes = document.querySelector(".photographer-info-bar__likes") as HTMLSpanElement;
-	let infoBarPrice;
-
-	infoBarPrice = document.querySelector(".photographer-info-bar__price") as HTMLSpanElement;
-
-	let totalLikes: number = 0;
-	mediaList.forEach((media) => {
-		totalLikes += media.likes;
-	});
-
-	infoBarLikes.innerHTML = `${totalLikes} <i class = "fa-solid fa-heart" aria-label="likes" ></i>`;
+	const infoBarPrice = document.querySelector(".photographer-info-bar__price") as HTMLSpanElement;
 	infoBarPrice.innerText = `${price}€/ jour`;
+	updatePhotographerInfoBarLikes(mediaList);
 }
 
 // * Update the number of likes on the photogrpahers' infobar
-function updatePhotographerInfoBar(mediaList: Array<MediaType>) {
+function updatePhotographerInfoBarLikes(mediaList: Array<MediaType>) {
 	const infoBarLikes = document.querySelector(".photographer-info-bar__likes") as HTMLSpanElement;
-	let totalLikes: number = 0;
+
+	let totalLikes = 0;
 	mediaList.forEach((media) => {
 		totalLikes += media.likes;
 	});
@@ -242,10 +230,11 @@ function setupMediaModal(mediaList: Array<MediaType>) {
 
 	function scrollMediaModal(direction: number) {
 		let mediaToDisplayNext = "";
+
+		// Check if the currrent media is an image or a video and get its source
 		if (imageInModal.style.display === "block" && videoInModal.style.display === "none") {
 			mediaFullPathArray = imageInModal.src.split("/");
 		}
-
 		if (imageInModal.style.display === "none" && videoInModal.style.display === "block") {
 			mediaFullPathArray = videoSourceInModal.src.split("/");
 		}
@@ -253,16 +242,19 @@ function setupMediaModal(mediaList: Array<MediaType>) {
 		mediaFile = mediaFullPathArray.pop()!;
 		mediaRootPath = mediaFullPathArray.join("/");
 
+		// Get the index of the current media
 		let currentMediaDisplayedIndex = mediaList.findIndex(
 			(media) => media.image === mediaFile || media.video === mediaFile
 		)!;
 
+		// Infinite scroll
 		if (currentMediaDisplayedIndex + direction <= -1) {
 			currentMediaDisplayedIndex = mediaList.length;
 		} else if (currentMediaDisplayedIndex + direction >= mediaList.length) {
 			currentMediaDisplayedIndex = -1;
 		}
 
+		// Get the next media to display
 		if (mediaList[currentMediaDisplayedIndex + direction].image) {
 			mediaType = "image";
 			mediaToDisplayNext = mediaList[currentMediaDisplayedIndex + direction].image!;
@@ -274,34 +266,39 @@ function setupMediaModal(mediaList: Array<MediaType>) {
 		displayMediaInModal(mediaType, mediaToDisplayNext, mediaRootPath);
 	}
 
-	//TODO FIX VIDEO NOT DISPLAYING CORRECLY INSIDE THE MODAL
+	// ! * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	// TODO FIX VIDEO NOT DISPLAYING CORRECLY INSIDE THE MODAL
+	// ! * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	// Display the media inside the modal
 	function displayMediaInModal(mediaType: string, mediaFile: string, mediaRootPath: string) {
 		let mediaName = "";
 		switch (mediaType) {
 			case "image":
 				imageInModal.style.display = "block";
 				videoInModal.style.display = "none";
-				mediaName = mediaList.find((media) => media.image === mediaFile)?.title!;
+				mediaName = mediaList.find((media) => media.image === mediaFile)!.title;
 				imageInModal.src = `${mediaRootPath}/${mediaFile}`;
-				imageInModal.alt = mediaName;
+				imageInModal.alt = `Photo : ${mediaName}`;
 				break;
 
 			case "video":
 				imageInModal.style.display = "none";
 				videoInModal.style.display = "block";
-				mediaName = mediaList.find((media) => media.video === mediaFile)?.title!;
+				mediaName = mediaList.find((media) => media.video === mediaFile)!.title;
 				videoSourceInModal.src = `${mediaRootPath}/${mediaFile}`;
 				break;
 		}
 		mediaModalLegend.innerText = mediaName;
 	}
 
+	// Reset the media sources when the modal is closed
 	mediaModal.addEventListener("close", () => {
 		imageInModal.src = "#";
 		imageInModal.style.display = "none";
 		videoSourceInModal.src = "#";
 		videoInModal.style.display = "none";
 
+		// Prevent duplicate event listener
 		nextMediaButton.removeEventListener("click", nextMedia);
 		previousMediaButton.removeEventListener("click", previousMedia);
 		document.removeEventListener("keydown", keyboardNavMediaModal);
@@ -311,13 +308,11 @@ function setupMediaModal(mediaList: Array<MediaType>) {
 // * Reorder the list of media
 function orderMedia(mediaList: Array<MediaType>, sortMethod: string) {
 	switch (sortMethod) {
-		// Sort by like number (Desc)
-		case "popular":
+		case "popular": // Sort by like number (Desc)
 			mediaList.sort((a, b) => b.likes - a.likes);
 			break;
 
-		// Sort by date (Desc)
-		case "date":
+		case "date": // Sort by date (Desc)
 			mediaList.sort((a, b) => {
 				const dateA = new Date(a.date);
 				const dateB = new Date(b.date);
@@ -332,8 +327,7 @@ function orderMedia(mediaList: Array<MediaType>, sortMethod: string) {
 			});
 			break;
 
-		//Sort by name (Asc)
-		case "name":
+		case "name": //Sort by name (Asc)
 			mediaList.sort((a, b) => {
 				const nameA = a.title.toUpperCase();
 				const nameB = b.title.toUpperCase();
@@ -358,7 +352,7 @@ function orderMedia(mediaList: Array<MediaType>, sortMethod: string) {
 
 // * Clear all the media
 function clearMedia() {
-	const mediaSection = document.querySelector(".photographer-media__container") as HTMLElement;
+	const mediaSection = document.querySelector(".photographer-media__container") as HTMLDivElement;
 	while (mediaSection.firstChild) {
 		mediaSection.removeChild(mediaSection.firstChild);
 	}
@@ -372,24 +366,24 @@ function likeEventHandler(mediaList: Array<MediaType>) {
 
 	mediasLike.forEach((mediaLike) => {
 		mediaLike.addEventListener("click", (event) => {
-			const target = event.target as HTMLSpanElement;
+			const target = event.currentTarget as HTMLSpanElement;
 
-			// * The DOM element corresponding to the clicked legend (image or video)
-			const mediaElement = target.parentElement!.parentElement!.firstElementChild?.firstElementChild as
+			// DOM element corresponding to the clicked legend (image or video)
+			const mediaElement = target.parentElement!.parentElement!.firstElementChild!.firstElementChild as
 				| HTMLImageElement
 				| HTMLVideoElement;
 
 			if (mediaElement instanceof HTMLImageElement) {
-				const resizedImageName = mediaElement.src.split("/").pop();
-				const clickedImageName = resizedImageName!.slice(0, -13);
+				const resizedImageName = mediaElement.src.split("/").pop()!;
+				const clickedImageName = resizedImageName.slice(0, -13);
 
 				const clickedImageIndex = mediaList.findIndex(
-					(media) => media.image?.slice(0, -5) === clickedImageName
+					(media) => media.image!.slice(0, -5) === clickedImageName
 				);
 				likeUnlikeMedia(clickedImageIndex);
 			} else if (mediaElement instanceof HTMLVideoElement) {
 				const videoSourceElement = mediaElement.firstChild as HTMLSourceElement;
-				const clickedVideoSource = videoSourceElement.src.split("/").pop();
+				const clickedVideoSource = videoSourceElement.src.split("/").pop()!;
 
 				const clickedVideoIndex = mediaList.findIndex((media) => media.video === clickedVideoSource);
 				likeUnlikeMedia(clickedVideoIndex);
@@ -405,7 +399,7 @@ function likeEventHandler(mediaList: Array<MediaType>) {
 					mediaList[index].isLiked = false;
 					mediaLike.innerHTML = `${mediaList[index].likes} <i class="fa-regular fa-heart" aria-label="likes" ></i>`;
 				}
-				updatePhotographerInfoBar(mediaList);
+				updatePhotographerInfoBarLikes(mediaList);
 			}
 		});
 	});
