@@ -18,9 +18,9 @@
 		<script src="https://kit.fontawesome.com/c49140e037.js" crossorigin="anonymous" async></script>
 		<link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet" async />
 		<title>Fisheye - Photographer</title>
-		<script type="module" crossorigin src="/Fisheye/assets/secondary-33595fb5.js"></script>
-		<link rel="modulepreload" crossorigin href="/Fisheye/assets/fetchPhotographersData-78d42b69.js">
-		<link rel="stylesheet" href="/Fisheye/assets/fetchPhotographersData-4fe00e61.css">
+		<script type="module" crossorigin src="/Fisheye/assets/secondary-cdd562f5.js"></script>
+		<link rel="modulepreload" crossorigin href="/Fisheye/assets/fetchPhotographersData-dc11df97.js">
+		<link rel="stylesheet" href="/Fisheye/assets/fetchPhotographersData-1b52a39c.css">
 	</head>
 
 	<body>
@@ -123,12 +123,15 @@
 			<div class="media-modal">
 				<img class="media-modal__image" src="#" />
 				<video class="media-modal__video" controls></video>
-				<button
-					class="fa-solid fa-xmark media-modal__close-icon"
-					onclick="mediaModal.close()"
-					aria-label="Fermer la modale"></button>
-				<button class="fa-solid fa-angle-left media-modal__previous-icon" aria-label="Média précédent"></button>
-				<button class="fa-solid fa-angle-right media-modal__next-icon" aria-label="Média suivant"></button>
+				<button class="media-modal__close-icon" onclick="mediaModal.close()" aria-label="Fermer la modale">
+					<i class="fa-solid fa-xmark"></i>
+				</button>
+				<button class="media-modal__previous-icon" aria-label="Média précédent">
+					<i class="fa-solid fa-angle-left"></i>
+				</button>
+				<button class="media-modal__next-icon" aria-label="Média suivant">
+					<i class="fa-solid fa-angle-right"></i>
+				</button>
 				<span class="media-modal__legend"></span>
 			</div>
 		</dialog>
