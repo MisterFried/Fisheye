@@ -35,6 +35,6 @@ export async function fetchPhotographersData() {
 		const responseJSON: PhotographersData = await response.json();
 		return responseJSON;
 	} catch {
-		console.log(Error);
+		console.error(Error);
 	}
 }

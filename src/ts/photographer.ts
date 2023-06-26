@@ -11,28 +11,30 @@ async function photographerPageInitialization() {
 			const { photographers: photographersInfo, media: mediasInfo } = data;
 
 			const photographerInfo = photographersInfo.find((photographer) => photographer.id === photographerID);
-			let mediaList = mediasInfo.filter((media) => media.photographerId === photographerID);
+			const mediaList = mediasInfo.filter((media) => media.photographerId === photographerID);
 
 			if (photographerInfo && mediaList) {
-				const orderedMediaList = orderMedia(mediaList, "popular");
+				orderMedia(mediaList, "popular");
 
 				displayPhotographerInfo(photographerInfo);
-				displayPhotographerInfoBar(orderedMediaList, photographerInfo.price);
-				displayPhotographerMedia(orderedMediaList);
+				displayPhotographerInfoBar(mediaList, photographerInfo.price);
+				displayPhotographerMedia(mediaList);
 
 				// * Event listener to reordering media
 				const orderButton = document.querySelector(".photographer-media__order-select") as HTMLSelectElement;
 				orderButton.addEventListener("change", () => {
-					const orderedMediaList = orderMedia(mediaList, orderButton.value);
+					orderMedia(mediaList, orderButton.value);
 					clearMedia();
-					displayPhotographerMedia(orderedMediaList);
+					displayPhotographerMedia(mediaList);
 				});
+			} else {
+				console.error(`Error : no photographer with ID : ${photographerID}`);
 			}
 		} else {
-			console.log("Error : couldn't fetch photographers' data");
+			console.error("Error : couldn't fetch photographers' data");
 		}
 	} else {
-		console.log("Error : no photographer ID");
+		console.error("Error : no photographer ID");
 	}
 }
 
@@ -43,6 +45,8 @@ function getPhotographerID() {
 
 	if (ID) {
 		return Number(ID);
+	} else {
+		console.error("Error : No ID parameter");
 	}
 }
 
@@ -64,28 +68,27 @@ function displayPhotographerInfo(photographer: PhotographerType) {
 
 // * Factory design pattern (?) to display medias
 function displayPhotographerMedia(mediaList: Array<MediaType>) {
-	const mediaSection = document.querySelector(".photographer-media__container") as HTMLDivElement;
+	const mediaSection = document.querySelector(".photographer-media__container");
 
 	mediaList.forEach((media) => {
 		const mediaContainer = document.createElement("div");
 		mediaContainer.classList.add("photographer-media__media-container");
-		let mediaElement: HTMLButtonElement;
 
 		if (media.image) {
-			mediaElement = displayImage(media);
+			const mediaElement = displayImage(media);
 			mediaContainer.appendChild(mediaElement);
 		}
 		if (media.video) {
-			mediaElement = displayVideo(media);
+			const mediaElement = displayVideo(media);
 			mediaContainer.appendChild(mediaElement);
 		}
 		if (!media.image && !media.video) {
-			console.log(`Couldn't find the filename for : ${media.title}`);
+			console.error(`Couldn't find the filename for : ${media.title}`);
 		}
 
 		const mediaLegend = addMediaLegend(media);
 		mediaContainer.appendChild(mediaLegend);
-		mediaSection.appendChild(mediaContainer);
+		mediaSection?.appendChild(mediaContainer);
 	});
 	setupMediaModal(mediaList);
 	likeEventHandler(mediaList);
@@ -104,7 +107,7 @@ function displayImage(image: MediaType) {
 	imageElement.classList.add("photographer-media__image");
 	imageElement.src = pathToResizedImage;
 	imageElement.alt = `Photo : ${image.title}`;
-	imageElement.decoding = "async";
+	imageElement.loading = "lazy";
 
 	imageButtonContainer.appendChild(imageElement);
 
@@ -344,10 +347,9 @@ function orderMedia(mediaList: Array<MediaType>, sortMethod: string) {
 			break;
 
 		default:
-			console.log("Unknown sort method");
+			console.error("Unknown sort method");
 			break;
 	}
-	return mediaList;
 }
 
 // * Clear all the media
@@ -378,7 +380,7 @@ function likeEventHandler(mediaList: Array<MediaType>) {
 				const clickedImageName = resizedImageName.slice(0, -13);
 
 				const clickedImageIndex = mediaList.findIndex(
-					(media) => media.image!.slice(0, -5) === clickedImageName
+					(media) => media.image?.slice(0, -5) === clickedImageName
 				);
 				likeUnlikeMedia(clickedImageIndex);
 			} else if (mediaElement instanceof HTMLVideoElement) {

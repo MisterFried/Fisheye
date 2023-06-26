@@ -5,14 +5,14 @@ async function HomepageInitialization() {
 	const data = await fetchPhotographersData();
 
 	if (data) {
-		const photographerSectionDOM = document.querySelector(".photographers_section") as HTMLElement;
-		const photographersData = data.photographers;
-		photographersData.forEach((photographer) => {
+		const photographerSectionDOM = document.querySelector(".photographers_section");
+
+		data.photographers.forEach((photographer) => {
 			const photographerCard = createPhotographerCard(photographer);
-			photographerSectionDOM.appendChild(photographerCard);
+			photographerSectionDOM?.appendChild(photographerCard);
 		});
 	} else {
-		console.log("Error during photographers' data fetching");
+		console.error("Error : photographers' data undefined");
 	}
 }
 
@@ -32,9 +32,9 @@ function createPhotographerCard(photographer: PhotographerType) {
 
 	// Link with querry parameters
 	const photographerLink = document.createElement("a");
-	photographerLink.ariaLabel = `Lien vers la page de ${photographer.name}`;
 	photographerLink.classList.add("photographer-card__link");
 	photographerLink.href = `./src/pages/photographer.html?id=${photographer.id}`;
+	photographerLink.ariaLabel = `Lien vers la page de ${photographer.name}`;
 	photographerLink.append(photographerImage, photographerName);
 
 	const photographerLocation = document.createElement("h3");
