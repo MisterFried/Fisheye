@@ -37,7 +37,10 @@ export function setupMediaModal(mediaList: Array<MediaType>) {
 				mediaSource = clickedVideoSource.src;
 			}
 			mediaFullPathArray = mediaSource.split("/");
-			mediaFile = mediaFullPathArray.pop()!;
+			const removedElement = mediaFullPathArray.pop();
+			if (removedElement) {
+				mediaFile = removedElement;
+			}
 			mediaBasePath = mediaFullPathArray.join("/");
 
 			displayMediaInModal(mediaType, mediaFile, mediaBasePath);
@@ -52,12 +55,18 @@ export function setupMediaModal(mediaList: Array<MediaType>) {
 	// * Display the media inside the modal
 	const displayMediaInModal = (mediaType: string, mediaFile: string, mediaBasePath: string) => {
 		let mediaName = "";
+		let searchedMedia: MediaType | undefined;
+
 		switch (mediaType) {
 			case "image": // Show the image + reset video src and hide it
 				videoInModal.style.display = "none";
 				videoSourceInModal.src = "";
 				imageInModal.style.display = "block";
-				mediaName = mediaList.find((media) => media.image === mediaFile)!.title; // find the name of the image to display in the mediaList
+				// Search for the media in mediaList with the corresponding file name
+				searchedMedia = mediaList.find((media) => media.image === mediaFile);
+				if (searchedMedia) {
+					mediaName = searchedMedia.title;
+				}
 				imageInModal.src = `${mediaBasePath}/${mediaFile}`;
 				imageInModal.alt = `Photo : ${mediaName}`;
 				break;
@@ -67,7 +76,11 @@ export function setupMediaModal(mediaList: Array<MediaType>) {
 				imageInModal.src = "";
 				imageInModal.alt = "";
 				videoInModal.style.display = "block";
-				mediaName = mediaList.find((media) => media.video === mediaFile)!.title; // find the name of the video to display in the mediaList
+				// Search for the media in mediaList with the corresponding file name
+				searchedMedia = mediaList.find((media) => media.video === mediaFile);
+				if (searchedMedia) {
+					mediaName = searchedMedia.title;
+				}
 				videoSourceInModal.src = `${mediaBasePath}/${mediaFile}`;
 				videoInModal.load();
 				break;
@@ -93,13 +106,16 @@ export function setupMediaModal(mediaList: Array<MediaType>) {
 			mediaFullPathArray = videoSourceInModal.src.split("/");
 		}
 
-		mediaFile = mediaFullPathArray.pop()!;
+		const removedElement = mediaFullPathArray.pop();
+		if (removedElement) {
+			mediaFile = removedElement;
+		}
 		mediaBasePath = mediaFullPathArray.join("/");
 
 		// * Get the index of the current media
 		let currentMediaDisplayedIndex = mediaList.findIndex(
 			(media) => media.image === mediaFile || media.video === mediaFile
-		)!;
+		);
 
 		// * Infinite scroll
 		if (currentMediaDisplayedIndex + direction <= -1) {
@@ -111,10 +127,17 @@ export function setupMediaModal(mediaList: Array<MediaType>) {
 		// * Get the next media to display and its type
 		if (mediaList[currentMediaDisplayedIndex + direction].image) {
 			mediaType = "image";
-			mediaToDisplayNext = mediaList[currentMediaDisplayedIndex + direction].image!;
-		} else if (mediaList[currentMediaDisplayedIndex + direction].video) {
+			const imageToDisplayNext = mediaList[currentMediaDisplayedIndex + direction].image;
+			if (imageToDisplayNext) {
+				mediaToDisplayNext = imageToDisplayNext;
+			}
+		}
+		if (mediaList[currentMediaDisplayedIndex + direction].video) {
 			mediaType = "video";
-			mediaToDisplayNext = mediaList[currentMediaDisplayedIndex + direction].video!;
+			const videoToDisplayNext = mediaList[currentMediaDisplayedIndex + direction].video; 
+			if (videoToDisplayNext) {
+				mediaToDisplayNext = videoToDisplayNext;
+			}
 		}
 
 		displayMediaInModal(mediaType, mediaToDisplayNext, mediaBasePath);

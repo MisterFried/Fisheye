@@ -1,8 +1,8 @@
 import { UserMessage } from "../interfaces/interfaces";
 
 // * Regex for firstname/lastname and email verification
-const nameRegex = /^[a-z,A-Z]+(([\-,', ])?[a-z,A-Z])*$/;
-const emailRegex = /^[a-z,A-Z,0-9]+([\-,.,_]?[a-z,A-Z,0-9]+)*@{1}[a-z,A-Z]{2,}\.{1}[a-z,A-Z]{2,}$/;
+const nameRegex = /^[a-z,A-Z]+(([-,', ])?[a-z,A-Z])*$/;
+const emailRegex = /^[a-z,A-Z,0-9]+([-,.,_]?[a-z,A-Z,0-9]+)*@{1}[a-z,A-Z]{2,}\.{1}[a-z,A-Z]{2,}$/;
 
 // * Form submit handler
 const submitFormButton = document.querySelector(".contact-modal__button") as HTMLButtonElement;
@@ -11,7 +11,7 @@ const contactModal = document.querySelector("#contactModal") as HTMLDialogElemen
 submitFormButton?.addEventListener("click", () => {
 	const userInputs: Array<HTMLInputElement> = Array.from(document.querySelectorAll(".contact-modal__text-input"));
 	let userMessageState = true; // true = all inputs are valid - False = at least one input is invalid
-	let userMessage: UserMessage = {};
+	const userMessage: UserMessage = {};
 
 	// * Test each input
 	userInputs.forEach((input) => {
