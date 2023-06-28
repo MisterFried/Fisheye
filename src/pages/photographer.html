@@ -10,7 +10,8 @@
 			Nous offrons une solution unique pour exposer leurs superbes photos sur une page élégante, 
 			tout en facilitant les contacts pour des événements ou des tirages. En tant que l'un des 
 			plus grands sites de photographie en freelance, notre vaste réseau de photographes est à 
-			votre disposition." />
+			votre disposition."
+		/>
 		<meta name="keywords" content="photographie, Fisheye, freelance, évènements, photos" />
 		<meta name="author" content="Fisheye" />
 		
@@ -39,7 +40,8 @@
 				</div>
 				<button
 					class="primary-button photographer-presentation__contact-button"
-					onclick="contactModal.showModal()">
+					onclick="contactModal.showModal()"
+				>
 					Contactez-moi
 				</button>
 				<img class="photographer-presentation__image" src="#" />
@@ -52,7 +54,7 @@
 						<option class="photographer-media__order-option" value="popular">Popularité</option>
 						<option class="photographer-media__order-option" value="date">Date</option>
 						<option class="photographer-media__order-option" value="name">Titre</option>
-					</select>	
+					</select>
 				</div>
 				<div class="photographer-media__container"></div>
 			</section>
@@ -70,7 +72,8 @@
 					class="contact-modal__close-icon fa-solid fa-x"
 					onclick="contactModal.close()"
 					type="button"
-					aria-label="Fermer le formulaire de contact"></button>
+					aria-label="Fermer le formulaire de contact"
+				></button>
 				<div class="contact-modal__text-input-container">
 					<label for="firstname" class="contact-modal__text-label">Prénom</label>
 					<input
@@ -79,7 +82,8 @@
 						placeholder="Prénom"
 						name="firstname"
 						id="firstname"
-						required />
+						required
+					/>
 					<span id="firstname-incorrect-input">Veuillez saisir un prénom</span>
 				</div>
 				<div class="contact-modal__text-input-container">
@@ -90,7 +94,8 @@
 						placeholder="Nom"
 						name="lastname"
 						id="lastname"
-						required />
+						required
+					/>
 					<span id="lastname-incorrect-input">Veuillez saisir un nom</span>
 				</div>
 				<div class="contact-modal__text-input-container">
@@ -101,7 +106,8 @@
 						placeholder="Email"
 						name="email"
 						id="email"
-						required />
+						required
+					/>
 					<span id="email-incorrect-input">Veuillez saisir une email</span>
 				</div>
 				<div class="contact-modal__text-input-container">
@@ -112,7 +118,8 @@
 						name="message"
 						id="message"
 						rows="4"
-						required></textarea>
+						required
+					></textarea>
 					<span id="message-incorrect-input">Veuillez saisir un message</span>
 				</div>
 				<button class="primary-button contact-modal__button" type="button">Envoyer</button>
@@ -123,7 +130,7 @@
 			<div class="media-modal">
 				<img class="media-modal__image" src="#" alt="Image fenêtre modale par défaut" />
 				<video class="media-modal__video" controls autoplay>
-					<source src="" class="media-modal__video-source" type="video/mp4">
+					<source src="" class="media-modal__video-source" type="video/mp4" />
 				</video>
 				<button class="media-modal__close-icon" onclick="mediaModal.close()" aria-label="Fermer la modale">
 					<i class="fa-solid fa-xmark"></i>
