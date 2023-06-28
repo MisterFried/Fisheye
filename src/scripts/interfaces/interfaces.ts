@@ -1,5 +1,13 @@
+// Type interface for the user message object (contact form)
+export interface UserMessage {
+	firstname?: string;
+	lastname?: string;
+	email?: string;
+	message?: string;
+}
+
 // Photographers.JSON file type interface
-interface PhotographersData {
+export interface PhotographersData {
 	photographers: Array<PhotographerType>;
 	media: Array<MediaType>;
 }
@@ -26,15 +34,4 @@ export interface MediaType {
 	date: string;
 	price: number;
 	isLiked?: boolean
-}
-
-// * Fetch the photographers.json file
-export async function fetchPhotographersData() {
-	try {
-		const response = await fetch("/Fisheye/data/photographers.json");
-		const responseJSON: PhotographersData = await response.json();
-		return responseJSON;
-	} catch {
-		console.error(Error);
-	}
 }

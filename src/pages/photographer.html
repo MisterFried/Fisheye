@@ -39,7 +39,7 @@
 					onclick="contactModal.showModal()">
 					Contactez-moi
 				</button>
-				<img class="photographer-presentation__image" src="#" alt="Photo de profil de photograph par défaut" />
+				<img class="photographer-presentation__image" src="#" />
 			</section>
 
 			<section class="photographer-media">
@@ -49,7 +49,7 @@
 						<option class="photographer-media__order-option" value="popular">Popularité</option>
 						<option class="photographer-media__order-option" value="date">Date</option>
 						<option class="photographer-media__order-option" value="name">Titre</option>
-					</select>
+					</select>	
 				</div>
 				<div class="photographer-media__container"></div>
 			</section>
@@ -119,7 +119,9 @@
 		<dialog id="mediaModal" aria-label="Modale media en grand écran">
 			<div class="media-modal">
 				<img class="media-modal__image" src="#" alt="Image fenêtre modale par défaut" />
-				<video class="media-modal__video" controls></video>
+				<video class="media-modal__video" controls autoplay>
+					<source src="" class="media-modal__video-source" type="video/mp4">
+				</video>
 				<button class="media-modal__close-icon" onclick="mediaModal.close()" aria-label="Fermer la modale">
 					<i class="fa-solid fa-xmark"></i>
 				</button>
@@ -133,7 +135,7 @@
 			</div>
 		</dialog>
 
-		<script src="../ts/photographer.ts" type="module"></script>
-		<script src="../ts/contactFormSubmit.ts" type="module"></script>
+		<script src="../scripts/photographer.ts" type="module"></script>
+		<script src="../scripts/features/contactForm.ts" type="module"></script>
 	</body>
 </html>

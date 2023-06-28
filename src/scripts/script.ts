@@ -1,11 +1,12 @@
-import { fetchPhotographersData, PhotographerType } from "./fetchPhotographersData";
+import { fetchPhotographersData } from "./API/fetchData";
+import { PhotographerType } from "./interfaces/interfaces";
 
 // * Initialize the page with every photographers profile
 async function HomepageInitialization() {
 	const data = await fetchPhotographersData();
 
 	if (data) {
-		const photographerSectionDOM = document.querySelector(".photographers_section");
+		const photographerSectionDOM: HTMLElement | null = document.querySelector(".photographers_section");
 
 		data.photographers.forEach((photographer) => {
 			const photographerCard = createPhotographerCard(photographer);
@@ -15,6 +16,8 @@ async function HomepageInitialization() {
 		console.error("Error : photographers' data undefined");
 	}
 }
+
+HomepageInitialization();
 
 // * Create an "article" with all infos about the photographer
 function createPhotographerCard(photographer: PhotographerType) {
@@ -53,5 +56,3 @@ function createPhotographerCard(photographer: PhotographerType) {
 
 	return photographerCard;
 }
-
-HomepageInitialization();
