@@ -1,11 +1,5 @@
 // * Flexbox supercharged
-@mixin flexbox(
-	$direction: row,
-	$gap: 0,
-	$wrap: nowrap,
-	$justify: normal,
-	$align: normal
-) {
+@mixin flexbox($direction: row, $gap: 0, $wrap: nowrap, $justify: normal, $align: normal) {
 	display: flex;
 	flex-direction: $direction;
 	gap: $gap;
@@ -15,6 +9,6 @@
 }
 
 // * Box shadow
-@mixin standardBoxShadow () {
-		box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+@mixin standardBoxShadow() {
+	box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
 }

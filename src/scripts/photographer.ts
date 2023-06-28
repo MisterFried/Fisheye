@@ -14,8 +14,8 @@ async function photographerPageInitialization() {
 		if (data) {
 			const { photographers: photographersInfo, media: mediasInfo } = data;
 
-			const photographerInfo = photographersInfo.find((photographer) => photographer.id === photographerID); // Find the photographer with corresponding ID
-			const mediaList = mediasInfo.filter((media) => media.photographerId === photographerID); // Create an array with only the current photographer's media
+			const photographerInfo = photographersInfo.find(photographer => photographer.id === photographerID); // Find the photographer with corresponding ID
+			const mediaList = mediasInfo.filter(media => media.photographerId === photographerID); // Create an array with only the current photographer's media
 
 			if (photographerInfo && mediaList) {
 				orderMedia(mediaList, "popular"); // Sort the media by like by default
@@ -77,7 +77,7 @@ function displayPhotographerInfo(photographer: PhotographerType) {
 function displayPhotographerMedia(mediaList: Array<MediaType>) {
 	const mediaSection = document.querySelector(".photographer-media__container") as HTMLElement;
 
-	mediaList.forEach((media) => {
+	mediaList.forEach(media => {
 		const mediaContainer = document.createElement("article");
 		mediaContainer.classList.add("photographer-media__media-container");
 

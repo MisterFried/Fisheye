@@ -10,9 +10,10 @@
 
 		background-color: transparent;
 
-		&:hover > .header__logo , &:focus > .header__logo {
+		&:hover > .header__logo,
+		&:focus > .header__logo {
 			filter: brightness(150%);
-		}		
+		}
 	}
 
 	&__logo {

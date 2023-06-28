@@ -8,7 +8,7 @@ async function HomepageInitialization() {
 	if (data) {
 		const photographerSectionDOM: HTMLElement | null = document.querySelector(".photographers_section");
 
-		data.photographers.forEach((photographer) => {
+		data.photographers.forEach(photographer => {
 			const photographerCard = createPhotographerCard(photographer);
 			photographerSectionDOM?.appendChild(photographerCard);
 		});

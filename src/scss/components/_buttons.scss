@@ -9,7 +9,8 @@
 	cursor: pointer;
 	transition: all 0.2s ease;
 
-	&:hover, &:focus {
+	&:hover,
+	&:focus {
 		transform: scale(1.05);
 	}
 }

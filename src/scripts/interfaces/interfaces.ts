@@ -33,5 +33,5 @@ export interface MediaType {
 	likes: number;
 	date: string;
 	price: number;
-	isLiked?: boolean
+	isLiked?: boolean;
 }

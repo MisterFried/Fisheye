@@ -14,7 +14,7 @@ submitFormButton?.addEventListener("click", () => {
 	const userMessage: UserMessage = {};
 
 	// * Test each input
-	userInputs.forEach((input) => {
+	userInputs.forEach(input => {
 		const errorMessage: HTMLSpanElement | null = document.querySelector(`#${input.name}-incorrect-input`); // Querry the corresponding error message
 		if (errorMessage) {
 			switch (input.name) {
@@ -44,7 +44,7 @@ submitFormButton?.addEventListener("click", () => {
 		contactModal?.close();
 
 		// * Reset inputs
-		userInputs.forEach((input) => {
+		userInputs.forEach(input => {
 			input.value = "";
 		});
 	}

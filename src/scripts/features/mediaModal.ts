@@ -21,8 +21,8 @@ export function setupMediaModal(mediaList: Array<MediaType>) {
 	let mediaFullPathArray: Array<string> = [];
 
 	// * Add the event listener on each media button
-	photographerMediaDOM.forEach((media) => {
-		media.addEventListener("click", (event) => {
+	photographerMediaDOM.forEach(media => {
+		media.addEventListener("click", event => {
 			mediaModal.showModal();
 			const eventTarget = event.currentTarget as HTMLButtonElement;
 			const mediaEventTarget = eventTarget.firstElementChild as HTMLImageElement | HTMLVideoElement; // Get the corresponding media
@@ -63,7 +63,7 @@ export function setupMediaModal(mediaList: Array<MediaType>) {
 				videoSourceInModal.src = "";
 				imageInModal.style.display = "block";
 				// Search for the media in mediaList with the corresponding file name
-				searchedMedia = mediaList.find((media) => media.image === mediaFile);
+				searchedMedia = mediaList.find(media => media.image === mediaFile);
 				if (searchedMedia) {
 					mediaName = searchedMedia.title;
 				}
@@ -77,7 +77,7 @@ export function setupMediaModal(mediaList: Array<MediaType>) {
 				imageInModal.alt = "";
 				videoInModal.style.display = "block";
 				// Search for the media in mediaList with the corresponding file name
-				searchedMedia = mediaList.find((media) => media.video === mediaFile);
+				searchedMedia = mediaList.find(media => media.video === mediaFile);
 				if (searchedMedia) {
 					mediaName = searchedMedia.title;
 				}
@@ -114,7 +114,7 @@ export function setupMediaModal(mediaList: Array<MediaType>) {
 
 		// * Get the index of the current media
 		let currentMediaDisplayedIndex = mediaList.findIndex(
-			(media) => media.image === mediaFile || media.video === mediaFile
+			media => media.image === mediaFile || media.video === mediaFile
 		);
 
 		// * Infinite scroll
@@ -134,7 +134,7 @@ export function setupMediaModal(mediaList: Array<MediaType>) {
 		}
 		if (mediaList[currentMediaDisplayedIndex + direction].video) {
 			mediaType = "video";
-			const videoToDisplayNext = mediaList[currentMediaDisplayedIndex + direction].video; 
+			const videoToDisplayNext = mediaList[currentMediaDisplayedIndex + direction].video;
 			if (videoToDisplayNext) {
 				mediaToDisplayNext = videoToDisplayNext;
 			}

@@ -26,14 +26,15 @@
 		inset: 1rem 1rem auto auto;
 
 		border: none;
-		
+
 		background-color: transparent;
 
 		cursor: pointer;
 		transition: all 0.2s ease-in-out;
 
-		&:hover, &:focus {
-			transform: scale(1.2)
+		&:hover,
+		&:focus {
+			transform: scale(1.2);
 		}
 	}
 
