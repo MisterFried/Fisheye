@@ -16,8 +16,8 @@ export function likeEventHandler(mediaList: Array<MediaType>) {
 			if (mediaElement) {
 				let clickedMediaIndex = 0;
 				if (mediaElement instanceof HTMLImageElement) {
-					// * .slice are used because the images displayed on the photographer page aren't the
-					// * originals (resized version with "_resized" in filename)
+					/* .slice are used because the images displayed on the photographer page aren't the
+					 originals but rather resized version with "_resized" in filename */
 					const resizedImageName = mediaElement.src.split("/").pop();
 					const clickedImageName = resizedImageName?.slice(0, -13);
 					clickedMediaIndex = mediaList.findIndex(media => media.image?.slice(0, -5) === clickedImageName);
@@ -28,9 +28,7 @@ export function likeEventHandler(mediaList: Array<MediaType>) {
 					clickedMediaIndex = mediaList.findIndex(media => media.video === clickedVideoSource);
 				}
 				likeMedia(clickedMediaIndex);
-			} else {
-				console.error("Error : Couldn't find the media associated to the like button");
-			}
+			} else console.error("Error : Couldn't find the media associated to the like button");
 
 			// * Likes or Unlikes the media
 			function likeMedia(index: number) {

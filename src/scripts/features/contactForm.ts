@@ -5,7 +5,7 @@ const nameRegex = /^[a-z,A-Z]+(([-,', ])?[a-z,A-Z])*$/;
 const emailRegex = /^[a-z,A-Z,0-9]+([-,.,_]?[a-z,A-Z,0-9]+)*@{1}[a-z,A-Z]{2,}\.{1}[a-z,A-Z]{2,}$/;
 
 // * Form submit handler
-const submitFormButton = document.querySelector(".contact-modal__button") as HTMLButtonElement;
+const submitFormButton = document.querySelector(".contact-modal__button");
 const contactModal = document.querySelector("#contactModal") as HTMLDialogElement;
 
 submitFormButton?.addEventListener("click", () => {
@@ -15,7 +15,8 @@ submitFormButton?.addEventListener("click", () => {
 
 	// * Test each input
 	userInputs.forEach(input => {
-		const errorMessage: HTMLSpanElement | null = document.querySelector(`#${input.name}-incorrect-input`); // Querry the corresponding error message
+		// Querry the corresponding error message
+		const errorMessage: HTMLSpanElement | null = document.querySelector(`#${input.name}-incorrect-input`);
 		if (errorMessage) {
 			switch (input.name) {
 				case "firstname":
@@ -33,20 +34,16 @@ submitFormButton?.addEventListener("click", () => {
 				default:
 					break;
 			}
-		} else {
-			console.error("Error message null");
-		}
+		} else console.error("Error message null");
 	});
 
 	// * Log the message if all userInputs are valid
 	if (userMessageState) {
 		console.info(userMessage);
-		contactModal?.close();
+		contactModal.close();
 
 		// * Reset inputs
-		userInputs.forEach(input => {
-			input.value = "";
-		});
+		userInputs.forEach(input => (input.value = ""));
 	}
 
 	// * Validate the input and add it to the userMessage object

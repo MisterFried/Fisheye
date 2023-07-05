@@ -14,8 +14,10 @@ async function photographerPageInitialization() {
 		if (data) {
 			const { photographers: photographersInfo, media: mediasInfo } = data;
 
-			const photographerInfo = photographersInfo.find(photographer => photographer.id === photographerID); // Find the photographer with corresponding ID
-			const mediaList = mediasInfo.filter(media => media.photographerId === photographerID); // Create an array with only the current photographer's media
+			// Find the photographer with corresponding ID
+			const photographerInfo = photographersInfo.find(photographer => photographer.id === photographerID);
+			// Create an array with only the current photographer's media
+			const mediaList = mediasInfo.filter(media => media.photographerId === photographerID);
 
 			if (photographerInfo && mediaList) {
 				orderMedia(mediaList, "popular"); // Sort the media by like by default
@@ -75,27 +77,30 @@ function displayPhotographerInfo(photographer: PhotographerType) {
 
 // * Factory design pattern to display medias
 function displayPhotographerMedia(mediaList: Array<MediaType>) {
-	const mediaSection = document.querySelector(".photographer-media__container") as HTMLElement;
+	const mediaSection = document.querySelector(".photographer-media__container");
 
 	mediaList.forEach(media => {
 		const mediaContainer = document.createElement("article");
 		mediaContainer.classList.add("photographer-media__media-container");
 
+		// Image
 		if (media.image) {
 			const mediaElement = displayImage(media);
 			mediaContainer.appendChild(mediaElement);
 		}
+		// Video
 		if (media.video) {
 			const mediaElement = displayVideo(media);
 			mediaContainer.appendChild(mediaElement);
 		}
+		// Error / Default
 		if (!media.image && !media.video) {
 			console.error(`Couldn't find the filename for : ${media.title}`);
 		}
 
 		const mediaLegend = addMediaLegend(media);
 		mediaContainer.appendChild(mediaLegend);
-		mediaSection.appendChild(mediaContainer);
+		mediaSection?.appendChild(mediaContainer);
 	});
 	setupMediaModal(mediaList);
 	likeEventHandler(mediaList);
@@ -171,8 +176,8 @@ function displayPhotographerInfoBar(mediaList: Array<MediaType>, price: number) 
 
 // * Clear all the media
 export function clearMedia() {
-	const mediaSection = document.querySelector(".photographer-media__container") as HTMLDivElement;
-	while (mediaSection.firstChild) {
+	const mediaSection = document.querySelector(".photographer-media__container");
+	while (mediaSection?.firstChild) {
 		mediaSection.removeChild(mediaSection.firstChild);
 	}
 }

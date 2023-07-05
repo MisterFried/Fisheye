@@ -6,7 +6,7 @@ async function HomepageInitialization() {
 	const data = await fetchPhotographersData();
 
 	if (data) {
-		const photographerSectionDOM: HTMLElement | null = document.querySelector(".photographers_section");
+		const photographerSectionDOM = document.querySelector(".photographers_section");
 
 		data.photographers.forEach(photographer => {
 			const photographerCard = createPhotographerCard(photographer);

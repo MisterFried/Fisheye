@@ -62,11 +62,11 @@ export function setupMediaModal(mediaList: Array<MediaType>) {
 				videoInModal.style.display = "none";
 				videoSourceInModal.src = "";
 				imageInModal.style.display = "block";
+
 				// Search for the media in mediaList with the corresponding file name
 				searchedMedia = mediaList.find(media => media.image === mediaFile);
-				if (searchedMedia) {
-					mediaName = searchedMedia.title;
-				}
+				if (searchedMedia) mediaName = searchedMedia.title;
+
 				imageInModal.src = `${mediaBasePath}/${mediaFile}`;
 				imageInModal.alt = `Photo : ${mediaName}`;
 				break;
@@ -76,17 +76,18 @@ export function setupMediaModal(mediaList: Array<MediaType>) {
 				imageInModal.src = "";
 				imageInModal.alt = "";
 				videoInModal.style.display = "block";
+
 				// Search for the media in mediaList with the corresponding file name
 				searchedMedia = mediaList.find(media => media.video === mediaFile);
-				if (searchedMedia) {
-					mediaName = searchedMedia.title;
-				}
+				if (searchedMedia) mediaName = searchedMedia.title;
+
 				videoSourceInModal.src = `${mediaBasePath}/${mediaFile}`;
 				videoInModal.load();
 				break;
 
 			default:
 				console.error(`Error : ${mediaType} media type not recognized`);
+				break;
 		}
 		mediaModalLegend.innerText = mediaName;
 	};
@@ -107,9 +108,7 @@ export function setupMediaModal(mediaList: Array<MediaType>) {
 		}
 
 		const removedElement = mediaFullPathArray.pop();
-		if (removedElement) {
-			mediaFile = removedElement;
-		}
+		if (removedElement) mediaFile = removedElement;
 		mediaBasePath = mediaFullPathArray.join("/");
 
 		// * Get the index of the current media
@@ -128,16 +127,12 @@ export function setupMediaModal(mediaList: Array<MediaType>) {
 		if (mediaList[currentMediaDisplayedIndex + direction].image) {
 			mediaType = "image";
 			const imageToDisplayNext = mediaList[currentMediaDisplayedIndex + direction].image;
-			if (imageToDisplayNext) {
-				mediaToDisplayNext = imageToDisplayNext;
-			}
+			if (imageToDisplayNext) mediaToDisplayNext = imageToDisplayNext;
 		}
 		if (mediaList[currentMediaDisplayedIndex + direction].video) {
 			mediaType = "video";
 			const videoToDisplayNext = mediaList[currentMediaDisplayedIndex + direction].video;
-			if (videoToDisplayNext) {
-				mediaToDisplayNext = videoToDisplayNext;
-			}
+			if (videoToDisplayNext) mediaToDisplayNext = videoToDisplayNext;
 		}
 
 		displayMediaInModal(mediaType, mediaToDisplayNext, mediaBasePath);
@@ -145,12 +140,8 @@ export function setupMediaModal(mediaList: Array<MediaType>) {
 
 	// * Keyboard navigation when pressing left and right arrow to scroll
 	const keyboardNavMediaModal = (event: KeyboardEvent) => {
-		if (event.key === "ArrowLeft") {
-			previousMediaButton.click();
-		}
-		if (event.key === "ArrowRight") {
-			nextMediaButton.click();
-		}
+		if (event.key === "ArrowLeft") previousMediaButton.click();
+		if (event.key === "ArrowRight") nextMediaButton.click();
 	};
 
 	// * Reset the media sources when the modal is closed

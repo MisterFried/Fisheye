@@ -11,14 +11,9 @@ export function orderMedia(mediaList: Array<MediaType>, sortMethod: string) {
 			mediaList.sort((a, b) => {
 				const dateA = new Date(a.date);
 				const dateB = new Date(b.date);
-				if (dateA < dateB) {
-					return -1;
-				}
-				if (dateA > dateB) {
-					return 1;
-				} else {
-					return 0;
-				}
+				if (dateA < dateB) return -1;
+				if (dateA > dateB) return 1;
+				else return 0;
 			});
 			break;
 
@@ -27,14 +22,9 @@ export function orderMedia(mediaList: Array<MediaType>, sortMethod: string) {
 				const nameA = a.title.toUpperCase();
 				const nameB = b.title.toUpperCase();
 
-				if (nameA < nameB) {
-					return -1;
-				}
-				if (nameA > nameB) {
-					return +1;
-				} else {
-					return 0;
-				}
+				if (nameA < nameB) return -1;
+				if (nameA > nameB) return +1;
+				else return 0;
 			});
 			break;
 
