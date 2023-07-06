@@ -84,6 +84,16 @@
 		}
 	}
 
+	&__image {
+		width: 320px;
+		height: 320px;
+	}
+
+	&__image {
+		width: 100%;
+		aspect-ratio: 1920/1080;
+	}
+
 	&__image,
 	&__video {
 		margin-inline: auto;

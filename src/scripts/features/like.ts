@@ -52,5 +52,5 @@ export function updatePhotographerInfoBarLikes(mediaList: Array<MediaType>) {
 	const infoBarLikes = document.querySelector(".photographer-info-bar__likes") as HTMLSpanElement;
 	let totalLikes = 0;
 	mediaList.forEach(media => (totalLikes += media.likes));
-	infoBarLikes.innerHTML = `${totalLikes} <i class = "fa-solid fa-heart" aria-label="likes"></i>`;
+	infoBarLikes.innerHTML = `${totalLikes} <i class = "fa-solid fa-heart" role="img" aria-label="likes"></i>`;
 }

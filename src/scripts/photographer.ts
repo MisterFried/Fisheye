@@ -119,7 +119,6 @@ function displayImage(image: MediaType) {
 	imageElement.classList.add("photographer-media__image");
 	imageElement.src = pathToResizedImage;
 	imageElement.alt = `Photo : ${image.title}`;
-	imageElement.loading = "lazy";
 
 	imageButtonContainer.appendChild(imageElement);
 
@@ -159,8 +158,8 @@ function addMediaLegend(media: MediaType) {
 	const like = document.createElement("button");
 	like.classList.add("photographer-media__legend-likes");
 	media.isLiked
-		? (like.innerHTML = `${media.likes} <i class="fa-solid fa-heart" aria-label="likes" ></i>`)
-		: (like.innerHTML = `${media.likes} <i class="fa-regular fa-heart" aria-label="likes" ></i>`);
+		? (like.innerHTML = `${media.likes} <i class="fa-solid fa-heart" role="img" aria-label="likes" ></i>`)
+		: (like.innerHTML = `${media.likes} <i class="fa-regular fa-heart" role="img" aria-label="likes" ></i>`);
 
 	legend.append(name, like);
 
